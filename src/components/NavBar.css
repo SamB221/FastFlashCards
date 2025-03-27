@@ -5,7 +5,7 @@
     color: white;
 }
 
-.navbar a:not(#homelink) {
+.navbar #link {
     float: right;
     text-align: center;
     padding: 1rem;
