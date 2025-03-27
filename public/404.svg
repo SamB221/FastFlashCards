@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="315.60001"
+   height="189"
+   viewBox="0 0 83.502504 50.006249"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke-width:0.396875;stroke-dashoffset:154.032;paint-order:stroke fill markers"
+       id="rect10"
+       width="96.07766"
+       height="63.018681"
+       x="-3.6158259"
+       y="-6.7151055"
+       ry="0.17661889" />
+    <path
+       style="opacity:0.389412;fill:#ffff21;fill-opacity:1;stroke-width:0.396875;stroke-dashoffset:154.032;paint-order:stroke fill markers"
+       id="path1"
+       d="m 31.835471,-83.789196 11.870555,20.560411 11.87056,20.560409 -23.741116,-4e-6 -23.7411161,2e-6 11.8705611,-20.560407 z"
+       transform="translate(9.915781,86.884309)" />
+    <text
+       xml:space="preserve"
+       style="font-size:32.0611px;line-height:1.25;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, ';text-align:center;text-anchor:middle;opacity:0.18;stroke-width:0.801528"
+       x="41.743423"
+       y="39.404312"
+       id="text1"><tspan
+         id="tspan1"
+         style="stroke-width:0.801528"
+         x="41.743423"
+         y="39.404312">!</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.05556px;line-height:1.25;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, ';text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="34.447224"
+       y="9.7129965"
+       id="text2"><tspan
+         id="tspan2"
+         style="font-size:7.05556px;stroke-width:0.264583"
+         x="34.447224"
+         y="9.7129965">Term: 404 error</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.38208px;line-height:1.25;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, ';text-align:start;text-anchor:start;stroke-width:0.184552"
+       x="3.8936172"
+       y="22.645817"
+       id="text3"><tspan
+         style="text-align:start;text-anchor:start;stroke-width:0.184552"
+         x="3.8936172"
+         y="22.645817"
+         id="tspan5">Definition: </tspan></text>
+    <rect
+       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke-width:0.396875;stroke-dashoffset:154.032;paint-order:stroke fill markers"
+       id="rect3"
+       width="74.685799"
+       height="1.092963"
+       x="4.4083514"
+       y="11.098627"
+       ry="0.17661889" />
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, ';text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="42.572906"
+       y="30.327604"
+       id="text8"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:5.29167px;font-family:Sans;-inkscape-font-specification:'Sans, Heavy';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="42.572906"
+         y="30.327604"
+         id="tspan9">The server cannot locate</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:5.29167px;font-family:Sans;-inkscape-font-specification:'Sans, Heavy';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="42.572906"
+         y="37.025543"
+         id="tspan10">the requested page</tspan></text>
+  </g>
+</svg>
