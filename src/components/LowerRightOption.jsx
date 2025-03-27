@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import './LowerRightOption.css';
 
 const LowerRightOption = () => {
@@ -12,7 +12,7 @@ const LowerRightOption = () => {
         <form id="resetbutton">
             <input id="reset" type="button" value="Replace set" onClick={removeSet}/>
         </form>
-    )
-}
+    );
+};
 
 export default LowerRightOption;

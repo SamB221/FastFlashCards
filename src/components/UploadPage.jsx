@@ -1,6 +1,5 @@
-import React, { useRef } from 'react'
-import Title from './Title'
-import './UploadPage.css'
+import React, { useRef } from 'react';
+import './UploadPage.css';
 
 const UploadPage = () => {
     const fileInputRef = useRef(null);
@@ -62,7 +61,7 @@ const UploadPage = () => {
                 </form>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default UploadPage;

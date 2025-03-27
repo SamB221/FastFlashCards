@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Card = ({ term, definition, mastery, bg = 'bg-gray-100' }) => {
     return (
@@ -14,7 +14,7 @@ const Card = ({ term, definition, mastery, bg = 'bg-gray-100' }) => {
                 {definition}
             </p>
         </div>
-    )
+    );
 };
 
 export default Card;

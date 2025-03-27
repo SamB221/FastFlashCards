@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import './Title.css';
 
 const Title = (props) => {
@@ -8,7 +8,7 @@ const Title = (props) => {
           {props.title}
         </h1>
     </div>
-  )
-}
+  );
+};
 
 export default Title;
