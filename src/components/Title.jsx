@@ -5,7 +5,7 @@ const Title = (props) => {
   return (
     <div id="title">
         <h1>
-            Set: {props.title}
+          {props.title}
         </h1>
     </div>
   )

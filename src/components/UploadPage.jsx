@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import Title from './Title'
 
 const UploadPage = () => {
     const fileInputRef = useRef(null);
@@ -45,16 +46,19 @@ const UploadPage = () => {
   
     return (
         <>
-            <h1>Upload a CSV</h1>
-            <p>Use the following format: Term,Definition <br /> 
-                If a comma is used in a definition, be sure to <br /> 
-                surround the definition with quotation marks.
-            </p>
-            <form id="uploadform" onSubmit={handleSubmit}>
-                <input id="fileupload" name="file" type="file" accept=".csv,.txt" ref={fileInputRef} />
-                <br />
-                <button id="uploaded">Upload</button>
-            </form>
+            <Title title="FlashCards"/>
+            <div id="uploadcontainer">
+                <h1>Upload a CSV</h1>
+                <p>Use the following format: Term,Definition <br /> 
+                    If a comma is used in a definition, be sure to <br /> 
+                    surround the definition with quotation marks.
+                </p>
+                <form id="uploadform" onSubmit={handleSubmit}>
+                    <input id="fileupload" name="file" type="file" accept=".csv,.txt" ref={fileInputRef} />
+                    <br />
+                    <button id="uploaded">Upload</button>
+                </form>
+            </div>
         </>
     )
 }

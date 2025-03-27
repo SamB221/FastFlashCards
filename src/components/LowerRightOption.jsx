@@ -1,6 +1,7 @@
 import React from 'react'
+import './LowerRightOption.css';
 
-const LowerLeftOption = () => {
+const LowerRightOption = () => {
     function removeSet(e) {
         e.preventDefault();
         localStorage.removeItem("set");
@@ -8,10 +9,10 @@ const LowerLeftOption = () => {
         window.location.reload();
     };
     return (
-        <form>
+        <form id="resetbutton">
             <input id="reset" type="button" value="Replace set" onClick={removeSet}/>
         </form>
     )
 }
 
-export default LowerLeftOption;
+export default LowerRightOption;

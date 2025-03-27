@@ -1,0 +1,12 @@
+#resetbutton {
+    font-family: 'Rubik';
+    font-size: 20px;
+    position: fixed;
+    bottom: 2vw;
+    right: 2vw;
+    width: 110px;
+    height: 25px;
+    display: block !important;
+    
+    background-color: #04AA6D;
+}

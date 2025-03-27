@@ -2,7 +2,7 @@ import React from 'react'
 import HomeCards from './components/HomeCards'
 import UploadPage from './components/UploadPage'
 import Title from './components/Title'
-import LowerLeftOptions from './components/LowerLeftOption'
+import LowerRightOption from './components/LowerRightOption'
 
 const App = () => {
     if (!localStorage.getItem('set')) {
@@ -13,9 +13,9 @@ const App = () => {
 
     return (
         <>
-            <Title title={localStorage.getItem('setName') || "Default Title"}/>
+            <Title title={"Set: "+localStorage.getItem('setName') || "Default Title"}/>
             <HomeCards />
-            <LowerLeftOptions />
+            <LowerRightOption />
         </>
     )
 }
