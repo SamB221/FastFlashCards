@@ -47,7 +47,6 @@ const UploadPage = () => {
   
     return (
         <>
-            <Title title="FlashCards"/>
             <div id="uploadcontainer">
                 <div id="uploadtext">
                 <h1>Upload a CSV</h1>
