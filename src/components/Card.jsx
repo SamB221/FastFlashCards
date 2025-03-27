@@ -6,9 +6,9 @@ const Card = ({ term, definition, mastery, bg = 'bg-gray-100' }) => {
             <h2 className='float-left text-2xl font-bold'>
                 {term}
             </h2>
-            <p1 className='float-right mt-2 mb-4 text-2xl' id="masterylevel">
+            <p className='float-right mt-2 mb-4 text-2xl' id="masterylevel">
                 {mastery}
-            </p1>
+            </p>
             <br />
             <p className='mt-2 mb-4'>
                 {definition}
