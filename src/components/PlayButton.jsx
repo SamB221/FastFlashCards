@@ -5,7 +5,7 @@ import './PlayButton.css';
 const PlayButton = () => {
   return (
     <Link id="learn" className="active" to="go"> 
-        Learn
+        Basic Flashcards
     </Link>
   );
 };

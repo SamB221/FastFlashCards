@@ -22,7 +22,7 @@ const UploadPage = () => {
             var set = new Array(inputLength);
             var fileName = inputFile.name.substring(0, inputFile.name.length-4);
             for (let i = 0; i < inputLength; i++) {
-                var currentString = input[i].split(",");
+                var currentString = input[i].split(","); //UPDATE LATER: escape quotes
                 var currentCard = new Object();
                 currentCard.Term = parseString(currentString[0]);
                 currentCard.Definition = parseString(currentString[1]);

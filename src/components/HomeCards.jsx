@@ -9,6 +9,7 @@ const HomeCards = () => {
     }
 
     function computeMastery(name) {
+        console.log(name);
         const { set } = JSON.parse(localStorage.getItem(name));
         lastSize = set.length;
         var mastery = 0;
