@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 import './UploadPage.css';
 
 const UploadPage = () => {
     const fileInputRef = useRef(null);
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const selectedFile = fileInputRef.current.files[0];
@@ -28,7 +30,7 @@ const UploadPage = () => {
             }
             localStorage.setItem('set', JSON.stringify({set}));
             localStorage.setItem('setName', inputFile.name.substring(0, inputFile.name.length-4));
-            window.location.reload();
+            navigate("/");
         }
     
         reader.onerror = function () {

@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeCards from '../components/HomeCards';
-import UploadPage from '../components/UploadPage';
+import UploadPage from './UploadPage';
 import Title from '../components/Title';
 import LowerRightOption from '../components/LowerRightOption';
 
