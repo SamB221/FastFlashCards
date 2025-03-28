@@ -20,6 +20,7 @@ const UploadPage = () => {
             var input = evt.target.result.split('\n');
             var inputLength = input.length;
             var set = new Array(inputLength);
+            var fileName = inputFile.name.substring(0, inputFile.name.length-4);
             for (let i = 0; i < inputLength; i++) {
                 var currentString = input[i].split(",");
                 var currentCard = new Object();
@@ -28,8 +29,7 @@ const UploadPage = () => {
                 currentCard.Mastery = 0;
                 set[i] = currentCard;
             }
-            localStorage.setItem('set', JSON.stringify({set}));
-            localStorage.setItem('setName', inputFile.name.substring(0, inputFile.name.length-4));
+            localStorage.setItem(fileName, JSON.stringify({set}));
             navigate("/");
         }
     

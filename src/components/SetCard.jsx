@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Card = ({ term, definition, mastery, bg = 'bg-gray-100' }) => {
+const SetCard = ({ term, definition, mastery, bg = 'bg-gray-100' }) => {
     return (
         <div className={`${bg} p-6 rounded-lg shadow-md`}>
             <h2 className='float-left text-2xl font-bold'>
@@ -17,4 +17,4 @@ const Card = ({ term, definition, mastery, bg = 'bg-gray-100' }) => {
     );
 };
 
-export default Card;
+export default SetCard;

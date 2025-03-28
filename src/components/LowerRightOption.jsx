@@ -6,13 +6,11 @@ const LowerRightOption = () => {
     const navigate = useNavigate();
     function removeSet(e) {
         e.preventDefault();
-        localStorage.removeItem("set");
-        localStorage.removeItem("setName");
         navigate("/upload");
     };
     return (
         <form id="resetbutton">
-            <input id="reset" type="button" value="Replace set" onClick={removeSet}/>
+            <input id="reset" type="button" value="Add a set" onClick={removeSet}/>
         </form>
     );
 };

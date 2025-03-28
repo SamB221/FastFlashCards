@@ -1,10 +1,11 @@
 import React from 'react';
-import HomeCards from '../components/HomeCards';
+import SetCards from '../components/SetCards';
 import { useNavigate } from "react-router-dom";
 import Title from '../components/Title';
-import LowerRightOption from '../components/LowerRightOption';
+import {useParams} from 'react-router-dom';
 
-const HomePage = () => {
+const SetPage = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
     if (window.localStorage.length == 0) {
         navigate("/upload");
@@ -12,11 +13,10 @@ const HomePage = () => {
 
     return (
         <>
-            <Title title={"Your Sets"}/>
-            <HomeCards />
-            <LowerRightOption />
+            <Title title={"Set: " + id} />
+            <SetCards setname={id} />
         </>
     );
 };
 
-export default HomePage;
+export default SetPage;
