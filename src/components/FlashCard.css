@@ -1,0 +1,23 @@
+#cardfront {
+    background-color: white;
+    display: block;
+    margin: auto;
+    width: 41.75rem;
+    height: 25rem;
+    margin-top: 10%;
+    border-style: solid;
+    border-width: 2px 2px;
+    filter: drop-shadow(10px 10px 4px #333);
+}
+
+#cardback {
+    background-color: white;
+    display: block;
+    margin: auto;
+    width: 41.75rem;
+    height: 25rem;
+    margin-top: 10%;
+    border-style: solid;
+    border-width: 2px 2px;
+    filter: drop-shadow(10px 10px 4px #333);
+}
