@@ -8,7 +8,7 @@ const NavBar = () => {
   return (
     <div className="navbar">
         <div id="websitename">
-            <Link id="name" className="active" href="/"><h1>FlashCards</h1></Link>
+            <Link id="name" className="active" to="/"><h1>FlashCards</h1></Link>
         </div>
         <Link id="link" className="active" to="/settings"><FaGear className="inline text-lg mr-1" />Settings</Link>
         <Link id="link" className="active" to="/"><FaHome className="inline text-lg mr-1" />Home</Link>

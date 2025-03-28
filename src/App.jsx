@@ -11,6 +11,7 @@ import UploadPage from './pages/UploadPage';
 import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SetPage from './pages/SetPage';
+import PlayPage from './pages/PlayPage';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
             <Route index element={<HomePage />} />
             <Route path='/upload' element={<UploadPage />} />
             <Route path='/set/:id' element={<SetPage />} />
+            <Route path='/set/:id/go' element={<PlayPage />} />
             <Route path='/settings' element={<SettingsPage />} />
             <Route path='*' element={<NotFoundPage />} />
         </Route>

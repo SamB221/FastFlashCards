@@ -1,0 +1,13 @@
+#learn {
+    display: block;
+    margin: auto;
+    width: 20rem;
+    text-align: center;
+    margin-top: 2rem;
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 1.5rem;
+}

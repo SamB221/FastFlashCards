@@ -1,8 +1,9 @@
 import React from 'react';
 import SetCards from '../components/SetCards';
 import { useNavigate } from "react-router-dom";
-import Title from '../components/Title';
 import {useParams} from 'react-router-dom';
+import Title from '../components/Title';
+import PlayButton from '../components/PlayButton';
 
 const SetPage = () => {
     const { id } = useParams();
@@ -14,6 +15,7 @@ const SetPage = () => {
     return (
         <>
             <Title title={"Set: " + id} />
+            <PlayButton />
             <SetCards setname={id} />
         </>
     );
