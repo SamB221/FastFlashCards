@@ -7,7 +7,7 @@ const SetCard = ({ term, definition, mastery, bg = 'bg-gray-100' }) => {
                 {term}
             </h2>
             <p className='float-right mt-2 mb-4 text-2xl' id="masterylevel">
-                {mastery}
+                {"Mastered: " + mastery}
             </p>
             <br />
             <p className='mt-2 mb-4'>
