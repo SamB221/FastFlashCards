@@ -21,18 +21,35 @@ const PlayPage = () => {
             [arr[i], arr[j]] = [arr[j], arr[i]];
         } 
     }
+
+    function switchRight() {
+        setIndex((index + 1) % set.length);
+    }
+
+    function switchLeft() {
+        if (flip) setFlip(false);
+        if (index > 0) setIndex(index - 1);
+        else setIndex(set.length - 1);
+    }
     
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
                 setFlip(!flip);
             } else if (event.key === "ArrowLeft") {
-                if (flip) setFlip(false);
-                if (index > 0) setIndex(index - 1);
-                else setIndex(set.length - 1);
+                if (flip) {
+                    setFlip(false)
+                    setTimeout(switchRight, 110); // Without delay when flipping, people could cheat!
+                } else {
+                    switchRight();
+                }
             } else if (event.key === "ArrowRight") {
-                if (flip) setFlip(false);
-                setIndex((index + 1) % set.length);
+                if (flip) {
+                    setFlip(false);
+                    setTimeout(switchLeft, 110); // Without delay when flipping, people could cheat!
+                } else {
+                    switchLeft();
+                }
             }
         };
 
