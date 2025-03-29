@@ -14,7 +14,7 @@ const SetPage = () => {
 
     return (
         <>
-            <UIBar title={"Set: " + id} option="Basic Flashcards" location="go"/>
+            <UIBar title={"Set: " + id} option="Basic Flashcards" location="basic"/>
             <SetCards setname={id} />
         </>
     );
