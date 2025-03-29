@@ -1,14 +1,14 @@
 import React from 'react';
-import PlayButton from './PlayButton';
+import UIBarButton from './UIBarButton';
 import './UIBar.css';
 
-const UIBar = (props) => {
+const UIBar = ({ title, option, location }) => {
   return (
     <div id="titlecontainer">
-        <PlayButton id="playbutton"/>
+        <UIBarButton id="playbutton" option={option} location={location}/>
         <div id="settitle">
             <h1>
-              {props.title}
+              {title}
             </h1>
         </div>
     </div>

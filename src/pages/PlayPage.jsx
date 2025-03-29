@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FlashCard from '../components/FlashCard';
+import UIBar from '../components/UIBar';
+import {FaRandom} from 'react-icons/fa';
+import './PlayPage.css'
 
 const PlayPage = () => {
     const { id } = useParams();
@@ -10,16 +13,24 @@ const PlayPage = () => {
     var { set } = JSON.parse(localStorage.getItem(id));
 
     if (sortedSet === "init") {
-        fisherYatesShuffle(set);
-        setSortedSet(set);
+        randomize();
     } 
 
-
-    function fisherYatesShuffle(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
+    function randomize() {
+        // A Fisher-Yates shuffle
+        for (let i = set.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1)); 
-            [arr[i], arr[j]] = [arr[j], arr[i]];
+            [set[i], set[j]] = [set[j], set[i]];
         } 
+
+        setSortedSet(set);
+    }
+
+    function randomizeHelper() {
+        console.log("run");
+        if (flip) setFlip(false);
+        setIndex(0);
+        randomize();
     }
 
     function switchRight() {
@@ -34,6 +45,7 @@ const PlayPage = () => {
     
     useEffect(() => {
         const handleKeyDown = (event) => {
+            event.preventDefault();
             if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
                 setFlip(!flip);
             } else if (event.key === "ArrowLeft") {
@@ -62,7 +74,14 @@ const PlayPage = () => {
 
     return (
         <>
-            <p>{index + 1 + " out of " + set.length}</p>
+            <UIBar title={id} option="Back" location=""/>
+            <div id="cardinfo">
+                <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
+                <form id="randomizebutton" onClick={randomizeHelper}>
+                    <input type="button" value="Randomize" />
+                    <FaRandom id="ricon" className="inline text-lg mr-1" />
+                </form>
+            </div>
             <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>
         </>
     );

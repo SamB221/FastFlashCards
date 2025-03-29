@@ -1,0 +1,26 @@
+#cardinfo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+
+#cardnumber {
+    font-size: 20px;
+    text-align: center;
+}
+
+#randomizebutton {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 1rem;
+    border-radius: 1.5rem;
+}
+
+#ricon {
+    margin-left:1rem;
+}

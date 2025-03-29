@@ -12,7 +12,7 @@ const HomePage = () => {
 
     return (
         <>
-            <Title title={"Your Sets"}/>
+            <Title title={"Your Sets"} />
             <HomeCards />
             <LowerRightOption />
         </>

@@ -3,7 +3,7 @@ import SetCards from '../components/SetCards';
 import { useNavigate } from "react-router-dom";
 import {useParams} from 'react-router-dom';
 import UIBar from '../components/UIBar';
-import PlayButton from '../components/PlayButton';
+import PlayButton from '../components/UIBarButton';
 
 const SetPage = () => {
     const { id } = useParams();
@@ -14,7 +14,7 @@ const SetPage = () => {
 
     return (
         <>
-            <UIBar title={"Set: " + id} />
+            <UIBar title={"Set: " + id} option="Basic Flashcards" location="go"/>
             <SetCards setname={id} />
         </>
     );
