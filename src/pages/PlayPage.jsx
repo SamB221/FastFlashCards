@@ -41,7 +41,7 @@ const PlayPage = () => {
                     setFlip(false)
                     setTimeout(switchLeft, 110); // Without delay when flipping, people could cheat!
                 } else {
-                    switchleft();
+                    switchLeft();
                 }
             } else if (event.key === "ArrowRight") {
                 if (flip) {
