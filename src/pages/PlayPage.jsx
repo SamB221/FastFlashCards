@@ -39,16 +39,16 @@ const PlayPage = () => {
             } else if (event.key === "ArrowLeft") {
                 if (flip) {
                     setFlip(false)
-                    setTimeout(switchRight, 110); // Without delay when flipping, people could cheat!
+                    setTimeout(switchLeft, 110); // Without delay when flipping, people could cheat!
                 } else {
-                    switchRight();
+                    switchleft();
                 }
             } else if (event.key === "ArrowRight") {
                 if (flip) {
                     setFlip(false);
-                    setTimeout(switchLeft, 110); // Without delay when flipping, people could cheat!
+                    setTimeout(switchRight, 110); // Without delay when flipping, people could cheat!
                 } else {
-                    switchLeft();
+                    switchRight();
                 }
             }
         };
@@ -61,7 +61,10 @@ const PlayPage = () => {
     }, [flip, index]);
 
     return (
-        <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>
+        <>
+            <p>{index + 1 + " out of " + set.length}</p>
+            <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>
+        </>
     );
 };
 
