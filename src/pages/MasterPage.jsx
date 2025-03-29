@@ -6,6 +6,7 @@ import SetCards from '../components/SetCards';
 import confetti from 'canvas-confetti';
 import './MasterPage.css'
 
+// flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {
     const { id } = useParams();
     const [flip, setFlip] = useState(false);
@@ -13,10 +14,9 @@ const MasterPage = () => {
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
     const [sortedSet, setSortedSet] = useState("init");
-    const [phase, setPhase] = useState(0);
     const [set, setOriginalSet] = useState(() => {
         const storedData = JSON.parse(localStorage.getItem(id));
-        return storedData ? storedData.set : null; // or default value
+        return storedData ? storedData.set : null;
     });
 
     if (sortedSet === "init") {
@@ -54,16 +54,20 @@ const MasterPage = () => {
     useEffect(() => {
         const handleKeyDown = (event) => {
             event.preventDefault();
-            if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
-                setFlip(!flip);
-                setCompleted(true);
-            } else if (event.key === "ArrowRight") {
-                if (completed) {
-                    if (flip) {
-                        setFlip(false);
-                        setTimeout(switchRight, 50); // Without delay when flipping, people could cheat!
-                    } else {
-                        switchRight();
+            if (index >= set.length) {
+                setIndex(0);
+            } else {
+                if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
+                    setFlip(!flip);
+                    setCompleted(true);
+                } else if (event.key === "ArrowRight") {
+                    if (completed) {
+                        if (flip) {
+                            setFlip(false);
+                            setTimeout(switchRight, 50); // Without delay when flipping, people could cheat!
+                        } else {
+                            switchRight();
+                        }
                     }
                 }
             }
@@ -93,7 +97,9 @@ const MasterPage = () => {
                 <div id="cardinfo">
                     <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
                 </div>
-                <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>
+                {(sortedSet[index].Mastery == 0)? 
+                <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>:
+                <FlashCard term={sortedSet[index].Definition} definition={sortedSet[index].Term} flip={flip}/>}
             </>
         );
     }
