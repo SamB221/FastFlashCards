@@ -4,7 +4,8 @@ import FlashCard from '../components/FlashCard';
 import UIBar from '../components/UIBar';
 import SetCards from '../components/SetCards';
 import confetti from 'canvas-confetti';
-import './MasterPage.css'
+import './MasterPage.css';
+import { FiShare } from 'react-icons/fi';
 
 // flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {
@@ -18,19 +19,34 @@ const MasterPage = () => {
         const storedData = JSON.parse(localStorage.getItem(id));
         return storedData ? storedData.set : null;
     });
-
     if (sortedSet === "init") {
-        randomize();
+        randomize(set);
+        setSortedSet(set);
     } 
 
-    function randomize() {
+    function randomize(arr) {
         // A Fisher-Yates shuffle
-        for (let i = set.length - 1; i > 0; i--) {
+        for (let i = arr.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1)); 
-            [set[i], set[j]] = [set[j], set[i]];
+            [arr[i], arr[j]] = [arr[j], arr[i]];
         } 
+    }
 
-        setSortedSet(set);
+    function test(event) {
+        event.preventDefault();
+        const selectedRadio = document.querySelector('input[name="radio"]:checked');
+        console.log(selectedRadio.value);
+        console.log(sortedSet[index].Definition);
+        if (selectedRadio.value === sortedSet[index].Definition) {
+            console.log(selectedRadio.value);
+            sortedSet[index].Mastery = sortedSet[index].Mastery + 1;
+            setIndex(index + 1);
+            setTotalDone(totalDone + 1);
+            setCompleted(false);
+        } else {
+            console.log(set);
+            console.log(sortedSet);
+        }
     }
 
     function switchRight() {
@@ -38,6 +54,20 @@ const MasterPage = () => {
         setIndex(index + 1);
         setTotalDone(totalDone + 1);
         setCompleted(false);
+    }
+
+    function generateRandom(exclude) { // Improve runtime in the future
+        const randomNumbers = new Set();
+        while (randomNumbers.size < 3) {
+            const randomNumber = Math.floor(Math.random() * (set.length-1));
+            if (randomNumber != exclude) {
+                randomNumbers.add(randomNumber);
+            }
+        }
+
+        randomNumbers.add(exclude);
+
+        return [...randomNumbers];
     }
 
     const triggerConfetti = () => {
@@ -100,6 +130,47 @@ const MasterPage = () => {
                 {(sortedSet[index].Mastery == 0)? 
                 <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>:
                 <FlashCard term={sortedSet[index].Definition} definition={sortedSet[index].Term} flip={flip}/>}
+            </>
+        );
+    } else {
+        var choices = generateRandom(index);
+        randomize(choices);
+        return (
+            <>
+                <UIBar title={id} option="Back" location=""/>
+                <div id="cardinfo">
+                    <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
+                </div>
+                <h1 class="radioquestion">{set[index].Term}</h1>
+                <form>
+                    <div class="radio">
+                      <div class="radiocontainer">
+                          <label class="form-control">
+                               <input type="radio" name="radio" value={set[choices[0]].Definition}/>
+                               {set[choices[0]].Definition}
+                          </label>
+
+                            <label class="form-control">
+                                <input type="radio" name="radio" value={set[choices[1]].Definition}/>
+                                {set[choices[1]].Definition}
+                            </label>
+
+                            <label class="form-control">
+                                <input type="radio" name="radio" value={set[choices[2]].Definition}/>
+                                {set[choices[2]].Definition}
+                            </label>
+
+                            <label class="form-control">
+                                <input type="radio" name="radio" value={set[choices[3]].Definition}/>
+                                {set[choices[3]].Definition}
+                            </label>
+
+                            <div id="radiosubmit" class="radiosubmit" onClick={() => test(event, set[index].Definition)}>
+                                <button type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </>
         );
     }
