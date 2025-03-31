@@ -5,7 +5,6 @@ import UIBar from '../components/UIBar';
 import SetCards from '../components/SetCards';
 import confetti from 'canvas-confetti';
 import './MasterPage.css';
-import { FiShare } from 'react-icons/fi';
 
 // flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {
@@ -14,14 +13,14 @@ const MasterPage = () => {
     const [completed, setCompleted] = useState(false);
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
-    const [sortedSet, setSortedSet] = useState("init");
+    const [randomized, setRandomized] = useState(false);
     const [set, setOriginalSet] = useState(() => {
         const storedData = JSON.parse(localStorage.getItem(id));
         return storedData ? storedData.set : null;
     });
-    if (sortedSet === "init") {
+    if (!randomized) {
         randomize(set);
-        setSortedSet(set);
+        setRandomized(true);
     } 
 
     function randomize(arr) {
@@ -32,25 +31,21 @@ const MasterPage = () => {
         } 
     }
 
-    function test(event) {
+    function testRadio(event) {
         event.preventDefault();
         const selectedRadio = document.querySelector('input[name="radio"]:checked');
-        console.log(selectedRadio.value);
-        console.log(sortedSet[index].Definition);
-        if (selectedRadio.value === sortedSet[index].Definition) {
-            console.log(selectedRadio.value);
-            sortedSet[index].Mastery = sortedSet[index].Mastery + 1;
+        if (selectedRadio.value === set[index].Definition) {
+            set[index].Mastery = set[index].Mastery + 1;
             setIndex(index + 1);
             setTotalDone(totalDone + 1);
             setCompleted(false);
         } else {
-            console.log(set);
-            console.log(sortedSet);
+            // Handle false
         }
     }
 
     function switchRight() {
-        sortedSet[index].Mastery = sortedSet[index].Mastery + 1;
+        set[index].Mastery = set[index].Mastery + 1;
         setIndex(index + 1);
         setTotalDone(totalDone + 1);
         setCompleted(false);
@@ -120,16 +115,16 @@ const MasterPage = () => {
         );
     }
 
-    if (sortedSet[index].Mastery < 2) {
+    if (set[index].Mastery < 2) {
         return (
             <>
                 <UIBar title={id} option="Back" location=""/>
                 <div id="cardinfo">
                     <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
                 </div>
-                {(sortedSet[index].Mastery == 0)? 
-                <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>:
-                <FlashCard term={sortedSet[index].Definition} definition={sortedSet[index].Term} flip={flip}/>}
+                {(set[index].Mastery == 0)? 
+                <FlashCard term={set[index].Term} definition={set[index].Definition} flip={flip}/>:
+                <FlashCard term={set[index].Definition} definition={set[index].Term} flip={flip}/>}
             </>
         );
     } else {
@@ -165,7 +160,7 @@ const MasterPage = () => {
                                 {set[choices[3]].Definition}
                             </label>
 
-                            <div id="radiosubmit" class="radiosubmit" onClick={() => test(event, set[index].Definition)}>
+                            <div id="radiosubmit" class="radiosubmit" onClick={() => testRadio(event, set[index].Definition)}>
                                 <button type="submit">Submit</button>
                             </div>
                         </div>

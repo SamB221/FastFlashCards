@@ -11,12 +11,10 @@ const PlayPage = () => {
     const [flip, setFlip] = useState(false);
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
-    const [sortedSet, setSortedSet] = useState("init");
-    var { set } = JSON.parse(localStorage.getItem(id));
-
-    if (sortedSet === "init") {
-        randomize();
-    } 
+    const [set, setOriginalSet] = useState(() => {
+        const storedData = JSON.parse(localStorage.getItem(id));
+        return storedData ? storedData.set : null;
+    });
 
     function randomize() {
         // A Fisher-Yates shuffle
@@ -24,8 +22,6 @@ const PlayPage = () => {
             let j = Math.floor(Math.random() * (i + 1)); 
             [set[i], set[j]] = [set[j], set[i]];
         } 
-
-        setSortedSet(set);
     }
 
     function randomizeHelper() {
@@ -97,7 +93,7 @@ const PlayPage = () => {
                     <FaRandom id="ricon" className="inline text-lg mr-1" />
                 </form>
             </div>
-            <FlashCard term={sortedSet[index].Term} definition={sortedSet[index].Definition} flip={flip}/>
+            <FlashCard term={set[index].Term} definition={set[index].Definition} flip={flip}/>
         </>
     );
 };
