@@ -5,7 +5,7 @@ import './NotFoundPage.css';
 const NotFoundPage = () => {
     return (
         <>
-            <img id="img404" src="../../../public/404.svg" />
+            <img id="img404" src="../../../404.svg" />
             <Link id="back" to="/">Click here to return home</Link>
         </>
     );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FlashCard from '../components/FlashCard';
-import UIBar from '../components/UIBar';
+import Title from '../components/Title';
 import SetCards from '../components/SetCards';
 import confetti from 'canvas-confetti';
 import './MasterPage.css';
@@ -118,7 +118,7 @@ const MasterPage = () => {
     if (set[index].Mastery < 2) {
         return (
             <>
-                <UIBar title={id} option="Back" location=""/>
+                <Title title={id} back="true" />
                 <div id="cardinfo">
                     <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
                 </div>
@@ -132,7 +132,7 @@ const MasterPage = () => {
         randomize(choices);
         return (
             <>
-                <UIBar title={id} option="Back" location=""/>
+                <Title title={id} back="true" />
                 <div id="cardinfo">
                     <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
                 </div>

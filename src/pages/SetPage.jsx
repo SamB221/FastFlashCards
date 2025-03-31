@@ -1,9 +1,7 @@
 import React from 'react';
 import SetCards from '../components/SetCards';
-import { useNavigate } from "react-router-dom";
-import {useParams} from 'react-router-dom';
-import UIBar from '../components/UIBar';
-import PlayButton from '../components/UIBarButton';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Title from '../components/Title';
 
 const SetPage = () => {
     const { id } = useParams();
@@ -14,8 +12,12 @@ const SetPage = () => {
 
     return (
         <>
-            <UIBar title={"Set: " + id} option="Basic Flashcards" location="basic"/>
+            <Title title={id} back="true" />
             <SetCards setname={id} />
+
+            <Link className="lowerRightButton" to="basic"> 
+                Start
+            </Link>
         </>
     );
 };

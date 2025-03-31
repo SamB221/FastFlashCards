@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HomeCards from '../components/HomeCards';
 import { useNavigate } from "react-router-dom";
 import Title from '../components/Title';
-import LowerRightOption from '../components/LowerRightOption';
 
 const HomePage = () => {
     const navigate = useNavigate();
-    if (window.localStorage.length == 0) {
+    
+    useEffect(() => {
+        if (window.localStorage.length === 0) {
+            navigate("/upload");
+        }
+    }, [navigate]);
+
+    function removeSet(e) {
+        e.preventDefault();
         navigate("/upload");
-    } 
+    };
 
     return (
         <>
             <Title title={"Your Sets"} />
             <HomeCards />
-            <LowerRightOption />
+            <form className="lowerRightButton">
+                <input id="reset" type="button" value="Add a set" onClick={removeSet}/>
+            </form>
         </>
     );
 };
