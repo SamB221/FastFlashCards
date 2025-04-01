@@ -15,9 +15,13 @@ const SetPage = () => {
             <Title title={id} back="true" />
             <SetCards setname={id} />
 
-            <Link className="lowerRightButton" to="basic"> 
-                Start
-            </Link>
+            <div className="dropUp">
+                <button className="dropBtn grnBtn">Start</button>
+                <div className="dropupContent">
+                    <Link to="master">Master</Link>
+                    <Link to="basic">Basic</Link>
+                </div>
+            </div>
         </>
     );
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import Card from './SetCard';
 
 const SetCards = ({setname}) => {
-    console.log(setname);
     const { set } = JSON.parse(localStorage.getItem(setname));
     return (
         <section className='py-4'>

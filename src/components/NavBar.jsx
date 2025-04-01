@@ -1,16 +1,22 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {FaHome} from 'react-icons/fa';
 import {FaGear} from 'react-icons/fa6';
 
 const NavBar = () => {
   return (
     <div className="navbar">
-        <Link id="link" className="active" to="/"><FaHome className="inlineIcon" />Home</Link>
+        <NavLink id="link" 
+            className={({ isActive }) => isActive && 'activeNav'} 
+            to="/"><FaHome className="inlineIcon" />Home</NavLink>
         <div id="websitename">
-            <Link id="name" className="active" to="/"><h1>FlashCards</h1></Link>
+            <NavLink id="name" 
+            className={({ isActive }) => isActive && 'activeNav'} 
+            to="/"><h1>FlashCards</h1></NavLink>
         </div>
-        <Link id="link" className="active" to="/settings"><FaGear className="inlineIcon" />Settings</Link>
+        <NavLink id="link" 
+            className={({ isActive }) => isActive && 'activeNav'} 
+            to="/settings"><FaGear className="inlineIcon" />Settings</NavLink>
     </div>
   );
 };

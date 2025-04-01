@@ -4,7 +4,6 @@ import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
 import {FaRandom} from 'react-icons/fa';
 import confetti from 'canvas-confetti';
-import './PlayPage.css'
 
 const PlayPage = () => {
     const { id } = useParams();
@@ -88,7 +87,7 @@ const PlayPage = () => {
             <Title title={id} back="true" />
             <div id="cardinfo">
                 <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
-                <form id="randomizebutton" onClick={randomizeHelper}>
+                <form className="grnBtn" onClick={randomizeHelper}>
                     <input type="button" value="Randomize" />
                     <FaRandom id="ricon" className="inline text-lg mr-1" />
                 </form>

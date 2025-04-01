@@ -4,7 +4,6 @@ import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
 import SetCards from '../components/SetCards';
 import confetti from 'canvas-confetti';
-import './MasterPage.css';
 
 // flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {

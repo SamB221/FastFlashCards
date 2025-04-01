@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import './UploadPage.css';
 
 const UploadPage = () => {
     const fileInputRef = useRef(null);
@@ -48,7 +47,7 @@ const UploadPage = () => {
   
     return (
         <>
-            <div id="uploadcontainer">
+            <div id="uploadcontainer" className="middleBox">
                 <div id="uploadtext">
                 <h1>Upload a CSV</h1>
                     <p>Use the following format: Term,Definition <br /> 
@@ -57,9 +56,9 @@ const UploadPage = () => {
                     </p>
                 </div>
                 <form id="uploadform" onSubmit={handleSubmit}>
-                    <input id="fileupload" name="file" type="file" accept=".csv,.txt" ref={fileInputRef} />
+                    <input id="fileupload" className="fileUpload" name="file" type="file" accept=".csv,.txt" ref={fileInputRef} />
                     <br />
-                    <button id="uploaded">Upload</button>
+                    <button id="uploaded" class="uploadButton">Upload</button>
                 </form>
             </div>
         </>
