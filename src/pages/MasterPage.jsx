@@ -10,6 +10,7 @@ const MasterPage = () => {
     const { id } = useParams();
     const [flip, setFlip] = useState(false);
     const [completed, setCompleted] = useState(false);
+    const [wrong, setWrong] = useState(false);
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
     const [randomized, setRandomized] = useState(false);
@@ -30,30 +31,38 @@ const MasterPage = () => {
         } 
     }
 
-    function testRadio(event) {
+    function testRadio(event, guess, id) {
         event.preventDefault();
-        const selectedRadio = document.querySelector('input[name="radio"]:checked');
-        if (selectedRadio.value === set[index].Definition) {
+        console.log(guess);
+        if (guess === set[index].Definition && !wrong) {
             set[index].Mastery = set[index].Mastery + 1;
             setIndex(index + 1);
             setTotalDone(totalDone + 1);
             setCompleted(false);
+        } else if (guess === set[index].Definition) {
+            setIndex(index + 1);
+            setTotalDone(totalDone + 1);
+            setCompleted(false);
         } else {
-            // Handle false
+            flashRed(document.getElementById("option" + id));
+            setWrong(true);
         }
     }
 
-    function testRadioT(event, guess) {
-        event.preventDefault();
-        console.log(guess);
-        if (guess === set[index].Definition) {
-            set[index].Mastery = set[index].Mastery + 1;
-            setIndex(index + 1);
-            setTotalDone(totalDone + 1);
-            setCompleted(false);
-        } else {
-            // Handle false
-        }
+    function flashRed(element) {
+        let originalColor = element.style.backgroundColor;
+        
+        // Clear ongoing transitions
+        element.style.transition = "none";
+        element.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; 
+    
+        void element.offsetWidth;
+    
+        element.style.transition = "background-color 0.5s ease"; 
+    
+        setTimeout(function() {
+            element.style.backgroundColor = originalColor;
+        }, 200); 
     }
 
     function switchRight() {
@@ -93,7 +102,7 @@ const MasterPage = () => {
             event.preventDefault();
             if ((index + 1) % 10 == 0) {
                 setIndex(0);
-            } else {
+            } else if (set[index].Mastery < 2) {
                 if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
                     setFlip(!flip);
                     setCompleted(true);
@@ -152,18 +161,18 @@ const MasterPage = () => {
                 <h1 className="centerText">{set[index].Term}</h1>
                 <form>
                     <div className="cardContainer">
-                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[0]].Definition)}>
+                        <button id="option0" className="smallCard" onClick={() => testRadio(event, set[choices[0]].Definition, 0)}>
                             <h1 id="cardtext">{set[choices[0]].Definition}</h1>
                         </button>
-                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[1]].Definition)}>
+                        <button id="option1" className="smallCard" onClick={() => testRadio(event, set[choices[1]].Definition, 1)}>
                             <h1 id="cardtext">{set[choices[1]].Definition}</h1>
                         </button>
                     </div>
                     <div className="cardContainer">
-                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[2]].Definition)}>
+                        <button id="option2" className="smallCard" onClick={() => testRadio(event, set[choices[2]].Definition, 2)}>
                             <h1 id="cardtext">{set[choices[2]].Definition}</h1>
                         </button>
-                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[3]].Definition)}>
+                        <button id="option3" className="smallCard" onClick={() => testRadio(event, set[choices[3]].Definition, 3)}>
                             <h1 id="cardtext">{set[choices[3]].Definition}</h1>
                         </button>
                     </div>
