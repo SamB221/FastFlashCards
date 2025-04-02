@@ -160,42 +160,36 @@ p {
     filter: drop-shadow(30px 10px 4px red);
 }
 
-.form-control {
-    font-size: 2rem;
-    line-height: 1.1;
-    display: flex;
-    gap: 0.5em;
-}
-
-.radio {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-}
-
-.radioquestion {
-    text-align: center;
-}
-
-.radiosubmit {
-    text-align: center;
-    font-size: 2rem;
-}
-
 #cardinfo {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    margin-top: 2%;
-    margin-bottom: 2%;
-}
-
-#cardnumber {
-    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 #ricon {
     margin-left: 1rem;
+}
+
+.cardContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.smallCard {
+    width: 40%;
+    height: 18rem;
+    border-style: solid;
+    border-width: 2px 2px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centerText {
+    text-align: center;
 }

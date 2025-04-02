@@ -1,4 +1,4 @@
- #cardcontainer {
+#cardcontainer {
     display: block;
     margin: auto;
     perspective: 1000px;
@@ -18,7 +18,7 @@
     align-items: center;
     border-style: solid;
     border-width: 2px 2px;
-  }
+}
 
 #cardfront {
     backface-visibility: hidden; 

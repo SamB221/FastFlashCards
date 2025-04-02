@@ -3,7 +3,7 @@ import './FlashCard.css';
 
 const FlashCard = ({ term, definition, flip}) => {
     return (
-        <div id="cardcontainer">
+        <div className="cardcontainer">
             <div id="card" className={flip ? 'flip' : ''}>
                 <div id="cardfront">
                     <h1 id="cardtext">{term}</h1>

@@ -43,6 +43,19 @@ const MasterPage = () => {
         }
     }
 
+    function testRadioT(event, guess) {
+        event.preventDefault();
+        console.log(guess);
+        if (guess === set[index].Definition) {
+            set[index].Mastery = set[index].Mastery + 1;
+            setIndex(index + 1);
+            setTotalDone(totalDone + 1);
+            setCompleted(false);
+        } else {
+            // Handle false
+        }
+    }
+
     function switchRight() {
         set[index].Mastery = set[index].Mastery + 1;
         setIndex(index + 1);
@@ -108,7 +121,8 @@ const MasterPage = () => {
         localStorage.setItem(id, JSON.stringify({set}));
         return (
             <div>
-                <p>Great job, press any button to continue</p>
+                <Title title={id} back="true" />
+                <h1 className="centerText continue"> Great job, press any button to continue</h1>
                 <SetCards setname={id} />
             </div>
         );
@@ -133,36 +147,25 @@ const MasterPage = () => {
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
-                    <p id="cardnumber">{index + 1 + " out of " + 10}</p>
+                    <p className="centerText">{index + 1 + " out of " + 10}</p>
                 </div>
-                <h1 class="radioquestion">{set[index].Term}</h1>
+                <h1 className="centerText">{set[index].Term}</h1>
                 <form>
-                    <div class="radio">
-                      <div class="radiocontainer">
-                          <label class="form-control">
-                               <input type="radio" name="radio" value={set[choices[0]].Definition}/>
-                               {set[choices[0]].Definition}
-                          </label>
-
-                            <label class="form-control">
-                                <input type="radio" name="radio" value={set[choices[1]].Definition}/>
-                                {set[choices[1]].Definition}
-                            </label>
-
-                            <label class="form-control">
-                                <input type="radio" name="radio" value={set[choices[2]].Definition}/>
-                                {set[choices[2]].Definition}
-                            </label>
-
-                            <label class="form-control">
-                                <input type="radio" name="radio" value={set[choices[3]].Definition}/>
-                                {set[choices[3]].Definition}
-                            </label>
-
-                            <div id="radiosubmit" class="radiosubmit" onClick={() => testRadio(event, set[index].Definition)}>
-                                <button type="submit">Submit</button>
-                            </div>
-                        </div>
+                    <div className="cardContainer">
+                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[0]].Definition)}>
+                            <h1 id="cardtext">{set[choices[0]].Definition}</h1>
+                        </button>
+                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[1]].Definition)}>
+                            <h1 id="cardtext">{set[choices[1]].Definition}</h1>
+                        </button>
+                    </div>
+                    <div className="cardContainer">
+                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[2]].Definition)}>
+                            <h1 id="cardtext">{set[choices[2]].Definition}</h1>
+                        </button>
+                        <button className="smallCard" onClick={() => testRadioT(event, set[choices[3]].Definition)}>
+                            <h1 id="cardtext">{set[choices[3]].Definition}</h1>
+                        </button>
                     </div>
                 </form>
             </>
