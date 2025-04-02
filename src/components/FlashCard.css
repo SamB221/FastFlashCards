@@ -49,5 +49,5 @@
 
 #cardtext {
     text-align: center;
-    line-height: 25rem; 
+    flex: 0 0 35rem;
 }
