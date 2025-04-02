@@ -78,7 +78,7 @@ const MasterPage = () => {
     useEffect(() => {
         const handleKeyDown = (event) => {
             event.preventDefault();
-            if (index >= set.length) {
+            if ((index + 1) % 10 == 0) {
                 setIndex(0);
             } else {
                 if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
@@ -104,7 +104,7 @@ const MasterPage = () => {
         };
     }, [flip, index]);
 
-    if (index >= set.length) {
+    if ((index + 1) % 10 == 0) {
         localStorage.setItem(id, JSON.stringify({set}));
         return (
             <div>
@@ -119,7 +119,7 @@ const MasterPage = () => {
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
-                    <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
+                    <p id="cardnumber">{index + 1 + " out of " + 10}</p>
                 </div>
                 {(set[index].Mastery == 0)? 
                 <FlashCard term={set[index].Term} definition={set[index].Definition} flip={flip}/>:
@@ -133,7 +133,7 @@ const MasterPage = () => {
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
-                    <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
+                    <p id="cardnumber">{index + 1 + " out of " + 10}</p>
                 </div>
                 <h1 class="radioquestion">{set[index].Term}</h1>
                 <form>
