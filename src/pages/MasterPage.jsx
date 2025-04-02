@@ -8,9 +8,11 @@ import confetti from 'canvas-confetti';
 // flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {
     const { id } = useParams();
+    var wrong = false; 
+    const numLevels = 5;
+    const interval = 10;
     const [flip, setFlip] = useState(false);
     const [completed, setCompleted] = useState(false);
-    const [wrong, setWrong] = useState(false);
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
     const [randomized, setRandomized] = useState(false);
@@ -22,6 +24,11 @@ const MasterPage = () => {
         randomize(set);
         setRandomized(true);
     } 
+    console.log(totalDone);
+
+    if (set[index].Mastery >= numLevels) {
+        setIndex((index + 1) % set.length);
+    }
 
     function randomize(arr) {
         // A Fisher-Yates shuffle
@@ -33,19 +40,14 @@ const MasterPage = () => {
 
     function testRadio(event, guess, id) {
         event.preventDefault();
-        console.log(guess);
-        if (guess === set[index].Definition && !wrong) {
-            set[index].Mastery = set[index].Mastery + 1;
-            setIndex(index + 1);
-            setTotalDone(totalDone + 1);
-            setCompleted(false);
-        } else if (guess === set[index].Definition) {
-            setIndex(index + 1);
+        if (guess === set[index].Definition) {
+            if (!wrong) set[index].Mastery = set[index].Mastery + 1;
+            setIndex((index + 1) % set.length);
             setTotalDone(totalDone + 1);
             setCompleted(false);
         } else {
             flashRed(document.getElementById("option" + id));
-            setWrong(true);
+            wrong = "true";
         }
     }
 
@@ -67,7 +69,7 @@ const MasterPage = () => {
 
     function switchRight() {
         set[index].Mastery = set[index].Mastery + 1;
-        setIndex(index + 1);
+        setIndex((index + 1) % set.length);
         setTotalDone(totalDone + 1);
         setCompleted(false);
     }
@@ -75,10 +77,12 @@ const MasterPage = () => {
     function generateRandom(exclude) { // Improve runtime in the future
         const randomNumbers = new Set();
         while (randomNumbers.size < 3) {
-            const randomNumber = Math.floor(Math.random() * (set.length-1));
-            if (randomNumber != exclude) {
-                randomNumbers.add(randomNumber);
+            var randomNumber = Math.floor(Math.random() * (set.length-1));
+            while (randomNumber == exclude || randomNumbers.has(randomNumber)) {
+                randomNumber = (randomNumber + 1) % set.length;
             }
+
+            randomNumbers.add(randomNumber);
         }
 
         randomNumbers.add(exclude);
@@ -100,8 +104,8 @@ const MasterPage = () => {
     useEffect(() => {
         const handleKeyDown = (event) => {
             event.preventDefault();
-            if ((index + 1) % 10 == 0) {
-                setIndex(0);
+            if (totalDone == interval) {
+                setTotalDone(0);
             } else if (set[index].Mastery < 2) {
                 if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
                     setFlip(!flip);
@@ -126,7 +130,7 @@ const MasterPage = () => {
         };
     }, [flip, index]);
 
-    if ((index + 1) % 10 == 0) {
+    if (totalDone == interval) {
         localStorage.setItem(id, JSON.stringify({set}));
         return (
             <div>
@@ -142,7 +146,7 @@ const MasterPage = () => {
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
-                    <p id="cardnumber">{index + 1 + " out of " + 10}</p>
+                    <p id="cardnumber">{totalDone + 1 + " out of " + interval}</p>
                 </div>
                 {(set[index].Mastery == 0)? 
                 <FlashCard term={set[index].Term} definition={set[index].Definition} flip={flip}/>:
@@ -156,7 +160,7 @@ const MasterPage = () => {
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
-                    <p className="centerText">{index + 1 + " out of " + 10}</p>
+                    <p className="centerText">{totalDone + 1 + " out of " + 10}</p>
                 </div>
                 <h1 className="centerText">{set[index].Term}</h1>
                 <form>

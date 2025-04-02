@@ -1,4 +1,5 @@
 #cardcontainer {
+    padding-top: 3%;
     display: block;
     margin: auto;
     perspective: 1000px;
