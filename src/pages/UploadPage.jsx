@@ -21,7 +21,7 @@ const UploadPage = () => {
             var set = new Array(inputLength);
             var fileName = inputFile.name.substring(0, inputFile.name.length-4);
             for (let i = 0; i < inputLength; i++) {
-                var currentString = input[i].split(","); //UPDATE LATER: escape quotes
+                var currentString = split(input[i]); //UPDATE LATER: escape quotes
                 var currentCard = new Object();
                 currentCard.Term = parseString(currentString[0]);
                 currentCard.Definition = parseString(currentString[1]);
@@ -35,13 +35,30 @@ const UploadPage = () => {
         reader.onerror = function () {
             document.getElementById("fileContents").innerHTML = "error reading file";
         }
-      }
+    }
+
+    function split(s) {
+        let returnVal = [];
+        let inQuotes = false;
+        let startIndex = 0;
+        for (let i = 0; i < s.length; i++) {
+            if (s.charAt(i) == '"') inQuotes = !inQuotes;
+            if (!inQuotes && s.charAt(i) == ',') {
+                returnVal.push(s.substring(startIndex, i));
+                startIndex = i+1;
+            }
+        }
+
+        returnVal.push(s.substring(startIndex, s.length));
+        return returnVal;
+    }
   
-      function parseString(s) {
-        if (s.charAt(0) == '"' && s.charAt(s.length) == '"') {
-          return s.substring(1, s.length-1);
+    function parseString(s) {
+        console.log(s);
+        if (s.charAt(0) == '"' && s.charAt(s.length-1) == '"') {
+            return s.substring(1, s.length-2);
         } else {
-          return s;
+            return s;
         }
     }
   
@@ -58,7 +75,7 @@ const UploadPage = () => {
                 <form id="uploadform" onSubmit={handleSubmit}>
                     <input id="fileupload" className="fileUpload" name="file" type="file" accept=".csv,.txt" ref={fileInputRef} />
                     <br />
-                    <button id="uploaded" class="uploadButton">Upload</button>
+                    <button id="uploaded" className="uploadButton">Upload</button>
                 </form>
             </div>
         </>
