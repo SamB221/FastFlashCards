@@ -5,7 +5,7 @@ import {FaGear} from 'react-icons/fa6';
 
 const NavBar = () => {
   return (
-    <div className="navbar">
+    <div className="navbar alwaysWhite">
         <NavLink id="link" 
             className={({ isActive }) => isActive && 'activeNav'} 
             to="/"><FaHome className="inlineIcon" />Home</NavLink>

@@ -15,8 +15,8 @@ const SetPage = () => {
             <Title title={id} back="true" />
             <SetCards setname={id} />
 
-            <div className="dropUp">
-                <button className="dropBtn grnBtn">Start</button>
+            <div className="dropUp alwaysWhite">
+                <button className="dropBtn grnBtn alwaysWhite">Start</button>
                 <div className="dropupContent">
                     <Link to="master">Master</Link>
                     <Link to="basic">Basic</Link>
