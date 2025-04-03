@@ -1,4 +1,13 @@
 @import "tailwindcss";
+
+:root {
+    --uiPrimary: #333;
+    --uiSecondary: #555;
+    --primary: #04AA6D;
+    --secondary: #0f8555;
+    --ternary: #0f6847;
+}
+
 h1 {
     font-family: 'Rubik';
     font-size: 40px;
@@ -10,19 +19,28 @@ p {
 }
 
 .navbar {
-    background-color: #333;
+    background-color: var(--uiPrimary);
     color: white;
     display: flex;
     justify-content: space-between;
+    padding: 1rem;
 }
 
 .navbar #link {
-    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem; 
     font-size: 20px;
+    border-radius: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.navbar #link:hover {
+    background-color: var(--uiSecondary);
 }
 
 .inlineIcon {
-    display: inline;
     margin-right: 0.5rem;
 }
 
@@ -33,8 +51,12 @@ p {
     gap: 10px;
 }
 
+#backButton:hover {
+    color: var(--primary);
+}
+
 .grnBtn {
-    background-color: #04AA6D;
+    background-color: var(--primary);
     border: none;
     color: white;
     padding: 1rem;
@@ -42,6 +64,14 @@ p {
     display: inline-block;
     border-radius: 1.5rem;
     font-size: 20px;
+}
+
+.grnBtn:hover {
+    background-color: var(--secondary);
+}
+
+.grnBtn:active {
+    background-color: var(--ternary);
 }
 
 .centerBtn {
@@ -90,7 +120,7 @@ p {
 
 .uploadButton {
     margin-top: 1em;
-    background-color: #04AA6D;
+    background-color: var(--primary);
     border: none;
     color: white;
     padding: 1.25rem 1.5rem;
@@ -119,7 +149,7 @@ p {
 .dropupContent {
     display: none;
     position: absolute;
-    background-color: #333;
+    background-color: var(--uiPrimary);
     bottom: 50px;
     z-index: 1;
     width: 100%;
@@ -133,7 +163,7 @@ p {
 }
   
 .dropupContent a:hover {
-    background-color: #04AA6D;
+    background-color: var(--primary);
 }
   
 .dropUp:hover .dropupContent {
@@ -141,13 +171,13 @@ p {
 }
   
 .dropUp:hover .dropBtn {
-    background-color: #0f6847;
+    background-color: var(--secondary);
     border-top-right-radius: 0;
     border-top-left-radius: 0;
 }
 
 .activeNav {
-    background-color: #181818;
+    background-color: var(--uiSecondary);
 }
 
 .centerImage {
