@@ -40,7 +40,7 @@ const MasterPage = () => {
     function testRadio(event, guess, id) {
         event.preventDefault();
         if (guess === set[index].Definition) {
-            if (!wrong) set[index].Mastery = set[index].Mastery + 1;
+            set[index].Mastery = wrong? set[index].Mastery - 1: set[index].Mastery + 1;
             setIndex((index + 1) % set.length);
             setTotalDone(totalDone + 1);
             setCompleted(false);
@@ -73,7 +73,7 @@ const MasterPage = () => {
         setCompleted(false);
     }
 
-    function generateRandom(exclude) { // Improve runtime in the future
+    function generateRandom(exclude) {
         const randomNumbers = new Set();
         while (randomNumbers.size < 3) {
             var randomNumber = Math.floor(Math.random() * (set.length-1));
@@ -99,22 +99,30 @@ const MasterPage = () => {
           disableForReducedMotion: true
         });
     }
+
+    window.addEventListener('beforeunload', () => {
+        confetti.clear(); // Clears the confetti
+    });
     
     useEffect(() => {
         const handleKeyDown = (event) => {
             event.preventDefault();
             if (totalDone == interval) {
                 setTotalDone(0);
+                setFlip(false);
             } else if (set[index].Mastery < 2) {
                 if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
                     setFlip(!flip);
                     setCompleted(true);
                 } else if (event.key === "ArrowRight") {
                     if (completed) {
-                        if (flip) {
+                        if (flip && set[(index + 1) % set.length].Mastery < 2 && totalDone != interval - 1) {
+                            console.log(set[(index + 1) % set.length]);
                             setFlip(false);
                             setTimeout(switchRight, 50); // Without delay when flipping, people could cheat!
                         } else {
+                            console.log(set[(index + 1) % set.length].Mastery);
+                            console.log("here");
                             switchRight();
                         }
                     }
@@ -130,6 +138,7 @@ const MasterPage = () => {
     }, [flip, index, totalDone]);
 
     if (totalDone == interval) {
+        triggerConfetti();
         localStorage.setItem(id, JSON.stringify({set}));
         return (
             <div>
