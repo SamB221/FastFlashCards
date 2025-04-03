@@ -24,7 +24,6 @@ const MasterPage = () => {
         randomize(set);
         setRandomized(true);
     } 
-    console.log(totalDone);
 
     if (set[index].Mastery >= numLevels) {
         setIndex((index + 1) % set.length);
@@ -128,7 +127,7 @@ const MasterPage = () => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [flip, index]);
+    }, [flip, index, totalDone]);
 
     if (totalDone == interval) {
         localStorage.setItem(id, JSON.stringify({set}));
@@ -160,7 +159,7 @@ const MasterPage = () => {
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
-                    <p className="centerText">{totalDone + 1 + " out of " + 10}</p>
+                    <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
                 </div>
                 <h1 className="centerText">{set[index].Term}</h1>
                 <form>
