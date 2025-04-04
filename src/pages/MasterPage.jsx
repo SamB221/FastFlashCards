@@ -10,7 +10,6 @@ const MasterPage = () => {
     const { id } = useParams();
     var wrong = false; 
     const numLevels = 5;
-    const interval = 10;
     const [flip, setFlip] = useState(false);
     const [completed, setCompleted] = useState(false);
     const [index, setIndex] = useState(0);
@@ -20,12 +19,13 @@ const MasterPage = () => {
         const storedData = JSON.parse(localStorage.getItem(id));
         return storedData ? storedData.set : null;
     });
+    const interval = Math.min(set.length, 10);
     if (!randomized) {
         randomize(set);
         setRandomized(true);
     } 
 
-    if (set[index].Mastery >= numLevels) {
+    if (set[index].Mastery > numLevels) {
         setIndex((index + 1) % set.length);
     }
 
@@ -89,6 +89,20 @@ const MasterPage = () => {
         return [...randomNumbers];
     }
 
+    function handleTextForm(e) {
+        e.preventDefault();
+        let x = document.forms['textForm']['guess'].value;
+        if (x === set[index].Definition) {
+            set[index].Mastery = wrong? set[index].Master -1: set[index].Mastery + 1;
+            setIndex((index + 1) % set.length);
+            setTotalDone(totalDone + 1);
+        } else {
+            wrong = true;
+            document.getElementById('guess').classList.add("invalid");
+            document.getElementById('noShow').style.display = 'block';
+        }
+    }
+
     const triggerConfetti = () => {
         confetti({
           particleCount: 100,
@@ -101,11 +115,12 @@ const MasterPage = () => {
     }
 
     window.addEventListener('beforeunload', () => {
-        confetti.clear(); // Clears the confetti
+        confetti.clear();
     });
     
     useEffect(() => {
         const handleKeyDown = (event) => {
+            if (set[index].Mastery == 5) return;
             event.preventDefault();
             if (totalDone == interval) {
                 setTotalDone(0);
@@ -161,7 +176,7 @@ const MasterPage = () => {
                 <FlashCard term={set[index].Definition} definition={set[index].Term} flip={flip}/>}
             </>
         );
-    } else {
+    } else if (set[index].Mastery < numLevels) {
         var choices = generateRandom(index);
         randomize(choices);
         return (
@@ -188,6 +203,24 @@ const MasterPage = () => {
                             <h1 id="cardtext">{set[choices[3]].Definition}</h1>
                         </button>
                     </div>
+                </form>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <Title title={id} back="true" />
+                <div id="cardinfo">
+                    <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
+                </div>
+                <h1 className="centerText">{set[index].Term}</h1>
+                <form className="textForm" name="textForm" onSubmit={handleTextForm}>
+                    <label for="guess"><p>Enter the definition</p></label>
+                    <input type="text" id="guess" name="firstname" placeholder="Definition..."></input>
+                    <input type="submit" value="Submit"></input>
+                    <p id="noShow">{"The correct answer is: " + set[index].Definition} <br />
+                    Enter the correct answer to continue
+                    </p>
                 </form>
             </>
         );
