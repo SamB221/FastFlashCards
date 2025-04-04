@@ -7,10 +7,16 @@ const HomePage = () => {
     const navigate = useNavigate();
     
     useEffect(() => {
-        if (window.localStorage.length === 0) {
+        if (numSets() == 0) {
             navigate("/upload");
         }
     }, [navigate]);
+
+    function numSets() {
+        const sets = window.localStorage.length;
+        if (window.localStorage.getItem('darkmode')) return sets-1;
+        else return sets;
+    }
 
     function removeSet(e) {
         e.preventDefault();

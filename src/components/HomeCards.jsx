@@ -2,14 +2,18 @@ import React from 'react';
 import Card from './HomeCard';
 
 const HomeCards = () => {
-    var set = new Array(localStorage.length);
+    var set = new Array(Math.max(localStorage.length-1, 0));
     var lastSize = 0;
-    for (var i = 0, len = set.length; i < len; ++i) {
-        set[i] = localStorage.key(i);
+    var j = 0;
+    for (var i = 0, len = localStorage.length; i < len; ++i) {
+        if (localStorage.key(i) != 'darkmode') {
+            set[j] = localStorage.key(i);
+            j++;
+        }
     }
+    console.log(set);
 
     function computeMastery(name) {
-        console.log(name);
         const { set } = JSON.parse(localStorage.getItem(name));
         lastSize = set.length;
         var mastery = 0;

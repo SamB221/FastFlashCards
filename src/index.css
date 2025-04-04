@@ -10,7 +10,7 @@
     --textSeconday: white;
 }
 
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
     :root {
         --uiPrimary: #333;
         --uiSecondary: #555;
@@ -20,6 +20,18 @@
         --textPrimary: white;
         --textSeconday: black;
     }
+}*/
+
+.darkmode {
+    --uiPrimary: #333;
+    --uiSecondary: #555;
+    --primary: #04AA6D;
+    --secondary: #0f8555;
+    --ternary: #0f6847;
+    --textPrimary: white;
+    --textSeconday: black;
+    background-color: Canvas;
+    color-scheme: light dark;
 }
 
 h1 {
@@ -32,17 +44,13 @@ p {
     font-size: 20px;
 }
 
-body {
-    background-color: Canvas;
-    color-scheme: light dark;
-}  
-
 .navbar {
     background-color: var(--uiPrimary);
     display: flex;
     justify-content: space-between;
     padding: 1rem;
     color: white;
+    align-items: center;
 }
 
 .navbar #link {
@@ -57,6 +65,19 @@ body {
 
 .navbar #link:hover {
     background-color: var(--uiSecondary);
+}
+
+#websitename {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#rightSide {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .inlineIcon {
@@ -248,4 +269,37 @@ body {
 .pageCard {
     color: var(--textSecondary) !important;
     background-color: red;
+}
+
+#themeSwitch {
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius:50%;
+    background-color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 20px;
+    right: 20px;
+}
+
+#themeSwitch:hover {
+    background-color: var(--secondary);
+}
+
+#themeSwitch svg {
+    fill: white;
+}
+
+#themeSwitch svg:last-child {
+    display: none;
+}
+
+.darkmode #themeSwitch svg:first-child {
+    display: none;
+}
+
+.darkmode #themeSwitch svg:last-child {
+    display: block;
 }
