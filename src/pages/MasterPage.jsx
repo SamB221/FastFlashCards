@@ -40,7 +40,7 @@ const MasterPage = () => {
     function testRadio(event, guess, id) {
         event.preventDefault();
         if (guess === set[index].Definition) {
-            set[index].Mastery = wrong? set[index].Mastery - 1: set[index].Mastery + 1;
+            set[index].Mastery = (wrong)? set[index].Mastery - 1: set[index].Mastery + 1;
             setIndex((index + 1) % set.length);
             setTotalDone(totalDone + 1);
             setCompleted(false);
@@ -90,15 +90,19 @@ const MasterPage = () => {
     }
 
     function handleTextForm(e) {
+        let guess = document.forms['textForm']['guess'].value;
+        document.forms['textForm']['guess'].value = '';
         e.preventDefault();
-        let x = document.forms['textForm']['guess'].value;
-        if (x === set[index].Definition) {
-            set[index].Mastery = wrong? set[index].Master -1: set[index].Mastery + 1;
+        if (guess === set[index].Definition) {
+            set[index].Mastery = (wrong)? set[index].Mastery -1: set[index].Mastery + 1;
+            document.getElementById('guess').classList.remove('invalid');
+            document.getElementById('noShow').style.display = 'none';
             setIndex((index + 1) % set.length);
             setTotalDone(totalDone + 1);
+            wrong = false;
         } else {
             wrong = true;
-            document.getElementById('guess').classList.add("invalid");
+            document.getElementById('guess').classList.add('invalid');
             document.getElementById('noShow').style.display = 'block';
         }
     }
@@ -132,12 +136,9 @@ const MasterPage = () => {
                 } else if (event.key === "ArrowRight") {
                     if (completed) {
                         if (flip && set[(index + 1) % set.length].Mastery < 2 && totalDone != interval - 1) {
-                            console.log(set[(index + 1) % set.length]);
                             setFlip(false);
                             setTimeout(switchRight, 50); // Without delay when flipping, people could cheat!
                         } else {
-                            console.log(set[(index + 1) % set.length].Mastery);
-                            console.log("here");
                             switchRight();
                         }
                     }
@@ -215,7 +216,7 @@ const MasterPage = () => {
                 </div>
                 <h1 className="centerText">{set[index].Term}</h1>
                 <form className="textForm" name="textForm" onSubmit={handleTextForm}>
-                    <label for="guess"><p>Enter the definition</p></label>
+                    <label htmlFor="guess"><p>Enter the definition</p></label>
                     <input type="text" id="guess" name="firstname" placeholder="Definition..."></input>
                     <input type="submit" value="Submit"></input>
                     <p id="noShow">{"The correct answer is: " + set[index].Definition} <br />
