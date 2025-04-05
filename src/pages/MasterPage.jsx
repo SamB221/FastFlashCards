@@ -12,6 +12,7 @@ const MasterPage = () => {
     const numLevels = 5;
     const [flip, setFlip] = useState(false);
     const [completed, setCompleted] = useState(false);
+    const [skipped, setSkipped] = useState(0);
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
     const [randomized, setRandomized] = useState(false);
@@ -25,7 +26,62 @@ const MasterPage = () => {
         setRandomized(true);
     } 
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (set[index].Mastery == 5) return;
+            event.preventDefault();
+            if (totalDone == interval) {
+                setTotalDone(0);
+                setFlip(false);
+            } else if (set[index].Mastery < 2) {
+                if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
+                    setFlip(!flip);
+                    setCompleted(true);
+                } else if (event.key === "ArrowRight") {
+                    if (completed) {
+                        if (flip && set[(index + 1) % set.length].Mastery < 2 && totalDone != interval - 1) {
+                            setFlip(false);
+                            setTimeout(switchRight, 50); // Without delay when flipping, people could cheat!
+                        } else {
+                            switchRight();
+                        }
+                    }
+                }
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [flip, index, totalDone]);
+
+    // Reset page
+    if (skipped >= set.length) {
+        confetti();
+        return (
+            <>
+                <Title title={id} back="true" />
+                <h1 className="centerText continue"> Great job, you're all done!</h1>
+                <SetCards setname={id} />
+                <form className="lowerRight grnBtn">
+                    <input id="reset" type="button" value="Click to restart" onClick={restart}/>
+                </form>
+            </>
+        );
+    }
+
+    function restart() {
+        for (let i = 0; i < set.length; i++) {
+            set[i].Mastery = 0;
+        }
+        setSkipped(0);
+        setIndex(0); 
+    }
+
     if (set[index].Mastery > numLevels) {
+        setSkipped(skipped + 1);
         setIndex((index + 1) % set.length);
     }
 
@@ -121,37 +177,6 @@ const MasterPage = () => {
     window.addEventListener('beforeunload', () => {
         confetti.clear();
     });
-    
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (set[index].Mastery == 5) return;
-            event.preventDefault();
-            if (totalDone == interval) {
-                setTotalDone(0);
-                setFlip(false);
-            } else if (set[index].Mastery < 2) {
-                if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
-                    setFlip(!flip);
-                    setCompleted(true);
-                } else if (event.key === "ArrowRight") {
-                    if (completed) {
-                        if (flip && set[(index + 1) % set.length].Mastery < 2 && totalDone != interval - 1) {
-                            setFlip(false);
-                            setTimeout(switchRight, 50); // Without delay when flipping, people could cheat!
-                        } else {
-                            switchRight();
-                        }
-                    }
-                }
-            }
-        };
-
-        document.addEventListener("keydown", handleKeyDown);
-
-        return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [flip, index, totalDone]);
 
     if (totalDone == interval) {
         triggerConfetti();
