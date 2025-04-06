@@ -32,7 +32,6 @@ const NavBar = () => {
             to="/"><FaHome className="inlineIcon" />Home</NavLink>
         <div id="websitename">
             <NavLink id="name" 
-            className={({ isActive }) => isActive && 'activeNav'} 
             to="/"><h1>FlashCards</h1></NavLink>
         </div>
         <div id="rightSide">
