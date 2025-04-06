@@ -1,5 +1,4 @@
 import React from 'react';
-import './FlashCard.css';
 
 const FlashCard = ({ term, definition, flip}) => {
     return (
