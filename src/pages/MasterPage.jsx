@@ -93,9 +93,9 @@ const MasterPage = () => {
         } 
     }
 
-    function testRadio(event, guess, id) {
+    function testRadio(event, guess, id, correctAnswer) {
         event.preventDefault();
-        if (guess === set[index].Definition) {
+        if (guess === correctAnswer) {
             set[index].Mastery = (wrong)? set[index].Mastery - 1: set[index].Mastery + 1;
             setIndex((index + 1) % set.length);
             setTotalDone(totalDone + 1);
@@ -203,30 +203,37 @@ const MasterPage = () => {
             </>
         );
     } else if (set[index].Mastery < numLevels) {
-        var choices = generateRandom(index);
-        randomize(choices);
+        var choiceIndices = generateRandom(index);
+        randomize(choiceIndices);
+        var choices = new Array(4);
+        for (let i = 0; i < 4; i++) {
+            choices[i] = (set[index].Mastery % 2 == 0)? set[choiceIndices[i]].Term: set[choiceIndices[i]].Definition;
+        }
+        const correctAnswer = (set[index].Mastery % 2 == 0)? set[index].Term: set[index].Definition;
         return (
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
                     <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
                 </div>
-                <h1 className="centerText">{set[index].Term}</h1>
+                {(set[index].Mastery % 2 == 0)?
+                <h1 className="centerText">{set[index].Definition}</h1>:
+                <h1 className="centerText">{set[index].Term}</h1>}
                 <form>
                     <div className="cardContainer">
-                        <button id="option0" className="smallCard" onClick={() => testRadio(event, set[choices[0]].Definition, 0)}>
-                            <h1 id="cardtext">{set[choices[0]].Definition}</h1>
+                        <button id="option0" className="smallCard" onClick={() => testRadio(event, choices[0], 0, correctAnswer)}>
+                            <h1 id="cardtext">{choices[0]}</h1>
                         </button>
-                        <button id="option1" className="smallCard" onClick={() => testRadio(event, set[choices[1]].Definition, 1)}>
-                            <h1 id="cardtext">{set[choices[1]].Definition}</h1>
+                        <button id="option1" className="smallCard" onClick={() => testRadio(event, choices[1], 1, correctAnswer)}>
+                            <h1 id="cardtext">{choices[1]}</h1>
                         </button>
                     </div>
                     <div className="cardContainer">
-                        <button id="option2" className="smallCard" onClick={() => testRadio(event, set[choices[2]].Definition, 2)}>
-                            <h1 id="cardtext">{set[choices[2]].Definition}</h1>
+                        <button id="option2" className="smallCard" onClick={() => testRadio(event, choices[2], 2, correctAnswer)}>
+                            <h1 id="cardtext">{choices[2]}</h1>
                         </button>
-                        <button id="option3" className="smallCard" onClick={() => testRadio(event, set[choices[3]].Definition, 3)}>
-                            <h1 id="cardtext">{set[choices[3]].Definition}</h1>
+                        <button id="option3" className="smallCard" onClick={() => testRadio(event, choices[3], 3, correctAnswer)}>
+                            <h1 id="cardtext">{choices[3]}</h1>
                         </button>
                     </div>
                 </form>
