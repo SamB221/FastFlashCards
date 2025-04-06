@@ -46,12 +46,16 @@ p {
 
 .navbar {
     background-color: var(--uiPrimary);
-    display: flex;
-    justify-content: space-between;
     padding: 1rem;
     color: white;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
 }
+
+.navbar > *:last-child {
+    white-space: nowrap;
+    text-align: right;
+  }
 
 .navbar #link {
     display: flex;
@@ -72,12 +76,19 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: auto;
+}
+
+#leftSide {
+    display: flex;
+    align-items: center;
 }
 
 #rightSide {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: 1rem;
 }
 
 .inlineIcon {
@@ -312,9 +323,9 @@ input[type=text], select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-  }
+}
   
-  input[type=submit] {
+input[type=submit] {
     width: 100%;
     background-color: var(--primary);
     color: white;
@@ -323,11 +334,11 @@ input[type=text], select {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
+}
   
-  input[type=submit]:hover {
+input[type=submit]:hover {
     background-color: var(--secondary);
-  }
+}
   
 .textForm {
     width: 75%;
