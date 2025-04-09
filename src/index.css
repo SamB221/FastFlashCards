@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@layer theme, base, components, utilities;
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 :root {
     --uiPrimary: #333;
@@ -32,13 +34,19 @@
     --textPrimary: white;
     --textSeconday: black;
     --cardColor: rgb(25, 25, 25);
-    background-color: Canvas;
+    background-color: #434242;
     color-scheme: light dark;
 }
 
 h1 {
     font-family: 'Rubik';
     font-size: 40px;
+}
+
+h2 {
+    font-family: 'Rubik';
+    font-size: 24px;
+    line-height: calc(2 / 1.5);
 }
 
 p {
@@ -161,7 +169,7 @@ p {
 
 .fileUpload {
     margin-top: 4em;
-    background-color: gray;
+    background-color: white;
     color: var(--textSecondary);
     padding: 0.6rem 0.75rem;
     text-align: center;
@@ -400,6 +408,9 @@ input[type=submit]:hover {
     align-items: center;
     border-style: solid;
     border-width: 2px 2px;
+    color: var(--textPrimary);
+    border-color: black;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 #cardfront {
@@ -432,4 +443,52 @@ input[type=submit]:hover {
 #cardtext {
     text-align: center;
     flex: 0 0 35rem;
+}
+
+.miniCard {
+    background-color: var(--cardColor);
+    border-radius: 0.5rem;
+    color: var(--textPrimary);
+    padding: 1.5rem;
+}
+
+.container-xl {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    padding: 1rem; 
+    border-radius: 1rem;
+}
+
+.md\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 750px) {
+    .md\:grid-cols-2 {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.floatLeft {
+    float: left;
+}
+
+.floatRight {
+    float: right;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+#cardCount {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }

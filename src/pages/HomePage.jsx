@@ -27,8 +27,8 @@ const HomePage = () => {
         <>
             <Title title={"Your Sets"} />
             <HomeCards />
-            <form className="lowerRight grnBtn">
-                <input id="reset" type="button" value="Add a set" onClick={removeSet}/>
+            <form className="lowerRight grnBtn" onClick={removeSet}>
+                <input id="reset" type="button" value="Add a set"/>
             </form>
         </>
     );
