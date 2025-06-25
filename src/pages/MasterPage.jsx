@@ -28,34 +28,48 @@ const MasterPage = () => {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (set[index].Mastery == 5) return;
-            event.preventDefault();
+            const tag = document.activeElement.tagName.toLowerCase();
+            if (tag === 'input' || tag === 'textarea') return;
+
+            if (set[index].Mastery === 5) return;
+
             if (totalDone == interval) {
                 setTotalDone(0);
                 setFlip(false);
             } else if (set[index].Mastery < 2) {
-                if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
-                    setFlip(!flip);
-                    setCompleted(true);
-                } else if (event.key === "ArrowRight") {
-                    if (completed) {
-                        if (flip && set[(index + 1) % set.length].Mastery < 2 && totalDone != interval - 1) {
-                            setFlip(false);
-                            setTimeout(switchRight, 50); // Without delay when flipping, people could cheat!
-                        } else {
-                            switchRight();
+                switch (event.key) {
+                    case " ": // Space flips the card
+                    case "ArrowUp":
+                    case "ArrowDown":
+                        event.preventDefault();
+                        setFlip(prev => !prev);
+                        setCompleted(true);
+                        break;
+
+                    case "ArrowRight": // Move to next card if conditions met
+                        event.preventDefault();
+                        if (completed) {
+                            if (
+                                flip &&
+                                set[(index + 1) % set.length].Mastery < 2 &&
+                                totalDone !== interval - 1
+                            ) {
+                                setFlip(false);
+                                setTimeout(switchRight, 50);
+                            } else {
+                                switchRight();
+                            }
                         }
-                    }
+                        break;
                 }
             }
         };
 
-        document.addEventListener("keydown", handleKeyDown);
-
+        window.addEventListener("keydown", handleKeyDown);
         return () => {
-            document.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [flip, index, totalDone]);
+    }, [flip, index, completed, totalDone, interval, set]);
 
     // Reset page
     if (skipped >= set.length) {
@@ -164,7 +178,7 @@ const MasterPage = () => {
     }
 
     async function checkWithAI(term, guess) {
-        console.log(term + ", " + guess);
+        if (term.length >= 200 || guess.length >= 200 || guess.length == 0) return false; // too many tokens
         try {
             const res = await fetch("/.netlify/functions/checkTerm", {
                 method: "POST",
@@ -222,7 +236,7 @@ const MasterPage = () => {
                 <FlashCard term={set[index].Definition} definition={set[index].Term} flip={flip}/>}
             </>
         );
-    } else if (set[index].Mastery < numLevels) {
+    } else if (set[index].Mastery <= 3) {
         var choiceIndices = generateRandom(index);
         randomize(choiceIndices);
         var choices = new Array(4);
