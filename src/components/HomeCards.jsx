@@ -22,7 +22,7 @@ const HomeCards = () => {
             <div className='container-xl lg:container m-auto'>
                 <div className='grid md:grid-cols-2'>
                 {set.map(({ name, length }) => (
-                    <Card setname={name} totalcards={length} />
+                    <Card key={name} setname={name} totalcards={length} />
                 ))}
                 </div>
             </div>
