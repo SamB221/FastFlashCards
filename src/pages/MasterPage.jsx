@@ -145,11 +145,11 @@ const MasterPage = () => {
         return [...randomNumbers];
     }
 
-    function handleTextForm(e) {
+    async function handleTextForm(e) {
         let guess = document.forms['textForm']['guess'].value;
         document.forms['textForm']['guess'].value = '';
         e.preventDefault();
-        if (guess === set[index].Definition) {
+        if (guess === set[index].Definition || await checkWithAI(set[index].Term, guess)) {
             set[index].Mastery = (wrong)? set[index].Mastery -1: set[index].Mastery + 1;
             document.getElementById('guess').classList.remove('invalid');
             document.getElementById('noShow').style.display = 'none';
@@ -163,6 +163,30 @@ const MasterPage = () => {
         }
     }
 
+    async function checkWithAI(term, guess) {
+        console.log(term + ", " + guess);
+        try {
+            const res = await fetch("/.netlify/functions/checkTerm", {
+                method: "POST",
+                body: JSON.stringify({ term, definition: guess }),
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (!res.ok) {
+                console.error("API error", res.status);
+                return false;
+            }
+
+            const data = await res.json();
+
+            return data.matches === true;
+
+        } catch (err) {
+            console.error("Fetch error", err);
+            return false;
+        }
+    }
+
     const triggerConfetti = () => {
         confetti({
           particleCount: 100,
@@ -173,10 +197,6 @@ const MasterPage = () => {
           disableForReducedMotion: true
         });
     }
-
-    window.addEventListener('beforeunload', () => {
-        confetti.clear();
-    });
 
     if (totalDone == interval) {
         triggerConfetti();
