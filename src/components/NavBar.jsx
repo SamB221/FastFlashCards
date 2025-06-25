@@ -29,7 +29,7 @@ const NavBar = () => {
     <div className="navbar alwaysWhite">
         <div id="leftSide">
             <NavLink id="link" 
-            className={({ isActive }) => isActive && 'activeNav'} 
+            className={({ isActive }) => isActive ? 'activeNav' : ''}
             to="/"><FaHome className="inlineIcon" />Home</NavLink>
         </div>
         <div id="websitename">
@@ -38,7 +38,7 @@ const NavBar = () => {
         </div>
         <div id="rightSide">
             <NavLink id="link" 
-            className={({ isActive }) => isActive && 'activeNav'} 
+            className={({ isActive }) => isActive ? 'activeNav' : ''}
             to="/settings"><FaGear className="inlineIcon" />Settings</NavLink>
             <button id="themeSwitch" onClick={darkLightSwitcher}>
               <FaSun></FaSun>
