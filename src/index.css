@@ -10,7 +10,7 @@
     --ternary: #0f6847;
     --textPrimary: black;
     --textSeconday: white;
-    --cardColor: white;
+    --cardColor: rgb(243 244 246);
 }
 
 /*@media (prefers-color-scheme: dark) {
