@@ -3,25 +3,26 @@ import Card from './HomeCard';
 
 const HomeCards = () => {
     var set = new Array(Math.max(localStorage.length-1, 0));
-    var j = 0;
     for (var i = 0, len = localStorage.length; i < len; ++i) {
-        if (localStorage.key(i) != 'darkmode') {
-            set[j] = localStorage.key(i);
-            j++;
-        }
-    }
+        var key = localStorage.key(i);
 
-    function findLength(name) {
-        const { set } = JSON.parse(localStorage.getItem(name));
-        return set.length;
+        try {
+            const value = localStorage.getItem(key);
+            const parsed = JSON.parse(value);
+            if (parsed && Array.isArray(parsed.set)) {
+                set.push({ name: key, length: parsed.set.length });
+            }
+        } catch (e) {
+            // Invalid JSON, ignore entry
+        }
     }
 
     return (
         <section className='py-4'>
             <div className='container-xl lg:container m-auto'>
                 <div className='grid md:grid-cols-2'>
-                {set.map((name) => (
-                    <Card setname={name} totalcards={findLength(name)} />
+                {set.map(({ name, length }) => (
+                    <Card setname={name} totalcards={length} />
                 ))}
                 </div>
             </div>
