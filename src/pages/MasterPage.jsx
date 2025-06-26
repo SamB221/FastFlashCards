@@ -11,25 +11,25 @@ const MasterPage = () => {
     const { id } = useParams();
     const numLevels = 5;
     const {
-    set,
-    currentIndex,
-    isFlipped,
-    totalDone,
-    interval,
-    allDone,
-    restart,
-    shuffle,
-    nextCard,
-    randomize,
-    triggerConfetti,
-    generateRandom,
-    testRadio,
-    handleTextForm
+        set,
+        currentIndex,
+        isFlipped,
+        totalDone,
+        interval,
+        allDone,
+        restart,
+        shuffle,
+        nextCard,
+        randomize,
+        triggerConfetti,
+        generateRandom,
+        testRadio,
+        handleTextForm,
+        showFeedback
     } = useFlashCardController(id, numLevels);
     const [skipped, setSkipped] = useState(0);
 
     // Reset page
-    console.log(allDone);
     if (allDone) {
         confetti();
         return (
@@ -39,6 +39,23 @@ const MasterPage = () => {
                 <SetCards setname={id} />
                 <form className="lowerRight grnBtn">
                     <input id="reset" type="button" value="Click to restart" onClick={restart}/>
+                </form>
+            </>
+        );
+    }
+
+    if (showFeedback) {
+        return (
+            <>
+                <Title title={id} back="true" />
+                <div id="cardinfo">
+                    <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
+                </div>
+                <h1 className="centerText">Your answer was marked correct by AI</h1>
+                <p className="centerText">{"The exact answer was: " + set[currentIndex].Definition}</p>
+                <p className="centerText">Please wait to continue</p>
+                <form className="center redBtn">
+                    <input id="reset" type="button" value="No, I was wrong..." onClick={restart}/>
                 </form>
             </>
         );
