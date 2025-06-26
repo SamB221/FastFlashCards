@@ -54,7 +54,6 @@ const UploadPage = () => {
     }
   
     function parseString(s) {
-        console.log(s);
         if (s.charAt(0) == '"' && s.charAt(s.length-1) == '"') {
             return s.substring(1, s.length-2);
         } else {

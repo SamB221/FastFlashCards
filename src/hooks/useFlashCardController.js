@@ -15,19 +15,19 @@ export function useFlashCardController(id, numLevels) {
     const [flip, setFlip] = useState(false);
     const [completed, setCompleted] = useState(false);
     const [totalDone, setTotalDone] = useState(0);
-    const [skipped, setSkipped] = useState(0);
+    const skipped = useRef(0);
+    const [showFeedback, setShowFeedback] = useState(false);
 
-    var wrong = false; //todo: change name or change to ref
-
+    var wrong = false;
     const interval = Math.min(10, set.length);
 
-    if (set[index].Mastery > numLevels) {
-        console.log(skipped);
-        console.log(set.length);
-        if (skipped < set.length) {
-            setSkipped(skipped + 1);
+    if (set[index].Mastery >= numLevels) {
+        if (skipped.current < set.length) {
+            skipped.current++;
             setIndex((index + 1) % set.length);
         }
+    } else {
+        skipped.current = 0;
     }
 
     useEffect(() => {
@@ -94,8 +94,9 @@ export function useFlashCardController(id, numLevels) {
         for (let i = 0; i < set.length; i++) {
             set[i].Mastery = 0;
         }
-        setSkipped(0);
+        skipped.current = 0;
         setIndex(0); 
+        setTotalDone(0);
     }
 
     function generateRandom(exclude) {
@@ -145,13 +146,22 @@ export function useFlashCardController(id, numLevels) {
         document.forms['textForm']['guess'].value = '';
         let definition = set[index].Definition.toLowerCase();
         e.preventDefault();
-        if (guess === definition || await checkWithAI(set[index].Term, guess)) {
+        if (guess === definition) {
             set[index].Mastery = (wrong)? set[index].Mastery - 1: set[index].Mastery + 1;
             document.getElementById('guess').classList.remove('invalid');
             document.getElementById('noShow').style.display = 'none';
             setIndex((index + 1) % set.length);
             setTotalDone(totalDone + 1);
             wrong = false;
+        } else if (await checkWithAI(set[index].Term, guess)) {
+            document.getElementById('guess').classList.remove('invalid');
+            document.getElementById('noShow').style.display = 'none';
+            setShowFeedback(true);
+
+            setTimeout(() => {
+                setShowFeedback(false);
+                nextCard();
+            }, 5000); 
         } else {
             wrong = true;
             document.getElementById('guess').classList.add('invalid');
@@ -200,7 +210,7 @@ export function useFlashCardController(id, numLevels) {
         isFlipped: flip,
         totalDone,
         interval,
-        allDone: skipped >= set.length,
+        allDone: skipped.current >= set.length,
         restart,
         shuffle,
         nextCard,
@@ -209,7 +219,8 @@ export function useFlashCardController(id, numLevels) {
         setLength: set.length,
         generateRandom,
         testRadio,
-        handleTextForm
+        handleTextForm,
+        showFeedback
     };
 }
 
