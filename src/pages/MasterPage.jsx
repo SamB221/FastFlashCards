@@ -4,75 +4,33 @@ import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
 import SetCards from '../components/SetCards';
 import confetti from 'canvas-confetti';
+import useFlashCardController from '../hooks/useFlashCardController';
 
 // flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {
     const { id } = useParams();
-    var wrong = false; 
     const numLevels = 5;
-    const [flip, setFlip] = useState(false);
-    const [completed, setCompleted] = useState(false);
+    const {
+    set,
+    currentIndex,
+    isFlipped,
+    totalDone,
+    interval,
+    allDone,
+    restart,
+    shuffle,
+    nextCard,
+    randomize,
+    triggerConfetti,
+    generateRandom,
+    testRadio,
+    handleTextForm
+    } = useFlashCardController(id, numLevels);
     const [skipped, setSkipped] = useState(0);
-    const [index, setIndex] = useState(0);
-    const [totalDone, setTotalDone] = useState(0);
-    const [randomized, setRandomized] = useState(false);
-    const [set, setOriginalSet] = useState(() => {
-        const storedData = JSON.parse(localStorage.getItem(id));
-        return storedData ? storedData.set : null;
-    });
-    const interval = Math.min(set.length, 10);
-    if (!randomized) {
-        randomize(set);
-        setRandomized(true);
-    } 
-
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            const tag = document.activeElement.tagName.toLowerCase();
-            if (tag === 'input' || tag === 'textarea') return;
-
-            if (set[index].Mastery === 5) return;
-
-            if (totalDone == interval) {
-                setTotalDone(0);
-                setFlip(false);
-            } else if (set[index].Mastery < 2) {
-                switch (event.key) {
-                    case " ": // Space flips the card
-                    case "ArrowUp":
-                    case "ArrowDown":
-                        event.preventDefault();
-                        setFlip(prev => !prev);
-                        setCompleted(true);
-                        break;
-
-                    case "ArrowRight": // Move to next card if conditions met
-                        event.preventDefault();
-                        if (completed) {
-                            if (
-                                flip &&
-                                set[(index + 1) % set.length].Mastery < 2 &&
-                                totalDone !== interval - 1
-                            ) {
-                                setFlip(false);
-                                setTimeout(switchRight, 50);
-                            } else {
-                                switchRight();
-                            }
-                        }
-                        break;
-                }
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [flip, index, completed, totalDone, interval, set]);
 
     // Reset page
-    if (skipped >= set.length) {
+    console.log(allDone);
+    if (allDone) {
         confetti();
         return (
             <>
@@ -84,132 +42,6 @@ const MasterPage = () => {
                 </form>
             </>
         );
-    }
-
-    function restart() {
-        for (let i = 0; i < set.length; i++) {
-            set[i].Mastery = 0;
-        }
-        setSkipped(0);
-        setIndex(0); 
-    }
-
-    if (set[index].Mastery > numLevels) {
-        setSkipped(skipped + 1);
-        setIndex((index + 1) % set.length);
-    }
-
-    function randomize(arr) {
-        // A Fisher-Yates shuffle
-        for (let i = arr.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1)); 
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        } 
-    }
-
-    function testRadio(event, guess, id, correctAnswer) {
-        event.preventDefault();
-        if (guess === correctAnswer) {
-            set[index].Mastery = (wrong)? set[index].Mastery - 1: set[index].Mastery + 1;
-            setIndex((index + 1) % set.length);
-            setTotalDone(totalDone + 1);
-            setCompleted(false);
-        } else {
-            flashRed(document.getElementById("option" + id));
-            wrong = "true";
-        }
-    }
-
-    function flashRed(element) {
-        let originalColor = element.style.backgroundColor;
-        
-        // Clear ongoing transitions
-        element.style.transition = "none";
-        element.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; 
-    
-        void element.offsetWidth;
-    
-        element.style.transition = "background-color 0.5s ease"; 
-    
-        setTimeout(function() {
-            element.style.backgroundColor = originalColor;
-        }, 200); 
-    }
-
-    function switchRight() {
-        set[index].Mastery = set[index].Mastery + 1;
-        setIndex((index + 1) % set.length);
-        setTotalDone(totalDone + 1);
-        setCompleted(false);
-    }
-
-    function generateRandom(exclude) {
-        const randomNumbers = new Set();
-        while (randomNumbers.size < 3) {
-            var randomNumber = Math.floor(Math.random() * (set.length-1));
-            while (randomNumber == exclude || randomNumbers.has(randomNumber)) {
-                randomNumber = (randomNumber + 1) % set.length;
-            }
-
-            randomNumbers.add(randomNumber);
-        }
-
-        randomNumbers.add(exclude);
-
-        return [...randomNumbers];
-    }
-
-    async function handleTextForm(e) {
-        let guess = document.forms['textForm']['guess'].value;
-        document.forms['textForm']['guess'].value = '';
-        e.preventDefault();
-        if (guess === set[index].Definition || await checkWithAI(set[index].Term, guess)) {
-            set[index].Mastery = (wrong)? set[index].Mastery -1: set[index].Mastery + 1;
-            document.getElementById('guess').classList.remove('invalid');
-            document.getElementById('noShow').style.display = 'none';
-            setIndex((index + 1) % set.length);
-            setTotalDone(totalDone + 1);
-            wrong = false;
-        } else {
-            wrong = true;
-            document.getElementById('guess').classList.add('invalid');
-            document.getElementById('noShow').style.display = 'block';
-        }
-    }
-
-    async function checkWithAI(term, guess) {
-        if (term.length >= 200 || guess.length >= 200 || guess.length == 0) return false; // too many tokens
-        try {
-            const res = await fetch("/.netlify/functions/checkTerm", {
-                method: "POST",
-                body: JSON.stringify({ term, definition: guess }),
-                headers: { "Content-Type": "application/json" },
-            });
-
-            if (!res.ok) {
-                console.error("API error", res.status);
-                return false;
-            }
-
-            const data = await res.json();
-
-            return data.matches === true;
-
-        } catch (err) {
-            console.error("Fetch error", err);
-            return false;
-        }
-    }
-
-    const triggerConfetti = () => {
-        confetti({
-          particleCount: 100,
-          spread: 160,
-          origin: { x: 0.5, y: 0.5 },
-          zIndex: -1,
-          duration: 200,
-          disableForReducedMotion: true
-        });
     }
 
     if (totalDone == interval) {
@@ -224,35 +56,35 @@ const MasterPage = () => {
         );
     }
 
-    if (set[index].Mastery < 2) {
+    if (set[currentIndex].Mastery < 2) {
         return (
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
                     <p id="cardnumber">{totalDone + 1 + " out of " + interval}</p>
                 </div>
-                {(set[index].Mastery == 0)? 
-                <FlashCard term={set[index].Term} definition={set[index].Definition} flip={flip}/>:
-                <FlashCard term={set[index].Definition} definition={set[index].Term} flip={flip}/>}
+                {(set[currentIndex].Mastery == 0)? 
+                <FlashCard term={set[currentIndex].Term} definition={set[currentIndex].Definition} flip={isFlipped}/>:
+                <FlashCard term={set[currentIndex].Definition} definition={set[currentIndex].Term} flip={isFlipped}/>}
             </>
         );
-    } else if (set[index].Mastery <= 3) {
-        var choiceIndices = generateRandom(index);
+    } else if (set[currentIndex].Mastery <= 3) {
+        var choiceIndices = generateRandom(currentIndex);
         randomize(choiceIndices);
         var choices = new Array(4);
         for (let i = 0; i < 4; i++) {
-            choices[i] = (set[index].Mastery % 2 == 0)? set[choiceIndices[i]].Term: set[choiceIndices[i]].Definition;
+            choices[i] = (set[currentIndex].Mastery % 2 == 0)? set[choiceIndices[i]].Term: set[choiceIndices[i]].Definition;
         }
-        const correctAnswer = (set[index].Mastery % 2 == 0)? set[index].Term: set[index].Definition;
+        const correctAnswer = (set[currentIndex].Mastery % 2 == 0)? set[currentIndex].Term: set[currentIndex].Definition;
         return (
             <>
                 <Title title={id} back="true" />
                 <div id="cardinfo">
                     <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
                 </div>
-                {(set[index].Mastery % 2 == 0)?
-                <h1 className="centerText">{set[index].Definition}</h1>:
-                <h1 className="centerText">{set[index].Term}</h1>}
+                {(set[currentIndex].Mastery % 2 == 0)?
+                <h1 className="centerText">{set[currentIndex].Definition}</h1>:
+                <h1 className="centerText">{set[currentIndex].Term}</h1>}
                 <form>
                     <div className="cardContainer">
                         <button id="option0" className="smallCard" onClick={() => testRadio(event, choices[0], 0, correctAnswer)}>
@@ -280,12 +112,12 @@ const MasterPage = () => {
                 <div id="cardinfo">
                     <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
                 </div>
-                <h1 className="centerText">{set[index].Term}</h1>
+                <h1 className="centerText">{set[currentIndex].Term}</h1>
                 <form className="textForm" name="textForm" onSubmit={handleTextForm}>
                     <label htmlFor="guess"><p>Enter the definition</p></label>
                     <input type="text" id="guess" name="firstname" placeholder="Definition..."></input>
                     <input type="submit" value="Submit"></input>
-                    <p id="noShow">{"The correct answer is: " + set[index].Definition} <br />
+                    <p id="noShow">{"The correct answer is: " + set[currentIndex].Definition} <br />
                     Enter the correct answer to continue
                     </p>
                 </form>
