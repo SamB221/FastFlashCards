@@ -503,3 +503,37 @@ input[type=submit]:hover {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
+.dualBox {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.leftDualBox {
+    border-width: 0.5rem;
+    border-right-width: 0.25rem;
+    text-align: center;
+    background-color: var(--secondary);
+    width: 20rem;
+    height: 30rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rightDualBox {
+    border-width: 0.5rem;
+    border-left-width: 0.25rem;
+    text-align: center;
+    background-color: var(--secondary);
+    width: 20rem;
+    height: 30rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

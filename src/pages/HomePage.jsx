@@ -8,7 +8,7 @@ const HomePage = () => {
     
     useEffect(() => {
         if (numSets() == 0) {
-            navigate("/upload");
+            navigate("/landing");
         }
     }, [navigate]);
 
@@ -20,7 +20,7 @@ const HomePage = () => {
 
     function removeSet(e) {
         e.preventDefault();
-        navigate("/upload");
+        navigate("/landing");
     };
 
     return (
