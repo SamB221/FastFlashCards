@@ -1,9 +1,11 @@
 import React from 'react';
+import Title from '../components/Title';
 
 const CreateSetPage = () => {
     return (
         <>
-            <p>Set page</p>
+            <Title title="Back" back="true" />
+            <h1 className="centerText">Set page</h1>
         </>
     );
 };
