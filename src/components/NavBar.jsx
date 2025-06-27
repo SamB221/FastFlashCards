@@ -28,7 +28,7 @@ const NavBar = () => {
   return (
     <div className="navbar alwaysWhite">
         <div id="leftSide">
-            <NavLink id="link" 
+            <NavLink id="link" aria-label="Go to homepage"
             className={({ isActive }) => isActive ? 'activeNav' : ''}
             to="/"><FaHome className="inlineIcon" />Home</NavLink>
         </div>
@@ -37,7 +37,7 @@ const NavBar = () => {
             to="/"><h1>FlashCards</h1></NavLink>
         </div>
         <div id="rightSide">
-            <NavLink id="link" 
+            <NavLink id="link" aria-label="Toggle darkmode"
             className={({ isActive }) => isActive ? 'activeNav' : ''}
             to="/settings"><FaGear className="inlineIcon" />Settings</NavLink>
             <button id="themeSwitch" onClick={darkLightSwitcher}>
