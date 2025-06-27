@@ -5,7 +5,7 @@ const Title = ({ title, back }) => {
   const navigate = useNavigate();
     return (
         <div id="pageTitle">
-            {back ? <Link id="backButton" className="active" to={'..'} onClick={(e) => {
+            {back ? <Link id="backButton" aria-label="Go back" className="active" to={'..'} onClick={(e) => {
                 e.preventDefault();
                 navigate(-1);
               }}><h1>&lt;</h1></Link>: <></>}
