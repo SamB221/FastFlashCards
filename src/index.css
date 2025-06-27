@@ -549,3 +549,34 @@ input[type=submit]:hover {
 .rightDualBox:hover {
     background-color: var(--ternary);
 }
+
+#setBuildingBox {
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 1rem;
+}
+
+#cardBuilders {
+    
+}
+
+.cardBuilder {
+    background-color: var(--cardColor);
+    border-radius: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.smallerBox {
+    margin: 2rem;
+}
+
+.flex {
+    display: flex;
+    align-items: baseline;
+    white-space: nowrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}

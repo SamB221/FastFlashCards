@@ -64,7 +64,7 @@ const UploadPage = () => {
   
     return (
         <>
-            <Title title="Back" back="true" />
+            <Title title="Upload" back="true" />
             <div id="uploadcontainer" className="middleBox">
                 <div id="uploadtext">
                 <h1>Upload a CSV</h1>
