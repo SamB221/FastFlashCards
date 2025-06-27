@@ -49,6 +49,11 @@ h2 {
     line-height: calc(2 / 1.5);
 }
 
+h3 {
+    font-family: 'Rubik';
+    font-size: 15px;
+}
+
 p {
     font-family: 'Rubik';
     font-size: 20px;
@@ -339,7 +344,7 @@ p {
     display: block;
 }
 
-input[type=text], select {
+.textInput1 {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -349,6 +354,15 @@ input[type=text], select {
     box-sizing: border-box;
 }
   
+.textInput2 {
+    padding: 6px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border-bottom: 0.25rem solid black;
+    box-sizing: border-box;
+    width: 100%;
+}
+
 input[type=submit] {
     width: 100%;
     background-color: var(--primary);
@@ -554,6 +568,7 @@ input[type=submit]:hover {
     padding-left: 5rem;
     padding-right: 5rem;
     padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 #cardBuilders {
@@ -575,8 +590,12 @@ input[type=submit]:hover {
 
 .flex {
     display: flex;
-    align-items: baseline;
     white-space: nowrap;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    justify-content: space-around;
+    flex-grow: 1;
+    gap: 3rem;
+}
+
+.flex-child {
+    flex: 1;
 }

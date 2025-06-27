@@ -132,7 +132,7 @@ const MasterPage = () => {
                 <h1 className="centerText">{set[currentIndex].Term}</h1>
                 <form className="textForm" name="textForm" onSubmit={handleTextForm}>
                     <label htmlFor="guess"><p>Enter the definition</p></label>
-                    <input type="text" id="guess" name="firstname" placeholder="Definition..."></input>
+                    <input type="text" className="textInput1" id="guess" name="firstname" placeholder="Definition..."></input>
                     <input type="submit" value="Submit"></input>
                     <p id="noShow">{"The correct answer is: " + set[currentIndex].Definition} <br />
                     Enter the correct answer to continue
