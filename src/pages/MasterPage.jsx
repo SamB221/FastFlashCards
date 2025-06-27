@@ -54,9 +54,12 @@ const MasterPage = () => {
                 <h1 className="centerText">Your answer was marked correct by AI</h1>
                 <p className="centerText">{"The exact answer was: " + set[currentIndex].Definition}</p>
                 <p className="centerText">Please wait to continue</p>
-                <form className="center redBtn">
-                    <input id="reset" type="button" value="No, I was wrong..." onClick={restart}/>
-                </form>
+                <div id="aiCheckLine">
+                    <form className="center redBtn">
+                        <input id="reset" type="button" value="No, I was wrong..." onClick={restart}/>
+                    </form>
+                    <img id="manualIcon" src="../../../mascot.svg" />
+                </div>
             </>
         );
     }
