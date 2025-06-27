@@ -4,8 +4,10 @@ import CardBuilder from '../components/CardBuilder';
 
 const CreateSetPage = () => {
     const [numCards, setNumCards] = useState(4);
+    const [cardData, setCardData] = useState({});
     const elementsAddedRef = useRef(false);
 
+    // scrolls to the top when new element added
     useEffect(() => {
         if (elementsAddedRef.current) {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -15,6 +17,17 @@ const CreateSetPage = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log('All form data:', cardData);
+    };
+
+    const handleCardChange = (cardNumber, inputType, value) => {
+        setCardData(prevData => ({
+        ...prevData,
+        [cardNumber]: {
+            ...prevData[cardNumber],
+            [inputType]: value
+        }
+        }));
     };
 
     const addCard = (event) => {
@@ -33,7 +46,7 @@ const CreateSetPage = () => {
                     
                     <div id="cardBuilders">
                         {Array.from({ length: numCards }, (_, i) => (
-                            <CardBuilder key={i+1} num={i+1}>
+                            <CardBuilder key={i+1} num={i+1} onChange={handleCardChange}>
                             {i + 1}
                             </CardBuilder>
                         ))}
