@@ -5,10 +5,11 @@ const LandingPage = () => {
     return (
         <>
             <h1 className="centerText">Welcome to Fast FlashCards!</h1>
+            <p className="centerText">Let's create a set</p>
             <div className="dualBox">
                 <NavLink className="leftDualBox" to="/upload">
                     <p>Upload from a CSV (recommended)</p>
-                    <img id="uploadIcon" src="../../../uploadIcon.png" />
+                    <img id="uploadIcon" src="../../../uploadIcon.svg" />
                 </NavLink>
                 <NavLink className="rightDualBox" to="/create">
                     <p>Create set manually</p>

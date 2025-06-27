@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate } from "react-router-dom";
+import Title from '../components/Title';
 
 const UploadPage = () => {
     const fileInputRef = useRef(null);
@@ -63,6 +64,7 @@ const UploadPage = () => {
   
     return (
         <>
+            <Title title="Back" back="true" />
             <div id="uploadcontainer" className="middleBox">
                 <div id="uploadtext">
                 <h1>Upload a CSV</h1>
