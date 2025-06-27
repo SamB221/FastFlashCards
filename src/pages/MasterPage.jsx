@@ -16,6 +16,7 @@ const MasterPage = () => {
         isFlipped,
         totalDone,
         interval,
+        setWrong,
         allDone,
         restart,
         shuffle,
@@ -25,7 +26,8 @@ const MasterPage = () => {
         generateRandom,
         testRadio,
         handleTextForm,
-        showFeedback
+        showFeedback,
+        setShowFeedback
     } = useFlashCardController(id, numLevels);
     const [skipped, setSkipped] = useState(0);
 
@@ -45,19 +47,31 @@ const MasterPage = () => {
     }
 
     if (showFeedback) {
+        function nextTrue() {
+            setShowFeedback(false);
+            nextCard();
+        }
+
+        function nextFalse() {
+            setShowFeedback(false);
+            setWrong();
+            nextCard();
+        }
+
         return (
             <>
                 <Title title={id} back="true" />
-                <div id="cardinfo">
-                    <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
-                </div>
-                <h1 className="centerText">Your answer was marked correct by AI</h1>
-                <p className="centerText">{"The exact answer was: " + set[currentIndex].Definition}</p>
-                <p className="centerText">Please wait to continue</p>
-                <div id="aiCheckLine">
-                    <form className="center redBtn">
-                        <input id="reset" type="button" value="No, I was wrong..." onClick={restart}/>
-                    </form>
+                <div className="feedbackBox">
+                    <h1 className="centerText pad1">Your answer was marked as correct by AI</h1>
+                    <p className="centerText">{"The exact answer was: " + set[currentIndex].Definition}</p>
+                    <div className="dualButtons pad5">
+                        <form className="centerLeftButton redBtn">
+                            <input type="button" value="No, I was wrong..." onClick={nextFalse}/>
+                        </form>
+                        <form className="centerRightButton grnBtn">
+                            <input type="button" value="Great! Next card" onClick={nextTrue}/>
+                        </form>
+                    </div>
                     <img id="manualIcon" src="../../../mascot.svg" />
                 </div>
             </>
