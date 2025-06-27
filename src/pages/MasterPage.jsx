@@ -72,7 +72,7 @@ const MasterPage = () => {
                             <input type="button" value="Great! Next card" onClick={nextTrue}/>
                         </form>
                     </div>
-                    <img id="manualIcon" src="../../../mascot.svg" />
+                    <img id="mascot" src="../../../mascot.svg" />
                 </div>
             </>
         );
