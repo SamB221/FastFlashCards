@@ -133,6 +133,14 @@ p {
     font-size: 20px;
 }
 
+.grnBtn:hover {
+    background-color: var(--secondary);
+}
+
+.grnBtn:active {
+    background-color: var(--ternary);
+}
+
 .redBtn {
     background-color: red;
     border: none;
@@ -144,12 +152,12 @@ p {
     font-size: 20px;
 }
 
-.grnBtn:hover {
-    background-color: var(--secondary);
+.redBtn:hover {
+    background-color: rgb(196, 30, 30);
 }
 
-.grnBtn:active {
-    background-color: var(--ternary);
+.redBtn:active {
+    background-color: rgb(128, 39, 39);
 }
 
 .centerBtn {
@@ -600,7 +608,33 @@ input[type=submit]:hover {
     flex: 1;
 }
 
-#aiCheckLine {
+.feedbackBox {
+    background-color: var(--cardColor);
+    width: 80%;
+    margin: auto;
+    margin-top: 3rem;
+    border-radius: 2rem;
+    position: relative;
+}
+
+#manualIcon {
+    position: absolute;
+    bottom: 0rem;
+    right: 0rem;
+    transform: scale(0.6);
+    transform-origin: bottom right;
+}
+
+.dualButtons {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pad1 {
+    padding: 1rem;
+}
+
+.pad5 {
+    padding: 5rem;
 }

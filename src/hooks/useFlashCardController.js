@@ -84,7 +84,9 @@ export function useFlashCardController(id, numLevels) {
     }
 
     function nextCard() {
+        console.log(set[index].Mastery);
         set[index].Mastery = (wrong)? set[index].Mastery - 1 : set[index].Mastery + 1;
+        console.log(set[index].Mastery);
         setIndex((index + 1) % set.length);
         setTotalDone(totalDone + 1);
         setCompleted(false);
@@ -157,11 +159,6 @@ export function useFlashCardController(id, numLevels) {
             document.getElementById('guess').classList.remove('invalid');
             document.getElementById('noShow').style.display = 'none';
             setShowFeedback(true);
-
-            setTimeout(() => {
-                setShowFeedback(false);
-                nextCard();
-            }, 5000); 
         } else {
             wrong = true;
             document.getElementById('guess').classList.add('invalid');
@@ -204,12 +201,17 @@ export function useFlashCardController(id, numLevels) {
         });
     }
 
+    function setWrong() {
+        wrong = true;
+    }
+
     return {
         set,
         currentIndex: index,
         isFlipped: flip,
         totalDone,
         interval,
+        setWrong,
         allDone: skipped.current >= set.length,
         restart,
         shuffle,
@@ -220,7 +222,8 @@ export function useFlashCardController(id, numLevels) {
         generateRandom,
         testRadio,
         handleTextForm,
-        showFeedback
+        showFeedback,
+        setShowFeedback
     };
 }
 
