@@ -9,7 +9,7 @@
     --secondary: #0f8555;
     --ternary: #0f6847;
     --textPrimary: black;
-    --textSeconday: white;
+    --textSecondary: white;
     --cardColor: rgb(243 244 246);
 }
 
@@ -21,7 +21,7 @@
         --secondary: #0f8555;
         --ternary: #0f6847;
         --textPrimary: white;
-        --textSeconday: black;
+        --textSecondary: black;
     }
 }*/
 
@@ -32,7 +32,7 @@
     --secondary: #0f8555;
     --ternary: #0f6847;
     --textPrimary: white;
-    --textSeconday: black;
+    --textSecondary: black;
     --cardColor: rgb(25, 25, 25);
     background-color: #434242;
     color-scheme: light dark;
@@ -47,6 +47,11 @@ h2 {
     font-family: 'Rubik';
     font-size: 24px;
     line-height: calc(2 / 1.5);
+}
+
+h3 {
+    font-family: 'Rubik';
+    font-size: 15px;
 }
 
 p {
@@ -167,7 +172,8 @@ p {
 .middleBox {
     width: 30rem;
     height: 29rem;
-    background-color: #ADD8E6;
+    background-color: var(--secondary);
+    color: white;
     border-radius: 3rem;
 
     position: absolute;
@@ -181,7 +187,7 @@ p {
 .fileUpload {
     margin-top: 4em;
     background-color: white;
-    color: var(--textSecondary);
+    color: black;
     padding: 0.6rem 0.75rem;
     text-align: center;
     display: inline-block;
@@ -193,9 +199,9 @@ p {
 
 .uploadButton {
     margin-top: 1em;
-    background-color: var(--primary);
+    background-color: var(--uiPrimary);
     border: none;
-    color: var(--textSecondary);
+    color: white;
     padding: 1.25rem 1.5rem;
     text-align: center;
     display: inline-block;
@@ -338,7 +344,7 @@ p {
     display: block;
 }
 
-input[type=text], select {
+.textInput1 {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -348,6 +354,15 @@ input[type=text], select {
     box-sizing: border-box;
 }
   
+.textInput2 {
+    padding: 6px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border-bottom: 0.25rem solid black;
+    box-sizing: border-box;
+    width: 100%;
+}
+
 input[type=submit] {
     width: 100%;
     background-color: var(--primary);
@@ -502,4 +517,85 @@ input[type=submit]:hover {
 #cardCount {
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+.dualBox {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+.leftDualBox {
+    border-color: black;
+    border-width: 0.5rem;
+    border-right-width: 0.25rem;
+    text-align: center;
+    background-color: var(--secondary);
+    width: 20rem;
+    height: 30rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.leftDualBox:hover {
+    background-color: var(--ternary);
+}
+
+.rightDualBox {
+    border-color: black;
+    border-width: 0.5rem;
+    border-left-width: 0.25rem;
+    text-align: center;
+    background-color: var(--secondary);
+    width: 20rem;
+    height: 30rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rightDualBox:hover {
+    background-color: var(--ternary);
+}
+
+#setBuildingBox {
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+#cardBuilders {
+    
+}
+
+.cardBuilder {
+    background-color: var(--cardColor);
+    border-radius: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.smallerBox {
+    margin: 2rem;
+}
+
+.flex {
+    display: flex;
+    white-space: nowrap;
+    justify-content: space-around;
+    flex-grow: 1;
+    gap: 3rem;
+}
+
+.flex-child {
+    flex: 1;
 }

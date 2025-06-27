@@ -8,19 +8,20 @@ const HomePage = () => {
     
     useEffect(() => {
         if (numSets() == 0) {
-            navigate("/upload");
+            navigate("/landing");
         }
     }, [navigate]);
 
     function numSets() {
-        const sets = window.localStorage.length;
-        if (window.localStorage.getItem('darkmode')) return sets-1;
-        else return sets;
+        let sets = window.localStorage.length;
+        if (window.localStorage.getItem('darkmode')) sets--;
+        if (window.localStorage.getItem('debug')) sets--;
+        return sets;
     }
 
     function removeSet(e) {
         e.preventDefault();
-        navigate("/upload");
+        navigate("/landing");
     };
 
     return (
