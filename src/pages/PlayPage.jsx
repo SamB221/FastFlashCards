@@ -15,18 +15,21 @@ const PlayPage = () => {
         return storedData ? storedData.set : null;
     });
 
-    function randomize() {
-        // A Fisher-Yates shuffle
-        for (let i = set.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1)); 
-            [set[i], set[j]] = [set[j], set[i]];
-        } 
+    function randomize(arr) {
+        const shuffled = [...arr];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
     }
 
-    function randomizeHelper() {
+    function shuffleHelper() {
         if (flip) setFlip(false);
         setIndex(0);
-        randomize();
+
+        const shuffled = randomize(set);
+        setOriginalSet(shuffled);
     }
 
     function switchRight() {
@@ -87,8 +90,8 @@ const PlayPage = () => {
             <Title title={id} back="true" />
             <div id="cardinfo">
                 <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
-                <form className="grnBtn" onClick={randomizeHelper}>
-                    <input type="button" value="Randomize" />
+                <form className="grnBtn" onClick={shuffleHelper}>
+                    <input type="button" value="Shuffle" />
                     <FaRandom id="ricon" className="inline text-lg mr-1" />
                 </form>
             </div>
