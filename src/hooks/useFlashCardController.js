@@ -17,7 +17,6 @@ export function useFlashCardController(id, numLevels) {
     const [totalDone, setTotalDone] = useState(0);
     const skipped = useRef(0);
     const [showFeedback, setShowFeedback] = useState("");
-    console.log(index);
     var wrong = false;
     const interval = Math.min(10, set.length);
 
@@ -84,17 +83,22 @@ export function useFlashCardController(id, numLevels) {
     }
 
     function nextCard() {
-        set[index].Mastery = (wrong)? set[index].Mastery - 1 : set[index].Mastery + 1;
+        set[index].Mastery = (wrong)? Math.max(0, set[index].Mastery - 1) : set[index].Mastery + 1;
+        saveSetToStorage(set);
         setIndex((index + 1) % set.length);
         setTotalDone(totalDone + 1);
         setCompleted(false);
     }
 
+    function saveSetToStorage(newSet) {
+        localStorage.setItem(id, JSON.stringify({ set: newSet }));
+    }
+
     function restart() {
         const resetSet = set.map(card => ({ ...card, Mastery: 0 }));
         setSet(resetSet);
-        localStorage.setItem(id, JSON.stringify({ set: resetSet }));
-        
+        saveSetToStorage(resetSet);
+
         skipped.current = 0;
         setIndex(0); 
         setTotalDone(0);
@@ -148,11 +152,9 @@ export function useFlashCardController(id, numLevels) {
         let definition = set[index].Definition;
         e.preventDefault();
         if (guess.toLowerCase() === definition.toLowerCase()) {
-            set[index].Mastery = (wrong)? set[index].Mastery - 1: set[index].Mastery + 1;
             document.getElementById('guess').classList.remove('invalid');
             document.getElementById('noShow').style.display = 'none';
-            setIndex((index + 1) % set.length);
-            setTotalDone(totalDone + 1);
+            nextCard();
             wrong = false;
         } else if (await checkWithAI(set[index].Term, guess)) {
             document.getElementById('guess').classList.remove('invalid');
