@@ -17,7 +17,7 @@ export function useFlashCardController(id, numLevels) {
     const [totalDone, setTotalDone] = useState(0);
     const skipped = useRef(0);
     const [showFeedback, setShowFeedback] = useState("");
-
+    console.log(index);
     var wrong = false;
     const interval = Math.min(10, set.length);
 
@@ -91,9 +91,10 @@ export function useFlashCardController(id, numLevels) {
     }
 
     function restart() {
-        for (let i = 0; i < set.length; i++) {
-            set[i].Mastery = 0;
-        }
+        const resetSet = set.map(card => ({ ...card, Mastery: 0 }));
+        setSet(resetSet);
+        localStorage.setItem(id, JSON.stringify({ set: resetSet }));
+        
         skipped.current = 0;
         setIndex(0); 
         setTotalDone(0);
