@@ -46,14 +46,15 @@ const MasterPage = () => {
         );
     }
 
-    if (showFeedback) {
+    // showFeedBack will be set to the guess when feedback should be shown
+    if (showFeedback.length > 0) {
         function nextTrue() {
-            setShowFeedback(false);
+            setShowFeedback("");
             nextCard();
         }
 
         function nextFalse() {
-            setShowFeedback(false);
+            setShowFeedback("");
             setWrong();
             nextCard();
         }
@@ -64,6 +65,7 @@ const MasterPage = () => {
                 <div className="feedbackBox">
                     <h1 className="centerText pad1">Your answer was marked as correct by AI</h1>
                     <p className="centerText">{"The exact answer was: " + set[currentIndex].Definition}</p>
+                    <p className="centerText">{"You answered: " + showFeedback}</p>
                     <div className="dualButtons pad5">
                         <form className="centerLeftButton redBtn">
                             <input type="button" value="No, I was wrong..." onClick={nextFalse}/>
