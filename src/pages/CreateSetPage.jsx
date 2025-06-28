@@ -75,7 +75,7 @@ const CreateSetPage = () => {
 
                     <form className="cardBuilder" onClick={addCard}>
                         <div className="smallerBox">
-                            <h1 className="centerText"> + </h1>
+                            <h1 className="centerText noSelect"> + </h1>
                         </div>
                     </form>
                 </div>
