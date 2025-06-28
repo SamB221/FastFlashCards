@@ -34,7 +34,8 @@ const NavBar = () => {
         </div>
         <div id="websitename">
             <NavLink id="name" 
-            to="/"><h1>FlashCards</h1></NavLink>
+            to="/"><h1 id="websiteTitle">FlashCards</h1></NavLink>
+            <img id="websiteImage" src="../../../slidefavicon.svg" />
         </div>
         <div id="rightSide">
             <NavLink id="link" aria-label="Toggle darkmode"
