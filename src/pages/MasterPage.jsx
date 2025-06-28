@@ -39,7 +39,7 @@ const MasterPage = () => {
                 <Title title={id} back="true" />
                 <h1 className="centerText continue"> Great job, you're all done!</h1>
                 <SetCards setname={id} />
-                <form className="lowerRight grnBtn">
+                <form className="lowerRightLarge grnBtn">
                     <input id="reset" type="button" value="Click to restart" onClick={restart}/>
                 </form>
             </>
