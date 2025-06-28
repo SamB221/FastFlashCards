@@ -19,8 +19,9 @@ const CardBuilder = ({ num, onChange }) => {
                 <h3>{num}</h3>
                 <div className="flex">
                     <div className="flex-child">
-                        <input 
+                        <input
                             type="text" 
+                            autoComplete="off"
                             id={termId} 
                             className="textInput2" 
                             placeholder="Term..." 
@@ -31,6 +32,7 @@ const CardBuilder = ({ num, onChange }) => {
                     <div className="flex-child">
                         <input 
                             type="text" 
+                            autoComplete="off"
                             id={defId} 
                             className="textInput2" 
                             placeholder="Definition..." 
