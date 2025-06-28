@@ -149,7 +149,7 @@ const MasterPage = () => {
                     <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
                 </div>
                 <h1 className="centerText">{set[currentIndex].Term}</h1>
-                <form className="textForm" name="textForm" onSubmit={handleTextForm}>
+                <form className="textForm" autoComplete="off" name="textForm" onSubmit={handleTextForm}>
                     <label htmlFor="guess"><p>Enter the definition</p></label>
                     <input type="text" className="textInput1" id="guess" name="firstname" placeholder="Definition..."></input>
                     <input type="submit" value="Submit"></input>

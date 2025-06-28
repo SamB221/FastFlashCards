@@ -63,7 +63,13 @@ const CreateSetPage = () => {
         <>
             <Title title="Create a set" back="true" />
             <div id="setBuildingBox">
-                <input type="text" className="textInput2" id="setName" name="firstname" placeholder="Set name..."></input>
+                <input 
+                    type="text" 
+                    autoComplete="off"
+                    className="textInput2" 
+                    id="setName" 
+                    name="firstname" 
+                    placeholder="Set name..." />
                 <label htmlFor="setName"><p>Enter the set name</p></label>
 
                 <div id="cardBuilders">
