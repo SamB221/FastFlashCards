@@ -662,3 +662,23 @@ input[type=submit]:hover {
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
 }
+
+#websiteImage {
+    display: none;
+}
+
+/* Phone Rules */
+@media only screen and (max-width: 600px) {
+    body {
+        background-color: lightblue;
+    }
+    
+    #websiteTitle {
+        display: none;
+    }
+
+    #websiteImage {
+        display: block;
+        scale: 300%;
+    }
+}
