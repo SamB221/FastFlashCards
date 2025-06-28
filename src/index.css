@@ -11,6 +11,7 @@
     --textPrimary: black;
     --textSecondary: white;
     --cardColor: rgb(243 244 246);
+    --cardColorSecondary: rgb(220, 224, 232);
 }
 
 /*@media (prefers-color-scheme: dark) {
@@ -34,6 +35,7 @@
     --textPrimary: white;
     --textSecondary: black;
     --cardColor: rgb(25, 25, 25);
+    --cardColorSecondary: rgb(0, 0, 0);
     background-color: #434242;
     color-scheme: light dark;
 }
@@ -307,6 +309,10 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.smallCard:hover {
+    background-color: var(--cardColorSecondary);
 }
 
 .centerText {
