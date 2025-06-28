@@ -16,7 +16,7 @@ export function useFlashCardController(id, numLevels) {
     const [completed, setCompleted] = useState(false);
     const [totalDone, setTotalDone] = useState(0);
     const skipped = useRef(0);
-    const [showFeedback, setShowFeedback] = useState(false);
+    const [showFeedback, setShowFeedback] = useState("");
 
     var wrong = false;
     const interval = Math.min(10, set.length);
@@ -84,9 +84,7 @@ export function useFlashCardController(id, numLevels) {
     }
 
     function nextCard() {
-        console.log(set[index].Mastery);
         set[index].Mastery = (wrong)? set[index].Mastery - 1 : set[index].Mastery + 1;
-        console.log(set[index].Mastery);
         setIndex((index + 1) % set.length);
         setTotalDone(totalDone + 1);
         setCompleted(false);
@@ -144,11 +142,11 @@ export function useFlashCardController(id, numLevels) {
     }
 
     async function handleTextForm(e) {
-        let guess = document.forms['textForm']['guess'].value.toLowerCase();
+        let guess = document.forms['textForm']['guess'].value;
         document.forms['textForm']['guess'].value = '';
-        let definition = set[index].Definition.toLowerCase();
+        let definition = set[index].Definition;
         e.preventDefault();
-        if (guess === definition) {
+        if (guess.toLowerCase() === definition.toLowerCase()) {
             set[index].Mastery = (wrong)? set[index].Mastery - 1: set[index].Mastery + 1;
             document.getElementById('guess').classList.remove('invalid');
             document.getElementById('noShow').style.display = 'none';
@@ -158,7 +156,7 @@ export function useFlashCardController(id, numLevels) {
         } else if (await checkWithAI(set[index].Term, guess)) {
             document.getElementById('guess').classList.remove('invalid');
             document.getElementById('noShow').style.display = 'none';
-            setShowFeedback(true);
+            setShowFeedback(guess);
         } else {
             wrong = true;
             document.getElementById('guess').classList.add('invalid');
