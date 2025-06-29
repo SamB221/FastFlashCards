@@ -1,8 +1,8 @@
 import React from 'react';
 
-const CardBuilder = ({ num, onChange }) => {
-    const termId = `term${num + 1}`;
-    const defId = `def${num + 1}`;
+const CardBuilder = ({ id, num, onChange, removeCard }) => {
+    const termId = `term${id}`;
+    const defId = `def${id}`;
 
     const handleInputChange = (e, inputType) => {
         const value = e.target.value;
@@ -17,6 +17,7 @@ const CardBuilder = ({ num, onChange }) => {
         <div className="cardBuilder">
             <div className="smallerBox">
                 <h3>{num}</h3>
+                <span className="close" onClick={() => removeCard(id)}>&times;</span>
                 <div className="flex">
                     <div className="flex-child">
                         <input
