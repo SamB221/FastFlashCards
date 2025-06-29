@@ -131,7 +131,7 @@ p {
     padding: 1rem;
     text-align: center;
     display: inline-block;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     font-size: 20px;
 }
 
@@ -150,7 +150,7 @@ p {
     padding: 1rem;
     text-align: center;
     display: inline-block;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     font-size: 20px;
 }
 
@@ -194,7 +194,9 @@ p {
     height: 29rem;
     background-color: var(--secondary);
     color: white;
-    border-radius: 3rem;
+    border-radius: 2rem;
+    border-color: black;
+    border-width: 0.5rem;
 
     position: absolute;
     left: 50%;
@@ -202,6 +204,7 @@ p {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
+    margin-top: 2rem;
 }
 
 .fileUpload {
@@ -214,7 +217,7 @@ p {
     border-style: solid;
     border-color: black;
     border-width: 1px 1px;
-    border-radius: 1rem;
+    border-radius: 2rem;
 }
 
 .uploadButton {
@@ -372,7 +375,7 @@ p {
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 1rem;
     box-sizing: border-box;
 }
   
@@ -380,7 +383,7 @@ p {
     padding: 6px 10px;
     margin: 8px 0;
     display: inline-block;
-    border-bottom: 0.25rem solid black;
+    border-bottom: 0.25rem solid var(--textPrimary);
     box-sizing: border-box;
     width: 100%;
 }
@@ -392,7 +395,7 @@ input[type=submit] {
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 4px;
+    border-radius: 1rem;
     cursor: pointer;
 }
   
@@ -404,7 +407,7 @@ input[type=submit]:hover {
     width: 75%;
     margin: auto;
     margin-top: 3%;
-    border-radius: 5px;
+    border-radius: 1rem;
     background-color: var(--cardColor);
     color: var(--textPrimary);
     padding: 20px;
@@ -459,6 +462,7 @@ input[type=submit]:hover {
     color: var(--textPrimary);
     border-color: black;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-radius: 2rem;
 }
 
 #cardfront {
@@ -470,6 +474,7 @@ input[type=submit]:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 2rem;
 }
 
 #cardback {
@@ -482,6 +487,7 @@ input[type=submit]:hover {
     justify-content: center;
     align-items: center;
     transform: rotateX(180deg); 
+    border-radius: 2rem;
 }
 
 #card.flip {
@@ -495,7 +501,7 @@ input[type=submit]:hover {
 
 .miniCard {
     background-color: var(--cardColor);
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     color: var(--textPrimary);
     padding: 1.5rem;
 }
@@ -524,6 +530,34 @@ input[type=submit]:hover {
     }
 }
 
+.set {
+    background-color: var(--cardColor);
+    border-radius: 1rem;
+    color: var(--textPrimary);
+    padding: 1.5rem;
+    filter: 
+        drop-shadow(1px 1px rgb(207, 211, 218)) 
+        drop-shadow(2px 2px rgb(196, 202, 211)) 
+        drop-shadow(3px 3px rgb(172, 176, 186))
+        drop-shadow(4px 4px rgb(135, 141, 157));
+}
+
+.md\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 900px) {
+    .md\:grid-cols-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .md\:grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 .floatLeft {
     float: left;
 }
@@ -542,10 +576,10 @@ input[type=submit]:hover {
 }
 
 .dualBox {
-    margin-top: 5%;
     display: flex;
     justify-content: center;
     color: white;
+    margin: 2rem;
 }
 
 .leftDualBox {
@@ -587,14 +621,11 @@ input[type=submit]:hover {
 }
 
 #setBuildingBox {
+    color: var(--textPrimary);
     padding-left: 5rem;
     padding-right: 5rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
-}
-
-#cardBuilders {
-    
 }
 
 .cardBuilder {
@@ -616,6 +647,7 @@ input[type=submit]:hover {
     justify-content: space-around;
     flex-grow: 1;
     gap: 3rem;
+    flex-wrap: wrap;
 }
 
 .flex-child {
@@ -655,6 +687,10 @@ input[type=submit]:hover {
     padding: 5rem;
 }
 
+.padBottom {
+    padding-bottom: 1rem;
+}
+
 .noSelect {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
@@ -665,8 +701,30 @@ input[type=submit]:hover {
     display: none;
 }
 
+@media only screen and (max-width: 1000px) {
+    .feedbackBox {
+        position: static;
+    }
+
+    #mascot {
+        transform: scale(0.45);
+    }
+}
+
 /* Phone Rules */
-@media only screen and (max-width: 600px) {   
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 30px
+    }
+
+    p {
+        font-size: 20px
+    }
+
+    h3 {
+        font-size: 15px;
+    }
+
     #websiteTitle {
         display: none;
     }
@@ -675,4 +733,26 @@ input[type=submit]:hover {
         display: block;
         scale: 300%;
     }
+
+    .hideMobile {
+        display: none;
+    }
+
+    .dualButtons {
+        width: 25rem;
+    }
+
+    #setBuildingBox {
+        padding: 2rem;
+    }
+
+    .lowerRight {
+        width: 6rem;
+        bottom: 2rem;
+    }
+
+    .middleBox {
+        width: 80%;
+    }
+
 }

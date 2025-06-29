@@ -67,11 +67,11 @@ const UploadPage = () => {
             <Title title="Upload" back="true" />
             <div id="uploadcontainer" className="middleBox">
                 <div id="uploadtext">
-                <h1>Upload a CSV</h1>
-                    <p>Use the following format: Term,Definition <br /> 
+                    <h1 className="padBottom">Upload a CSV</h1>
+                    <h3>Use the following format: Term,Definition <br /> 
                         If a comma is used in a definition, be sure to <br /> 
                         surround the definition with quotation marks.
-                    </p>
+                    </h3>
                 </div>
                 <form id="uploadform" onSubmit={handleSubmit}>
                     <input id="fileupload" className="fileUpload" name="file" type="file" accept=".csv,.txt" ref={fileInputRef} />

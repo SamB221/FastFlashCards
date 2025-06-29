@@ -28,9 +28,14 @@ const NavBar = () => {
   return (
     <div className="navbar alwaysWhite">
         <div id="leftSide">
-            <NavLink id="link" aria-label="Go to homepage"
-            className={({ isActive }) => isActive ? 'activeNav' : ''}
-            to="/"><FaHome className="inlineIcon" />Home</NavLink>
+            <NavLink 
+                id="link" 
+                aria-label="Go to homepage"
+                className={({ isActive }) => isActive ? 'activeNav' : ''}
+                to="/">
+                <FaHome className="inlineIcon" />
+                <div className="hideMobile">Home</div>
+            </NavLink>
         </div>
         <div id="websitename">
             <NavLink id="name" 
@@ -38,9 +43,14 @@ const NavBar = () => {
             <img id="websiteImage" src="../../../slidefavicon.svg" />
         </div>
         <div id="rightSide">
-            <NavLink id="link" aria-label="Toggle darkmode"
-            className={({ isActive }) => isActive ? 'activeNav' : ''}
-            to="/settings"><FaGear className="inlineIcon" />Settings</NavLink>
+            <NavLink  
+                id="link" 
+                aria-label="Toggle darkmode" 
+                className={({ isActive }) => isActive ? 'activeNav' : ''}
+                to="/settings">
+                <FaGear className="inlineIcon" />
+                <div className="hideMobile">Settings</div>
+            </NavLink>
             <button id="themeSwitch" onClick={darkLightSwitcher}>
               <FaSun></FaSun>
               <FaMoon></FaMoon>
