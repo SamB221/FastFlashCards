@@ -751,7 +751,7 @@ input[type=submit]:hover {
 
 .close:hover,
 .close:focus {
-  color: #000;
+  color: red;
   text-decoration: none;
   cursor: pointer;
 }
@@ -767,6 +767,20 @@ input[type=submit]:hover {
 .modal-body {
     padding: 2rem;
     color: var(--textPrimary)
+}
+
+.delete {
+  color: black;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.delete:hover,
+.delete:focus {
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 #websiteImage {

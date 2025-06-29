@@ -18,7 +18,7 @@ const CardBuilder = ({ id, num, onChange, removeCard }) => {
         <div className="cardBuilder">
             <div className="smallerBox">
                 <h3>{num}</h3>
-                <span className="close" onClick={() => removeCard(id)}>&times;</span>
+                <span className="delete" onClick={() => removeCard(id)}>&times;</span>
                 <div className="flex">
                     <div className="flex-child">
                         <input
