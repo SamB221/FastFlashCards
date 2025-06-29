@@ -7,22 +7,48 @@ const CreateSetPage = () => {
     const navigate = useNavigate();
     const [numCards, setNumCards] = useState(4);
     const [cardData, setCardData] = useState({});
+    const [errorMessage, setErrorMessage] = useState("");
+    const modalRef = useRef(null);
     const elementsAddedRef = useRef(false);
 
-    // scrolls to the top when new element added
     useEffect(() => {
+        const modal = modalRef.current;
+        var span = document.getElementsByClassName("close")[0];
+
+        const handleClose = () => {
+            modal.style.display = "none";
+        };
+
+        const handleOutsideClick = (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        span?.addEventListener("click", handleClose);
+        window.addEventListener("click", handleOutsideClick);
+
+        // scrolls to the top when new element added
         if (elementsAddedRef.current) {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             elementsAddedRef.current = false;
         }
+
+        return () => {
+            span?.removeEventListener("click", handleClose);
+            window.removeEventListener("click", handleOutsideClick);
+        };
     }, [numCards]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const modal = modalRef.current;
         var set = [];
         const setName = document.getElementById('setName').value;
+
         if (setName.length == 0) {
-            alert("Enter a set name before submitting"); //placeholder!
+            setErrorMessage("You must enter a set name to create a set");
+            modal.style.display = "block";
             return;
         } // other edge case to consider: set name already exists, prompt user again in this case
 
@@ -35,7 +61,8 @@ const CreateSetPage = () => {
         });
 
         if (set.length < 4) {
-            alert ("You need at least 4 terms to make a set"); // placeholder!
+            setErrorMessage("You need at least 4 terms to create a set");
+            modal.style.display = "block";
             return;
         }
 
@@ -61,6 +88,19 @@ const CreateSetPage = () => {
 
     return (
         <>
+        <div ref={modalRef} className="modal">
+
+        <div className="modal-content">
+            <div className="modal-header">
+            <span className="close">&times;</span>
+            <h1>Can't create set</h1>
+            </div>
+            <div className="modal-body">
+            <h2>{errorMessage}</h2>
+            </div>
+        </div>
+
+        </div>
             <Title title="Create a set" back="true" />
             <div id="setBuildingBox">
                 <input 
