@@ -5,7 +5,8 @@ import CardBuilder from '../components/CardBuilder';
 
 const CreateSetPage = () => {
     const navigate = useNavigate();
-    const [numCards, setNumCards] = useState(4);
+    const [cards, setCards] = useState([0, 1, 2, 3]);
+    const lastId = useRef(4); // last unique id used in cards, regardless of deletion
     const [cardData, setCardData] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
     const modalRef = useRef(null);
@@ -38,7 +39,7 @@ const CreateSetPage = () => {
             span?.removeEventListener("click", handleClose);
             window.removeEventListener("click", handleOutsideClick);
         };
-    }, [numCards]);
+    }, [cards]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -57,7 +58,7 @@ const CreateSetPage = () => {
             currentCard.Term = item.term;
             currentCard.Definition = item.definition;
             currentCard.Mastery = 0;
-            set[key - 1] = currentCard;
+            set[key] = currentCard;
         });
 
         if (set.length < 4) {
@@ -83,7 +84,16 @@ const CreateSetPage = () => {
     const addCard = (event) => {
         event.preventDefault();
         elementsAddedRef.current = true;
-        setNumCards(numCards + 1);
+        setCards(prevArray => [...prevArray, lastId.current+1]);
+        lastId.current += 1;
+    };
+
+    const removeCard = (cardId) => {
+        setCards(prevArray => prevArray.filter(id => id !== cardId));
+        const updatedCardData = { ...cardData };
+        delete updatedCardData[cardId];
+        setCardData(updatedCardData);
+        console.log(cardId);
     };
 
     return (
@@ -113,9 +123,15 @@ const CreateSetPage = () => {
                 <label htmlFor="setName"><p>Enter the set name</p></label>
 
                 <div id="cardBuilders">
-                    {Array.from({ length: numCards }, (_, i) => (
-                        <CardBuilder key={i + 1} num={i + 1} onChange={handleCardChange}>
-                            {i + 1}
+                    {cards.map((cardId, index) => (
+                        <CardBuilder
+                            key={cardId}
+                            id={cardId}
+                            num={index + 1}
+                            onChange={handleCardChange}
+                            removeCard={removeCard}
+                        >
+                            {cardId}
                         </CardBuilder>
                     ))}
 
