@@ -5,11 +5,12 @@ const CardBuilder = ({ id, num, onChange, removeCard }) => {
     const defId = `def${id}`;
 
     const handleInputChange = (e, inputType) => {
+        console.log(id);
         const value = e.target.value;
         if (inputType === 'term') {
-            onChange(num, 'term', value);
+            onChange(id, 'term', value);
         } else {
-            onChange(num, 'definition', value);
+            onChange(id, 'definition', value);
         }
     };
 

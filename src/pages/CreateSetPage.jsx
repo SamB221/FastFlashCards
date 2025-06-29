@@ -6,7 +6,7 @@ import CardBuilder from '../components/CardBuilder';
 const CreateSetPage = () => {
     const navigate = useNavigate();
     const [cards, setCards] = useState([0, 1, 2, 3]);
-    const lastId = useRef(4); // last unique id used in cards, regardless of deletion
+    const lastId = useRef(3); // last unique id used in cards, regardless of deletion
     const [cardData, setCardData] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
     const modalRef = useRef(null);
@@ -58,7 +58,7 @@ const CreateSetPage = () => {
             currentCard.Term = item.term;
             currentCard.Definition = item.definition;
             currentCard.Mastery = 0;
-            set[key] = currentCard;
+            set[key - 1] = currentCard;
         });
 
         if (set.length < 4) {
@@ -84,16 +84,18 @@ const CreateSetPage = () => {
     const addCard = (event) => {
         event.preventDefault();
         elementsAddedRef.current = true;
-        setCards(prevArray => [...prevArray, lastId.current+1]);
+        setCards(prevArray => [...prevArray, lastId.current]);
         lastId.current += 1;
     };
 
     const removeCard = (cardId) => {
-        setCards(prevArray => prevArray.filter(id => id !== cardId));
-        const updatedCardData = { ...cardData };
-        delete updatedCardData[cardId];
-        setCardData(updatedCardData);
-        console.log(cardId);
+        setCards((prevCards) => prevCards.filter(id => id !== cardId));
+
+        setCardData((prevData) => {
+            const newData = { ...prevData };
+            delete newData[cardId];
+            return newData;
+        });
     };
 
     return (
