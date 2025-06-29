@@ -11,6 +11,7 @@ const CreateSetPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const modalRef = useRef(null);
     const elementsAddedRef = useRef(false);
+    console.log(cardData);
 
     useEffect(() => {
         const modal = modalRef.current;
@@ -53,12 +54,12 @@ const CreateSetPage = () => {
             return;
         } // other edge case to consider: set name already exists, prompt user again in this case
 
-        Object.entries(cardData).forEach(([key, item]) => {
+        Object.entries(cardData).forEach(([, item], index) => {
             var currentCard = new Object();
             currentCard.Term = item.term;
             currentCard.Definition = item.definition;
             currentCard.Mastery = 0;
-            set[key - 1] = currentCard;
+            set[index] = currentCard;
         });
 
         if (set.length < 4) {
