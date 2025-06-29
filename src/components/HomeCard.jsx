@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 const HomeCard = ({ setname, totalcards }) => {
     return (
         <Link id="link" className="active" to={"/set/" + setname}>
-            <div className="miniCard">
+            <div className="set">
                 <h2 className='floatLeft font-bold'>
                     {setname}
                 </h2>

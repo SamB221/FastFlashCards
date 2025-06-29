@@ -20,7 +20,7 @@ const HomeCards = () => {
     return (
         <section className='py-4'>
             <div className='container-xl lg:container m-auto'>
-                <div className='grid md:grid-cols-2'>
+                <div className='grid md:grid-cols-4'>
                 {set.map(({ name, length }) => (
                     <Card key={name} setname={name} totalcards={length} />
                 ))}
