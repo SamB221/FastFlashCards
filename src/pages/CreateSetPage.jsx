@@ -11,7 +11,6 @@ const CreateSetPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const modalRef = useRef(null);
     const elementsAddedRef = useRef(false);
-    console.log(cardData);
 
     useEffect(() => {
         const modal = modalRef.current;
