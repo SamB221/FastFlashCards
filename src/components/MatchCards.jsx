@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './SetCard';
+import MatchCard from './MatchCard';
 
 const MatchCards = ({set}) => {
     return (
@@ -7,7 +7,7 @@ const MatchCards = ({set}) => {
             <div className='container-xl lg:container m-auto'>
                 <div className='grid md:grid-cols-4'>
                 {set.map((item, index) => (
-                    <Card key={index} term={item.Term} definition={item.Definition} mastery={item.Mastery} />
+                    <MatchCard key={index} content={item}/>
                 ))}
                 </div>
             </div>
