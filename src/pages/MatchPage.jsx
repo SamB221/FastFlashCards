@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Title from '../components/Title';
-import MatchCards from '../components/MatchCards';
+import MatchCard from '../components/MatchCard';
 
 const MatchPage = () => {
     const { id } = useParams();
@@ -16,6 +16,12 @@ const MatchPage = () => {
     const [onDeck, setOnDeck] = useState([]);
     const [currentCards, setCurrentCards] = useState([]);
 
+    const termsToDefs = useRef(new Map());
+    const defsToTerms = useRef(new Map());
+
+    const [selectedCard, setSelectedCard] = useState(null);
+    const lastGuess = useRef("");
+
     useEffect(() => {
         if (!set) return;
 
@@ -26,6 +32,9 @@ const MatchPage = () => {
             var current = shuffled.pop();
             termsAndDefs.push(current.Term);
             termsAndDefs.push(current.Definition);
+
+            termsToDefs.current.set(current.Term, current.Definition);
+            defsToTerms.current.set(current.Definition, current.Term);
         }
 
         setOnDeck(shuffled);
@@ -41,10 +50,44 @@ const MatchPage = () => {
         return shuffled;
     }
 
+    function onClick(content) {
+        if (lastGuess.current == "") {
+            lastGuess.current = content;
+            setSelectedCard(content)
+        } else {
+            console.log(content);
+            console.log(lastGuess.current);
+            if (matches(content, lastGuess.current)) {
+                alert("correct");
+            } else {
+                alert("incorrect");
+            }
+
+            lastGuess.current = "";
+            setSelectedCard(null);
+        }
+    }
+
+    function matches(guess1, guess2) {
+        return ((termsToDefs.current.get(guess1) === guess2 && defsToTerms.current.get(guess2) === guess1) || 
+                (termsToDefs.current.get(guess2) === guess1 && defsToTerms.current.get(guess1) === guess2));
+    }
+
     return (
         <>
             <Title title={id} back="true" />
-            <MatchCards set={currentCards} />
+            <section className='py-4'>
+                <div className='container-xl lg:container m-auto'>
+                    <div className='grid md:grid-cols-4'>
+                        {currentCards.map((content, index) => (
+                            <MatchCard key={index} 
+                            content={content} 
+                            isSelected={selectedCard === content}
+                            onClick={() => onClick(content)}/>
+                        ))}
+                    </div>
+                </div>
+            </section>
         </>
     );
 };
