@@ -788,6 +788,10 @@ input[type=submit]:hover {
     display: none;
 }
 
+.selected {
+    background-color: gray;
+}
+
 @media only screen and (max-width: 1000px) {
     .feedbackBox {
         position: static;
