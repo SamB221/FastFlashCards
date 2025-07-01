@@ -21,14 +21,15 @@ const MatchPage = () => {
 
         const shuffled = randomize(set);
 
-        const remainder = [];
-        const numToPop = Math.max(0, shuffled.length - 16);
-        for (let i = 0; i < numToPop; i++) {
-            remainder[i] = shuffled.pop();
+        const termsAndDefs = [];
+        for (let i = 0; i < 8; i++) {
+            var current = shuffled.pop();
+            termsAndDefs.push(current.Term);
+            termsAndDefs.push(current.Definition);
         }
 
-        setOnDeck(remainder);
-        setCurrentCards(shuffled);
+        setOnDeck(shuffled);
+        setCurrentCards(termsAndDefs);
     }, [set]);
 
     function randomize(arr) {
