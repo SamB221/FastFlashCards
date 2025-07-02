@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Title from '../components/Title';
 import MatchCard from '../components/MatchCard';
+import confetti from 'canvas-confetti';
 
 const MatchPage = () => {
     const [counter, setCounter] = React.useState(0);
@@ -20,15 +21,25 @@ const MatchPage = () => {
     const defsToTerms = useRef(new Map());
 
     const [selectedCard, setSelectedCard] = useState({ content: "", index: "" });
+    const [finishedScreen, setFinishedScreen] = useState(false);
 
+    const timerRef = useRef(null);
 
     useEffect(() => {
-        const timer = counter < 100000 && setInterval(() => {
-            setCounter(prevCounter => prevCounter + 0.1); // Increment by 100ms
-        }, 100); // Interval set to 100ms to update the counter every 100ms
+        // Start the timer only if it's not finished
+        if (!finishedScreen) {
+            timerRef.current = setInterval(() => {
+                setCounter(prevCounter => prevCounter + 0.1); // Increment by 100ms
+            }, 100); // Interval set to 100ms to update the counter every 100ms
+        }
 
-        return () => clearInterval(timer);
-    }, [counter]);
+        return () => {
+            // Clear the timer when the component unmounts or when finishedScreen is true
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+            }
+        };
+    }, [finishedScreen]);
 
     useEffect(() => {
         if (!set) return;
@@ -123,7 +134,8 @@ const MatchPage = () => {
         }
 
         if (nullSpots.current == 16) {
-            // done
+            setFinishedScreen(true);
+            triggerConfetti();
         }
     }
 
@@ -142,6 +154,37 @@ const MatchPage = () => {
         setTimeout(function() {
             element.style.backgroundColor = originalColor;
         }, 200); 
+    }
+
+    const triggerConfetti = () => {
+        confetti({
+            particleCount: 100,
+            spread: 160,
+            origin: { x: 0.5, y: 0.5 },
+            zIndex: -1,
+            duration: 200,
+            disableForReducedMotion: true
+        });
+    }
+
+    if (finishedScreen) {
+        return (
+            <>
+                <Title title={id} back="true" />
+                <h1 className="centerText">Great job! You finished in {counter.toFixed(1)} seconds</h1>
+                <form className="centerBtn grnBtn">
+                    <input type="button" value="Again!" onClick={reset}/>
+                </form>
+            </>
+        );
+    }
+
+    function reset() {
+        nullSpots.current = 0;
+        setCounter(0);
+        setFinishedScreen(false);
+        const storedData = JSON.parse(localStorage.getItem(id));
+        setOriginalSet(storedData.set);
     }
 
     return (
