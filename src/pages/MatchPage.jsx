@@ -36,8 +36,8 @@ const MatchPage = () => {
         defineMaps();
         const shuffled = randomize([...set]);
 
-        const newCurrentCards = generateRandomSixteen(shuffled);
-        const newOnDeck = generateRandomSixteen(shuffled);
+        const newCurrentCards = generateNextN(shuffled, 8);
+        const newOnDeck = generateNextN(shuffled, 4);
         const newRemainingCards = shuffled;
 
         setCurrentCards(newCurrentCards);
@@ -47,7 +47,7 @@ const MatchPage = () => {
 
     useEffect(() => {
         if (onDeck.length === 0 && remainingCards.length > 0) {
-            const newDeck = generateRandomSixteen(remainingCards);
+            const newDeck = generateNextN(remainingCards, 4);
             setOnDeck(newDeck);
             setRemainingCards(remainingCards.filter(card => !newDeck.includes(card)));
         }
@@ -70,9 +70,9 @@ const MatchPage = () => {
         return shuffled;
     }
 
-    function generateRandomSixteen(arr) {
+    function generateNextN(arr, n) {
         const termsAndDefs = [];
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < n; i++) {
             if (arr.length > 0) {
                 var current = arr.pop();
                 termsAndDefs.push(current.Term);
