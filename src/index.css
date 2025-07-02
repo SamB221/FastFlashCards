@@ -788,6 +788,23 @@ input[type=submit]:hover {
     display: none;
 }
 
+.matchCard {
+    background-color: var(--cardColor);
+    border-radius: 1rem;
+    color: var(--textPrimary);
+    padding: 1.5rem;
+    min-height: 9rem;
+}
+
+.matchPlaceHolder {
+    min-height: 9rem;
+    border-radius: 1rem;
+}
+
+.selected {
+    background-color: gray;
+}
+
 @media only screen and (max-width: 1000px) {
     .feedbackBox {
         position: static;
