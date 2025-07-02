@@ -6,9 +6,6 @@ import MatchCard from '../components/MatchCard';
 const MatchPage = () => {
     const [counter, setCounter] = React.useState(0);
     const { id } = useParams();
-    const [flip, setFlip] = useState(false);
-    const [index, setIndex] = useState(0);
-    const [totalDone, setTotalDone] = useState(0);
     const [set, setOriginalSet] = useState(() => {
         const storedData = JSON.parse(localStorage.getItem(id));
         return storedData ? storedData.set : null;
