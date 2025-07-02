@@ -16,6 +16,7 @@ const MatchPage = () => {
     const [remainingCards, setRemainingCards] = useState([]);
     const [onDeck, setOnDeck] = useState([]);
     const [currentCards, setCurrentCards] = useState([]);
+    const nullSpots = useRef(0);
 
     const termsToDefs = useRef(new Map());
     const defsToTerms = useRef(new Map());
@@ -37,6 +38,14 @@ const MatchPage = () => {
         setRemainingCards(newRemainingCards);
     }, [set]);
 
+    useEffect(() => {
+        if (onDeck.length === 0 && remainingCards.length > 0) {
+            const newDeck = generateRandomSixteen(remainingCards);
+            setOnDeck(newDeck);
+            setRemainingCards(remainingCards.filter(card => !newDeck.includes(card)));
+        }
+    }, [onDeck, remainingCards]);
+
     function defineMaps() {
         for (let i = 0; i < set.length; i++) {
             var current = set[i];
@@ -54,7 +63,6 @@ const MatchPage = () => {
         return shuffled;
     }
 
-    // use to get sort of a better version of ondeck which guarantees matches
     function generateRandomSixteen(arr) {
         const termsAndDefs = [];
         for (let i = 0; i < 8; i++) {
@@ -70,17 +78,15 @@ const MatchPage = () => {
 
     function onClick(content, index) {
         if (selectedCard.content == "") {
-            setSelectedCard({
-                content: content,
-                index: index
-            });
-        } else {
-            if (matches(content, selectedCard.content)) {
-                remove(index, selectedCard.index);
-            } else {
-
-            }
-
+            setSelectedCard({ content: content, index: index });
+        } else if (selectedCard.content === content) {
+            setSelectedCard({ content: "", index: "" });
+        } else if (matches(content, selectedCard.content)) {
+            remove(index, selectedCard.index);
+            setSelectedCard({ content: "", index: "" });
+        } else { // wrong guess
+            flashRed(index);
+            flashRed(selectedCard.index);
             setSelectedCard({ content: "", index: "" });
         }
     }
@@ -91,12 +97,6 @@ const MatchPage = () => {
     }
 
     function remove(index1, index2) {
-        if (onDeck.length == 0) {
-            const remainder = remainingCards;
-            setOnDeck(generateRandomSixteen(remainder));
-            setRemainingCards(remainder);
-        }
-
         if (onDeck.length > 0) {
             const addition1 = onDeck[onDeck.length - 2];
             const addition2 = onDeck[onDeck.length - 1];
@@ -112,7 +112,29 @@ const MatchPage = () => {
         } else {
             currentCards[index1] = null;
             currentCards[index2] = null;
+            nullSpots.current += 2;
         }
+
+        if (nullSpots.current == 16) {
+            // done
+        }
+    }
+
+    function flashRed(id) {
+        let element = document.getElementById(id);
+        let originalColor = element.style.backgroundColor;
+        
+        // Clear ongoing transitions
+        element.style.transition = "none";
+        element.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; 
+    
+        void element.offsetWidth;
+    
+        element.style.transition = "background-color 0.5s ease"; 
+    
+        setTimeout(function() {
+            element.style.backgroundColor = originalColor;
+        }, 200); 
     }
 
     return (
@@ -122,7 +144,8 @@ const MatchPage = () => {
                 <div className='container-xl lg:container m-auto'>
                     <div className='grid md:grid-cols-4'>
                         {currentCards.map((content, index) => (
-                            <MatchCard key={index} 
+                            <MatchCard key={index}
+                            id={index} 
                             content={content} 
                             isSelected={selectedCard.content === content}
                             onClick={() => onClick(content, index)}/>
