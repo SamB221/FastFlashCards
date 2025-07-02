@@ -788,6 +788,18 @@ input[type=submit]:hover {
     display: none;
 }
 
+.matchCard {
+    background-color: var(--cardColor);
+    border-radius: 1rem;
+    color: var(--textPrimary);
+    padding: 1.5rem;
+    min-height: 10rem;
+}
+
+.matchPlaceHolder {
+    min-height: 10rem;
+}
+
 .selected {
     background-color: gray;
 }

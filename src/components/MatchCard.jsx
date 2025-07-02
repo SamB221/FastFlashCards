@@ -1,15 +1,15 @@
 import React from 'react';
 
-const MatchCard = ({ content, isSelected, onClick  }) => {
+const MatchCard = ({ id, content, isSelected, onClick  }) => {
     if (!content) {
         return (
-            <div></div>
+            <div className="matchPlaceHolder"></div>
         );
     }
 
     return (
-        <div onClick={onClick} className={`miniCard ${isSelected ? 'selected' : ''}`}>
-            <h2 className='float-left'>
+        <div id={id} onClick={onClick} className={`matchCard ${isSelected ? 'selected' : ''}`}>
+            <h2 className='float-left noSelect'>
                 {content}
             </h2>
         </div>
