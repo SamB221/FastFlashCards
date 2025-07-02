@@ -18,6 +18,7 @@ const SetPage = () => {
             <div className="dropUp alwaysWhite">
                 <button className="dropBtn grnBtn alwaysWhite">Start</button>
                 <div className="dropupContent">
+                    <Link to="match">Match</Link>
                     <Link to="master">Master</Link>
                     <Link to="basic">Basic</Link>
                 </div>
