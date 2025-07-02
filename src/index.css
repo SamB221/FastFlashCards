@@ -793,11 +793,11 @@ input[type=submit]:hover {
     border-radius: 1rem;
     color: var(--textPrimary);
     padding: 1.5rem;
-    min-height: 10rem;
+    min-height: 9rem;
 }
 
 .matchPlaceHolder {
-    min-height: 10rem;
+    min-height: 9rem;
 }
 
 .selected {

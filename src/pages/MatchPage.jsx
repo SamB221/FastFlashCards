@@ -4,6 +4,7 @@ import Title from '../components/Title';
 import MatchCard from '../components/MatchCard';
 
 const MatchPage = () => {
+    const [counter, setCounter] = React.useState(0);
     const { id } = useParams();
     const [flip, setFlip] = useState(false);
     const [index, setIndex] = useState(0);
@@ -22,6 +23,15 @@ const MatchPage = () => {
     const defsToTerms = useRef(new Map());
 
     const [selectedCard, setSelectedCard] = useState({ content: "", index: "" });
+
+
+    useEffect(() => {
+        const timer = counter < 100000 && setInterval(() => {
+            setCounter(prevCounter => prevCounter + 0.1); // Increment by 100ms
+        }, 100); // Interval set to 100ms to update the counter every 100ms
+
+        return () => clearInterval(timer);
+    }, [counter]);
 
     useEffect(() => {
         if (!set) return;
@@ -140,6 +150,7 @@ const MatchPage = () => {
     return (
         <>
             <Title title={id} back="true" />
+            <div className="centerText"><p>{counter.toFixed(1)}</p></div>
             <section className='py-4'>
                 <div className='container-xl lg:container m-auto'>
                     <div className='grid md:grid-cols-4'>
