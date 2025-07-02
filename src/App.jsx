@@ -15,6 +15,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import SetPage from './pages/SetPage';
 import PlayPage from './pages/PlayPage';
 import MasterPage from './pages/MasterPage';
+import MatchPage from './pages/MatchPage';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
             <Route path='/set/:id' element={<SetPage />} />
             <Route path='/set/:id/basic' element={<PlayPage />} />
             <Route path='/set/:id/master' element={<MasterPage />} />
+            <Route path='/set/:id/match' element={<MatchPage />} />
             <Route path='/settings' element={<SettingsPage />} />
             <Route path='*' element={<NotFoundPage />} />
         </Route>
