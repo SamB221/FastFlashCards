@@ -15,7 +15,7 @@ const MatchPage = () => {
     const [remainingCards, setRemainingCards] = useState([]);
     const [onDeck, setOnDeck] = useState([]);
     const [currentCards, setCurrentCards] = useState([]);
-    const nullSpots = useRef(0);
+    const matches = useRef(0);
 
     const termsToDefs = useRef(new Map());
     const defsToTerms = useRef(new Map());
@@ -99,7 +99,7 @@ const MatchPage = () => {
             setSelectedCard({ content: content, index: index });
         } else if (selectedCard.content === content) {
             setSelectedCard({ content: "", index: "" });
-        } else if (matches(content, selectedCard.content)) {
+        } else if (match(content, selectedCard.content)) {
             remove(index, selectedCard.index);
             setSelectedCard({ content: "", index: "" });
         } else { // wrong guess
@@ -109,7 +109,7 @@ const MatchPage = () => {
         }
     }
 
-    function matches(guess1, guess2) {
+    function match(guess1, guess2) {
         return ((termsToDefs.current.get(guess1) === guess2 && defsToTerms.current.get(guess2) === guess1) || 
                 (termsToDefs.current.get(guess2) === guess1 && defsToTerms.current.get(guess1) === guess2));
     }
@@ -130,10 +130,10 @@ const MatchPage = () => {
         } else {
             currentCards[index1] = null;
             currentCards[index2] = null;
-            nullSpots.current += 2;
         }
 
-        if (nullSpots.current == 16) {
+        matches.current++;
+        if (matches.current === set.length) {
             setFinishedScreen(true);
             triggerConfetti();
         }
@@ -180,7 +180,6 @@ const MatchPage = () => {
     }
 
     function reset() {
-        nullSpots.current = 0;
         setCounter(0);
         setFinishedScreen(false);
         const storedData = JSON.parse(localStorage.getItem(id));
