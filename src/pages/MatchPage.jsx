@@ -26,15 +26,13 @@ const MatchPage = () => {
     const timerRef = useRef(null);
 
     useEffect(() => {
-        // Start the timer only if it's not finished
         if (!finishedScreen) {
             timerRef.current = setInterval(() => {
-                setCounter(prevCounter => prevCounter + 0.1); // Increment by 100ms
-            }, 100); // Interval set to 100ms to update the counter every 100ms
+                setCounter(prevCounter => prevCounter + 0.1);
+            }, 100);
         }
 
         return () => {
-            // Clear the timer when the component unmounts or when finishedScreen is true
             if (timerRef.current) {
                 clearInterval(timerRef.current);
             }
@@ -47,7 +45,8 @@ const MatchPage = () => {
         defineMaps();
         const shuffled = randomize([...set]);
 
-        const newCurrentCards = generateNextN(shuffled, 8);
+        let initialCards = (window.innerWidth <= 600)? 4 : 8;
+        const newCurrentCards = generateNextN(shuffled, initialCards);
         const newOnDeck = generateNextN(shuffled, 4);
         const newRemainingCards = shuffled;
 
@@ -171,10 +170,12 @@ const MatchPage = () => {
         return (
             <>
                 <Title title={id} back="true" />
-                <h1 className="centerText">Great job! You finished in {counter.toFixed(1)} seconds</h1>
-                <form className="centerBtn grnBtn">
-                    <input type="button" value="Again!" onClick={reset}/>
-                </form>
+                <div className="feedbackBox">
+                    <h1 className="centerText pad1 white">Great job! You finished in {counter.toFixed(1)} seconds</h1>
+                    <form className="centerBtn grnBtn">
+                        <input type="button" value="Again!" onClick={reset}/>
+                    </form>
+                </div>
             </>
         );
     }
