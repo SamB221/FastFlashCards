@@ -2,7 +2,9 @@ import React from 'react';
 
 const MatchCard = ({ content, isSelected, onClick  }) => {
     if (!content) {
-        <div className="miniCard"/>
+        return (
+            <div></div>
+        );
     }
 
     return (

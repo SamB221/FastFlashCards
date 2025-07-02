@@ -13,33 +13,37 @@ const MatchPage = () => {
         return storedData ? storedData.set : null;
     });
 
+    const [remainingCards, setRemainingCards] = useState([]);
     const [onDeck, setOnDeck] = useState([]);
     const [currentCards, setCurrentCards] = useState([]);
 
     const termsToDefs = useRef(new Map());
     const defsToTerms = useRef(new Map());
 
-    const [selectedCard, setSelectedCard] = useState(null);
-    const lastGuess = useRef("");
+    const [selectedCard, setSelectedCard] = useState({ content: "", index: "" });
 
     useEffect(() => {
         if (!set) return;
 
-        const shuffled = randomize(set);
+        defineMaps();
+        const shuffled = randomize([...set]);
 
-        const termsAndDefs = [];
-        for (let i = 0; i < 8; i++) {
-            var current = shuffled.pop();
-            termsAndDefs.push(current.Term);
-            termsAndDefs.push(current.Definition);
+        const newCurrentCards = generateRandomSixteen(shuffled);
+        const newOnDeck = generateRandomSixteen(shuffled);
+        const newRemainingCards = shuffled;
 
+        setCurrentCards(newCurrentCards);
+        setOnDeck(newOnDeck);
+        setRemainingCards(newRemainingCards);
+    }, [set]);
+
+    function defineMaps() {
+        for (let i = 0; i < set.length; i++) {
+            var current = set[i];
             termsToDefs.current.set(current.Term, current.Definition);
             defsToTerms.current.set(current.Definition, current.Term);
         }
-
-        setOnDeck(shuffled);
-        setCurrentCards(termsAndDefs);
-    }, [set]);
+    }
 
     function randomize(arr) {
         const shuffled = [...arr];
@@ -50,27 +54,65 @@ const MatchPage = () => {
         return shuffled;
     }
 
-    function onClick(content) {
-        if (lastGuess.current == "") {
-            lastGuess.current = content;
-            setSelectedCard(content)
+    // use to get sort of a better version of ondeck which guarantees matches
+    function generateRandomSixteen(arr) {
+        const termsAndDefs = [];
+        for (let i = 0; i < 8; i++) {
+            if (arr.length > 0) {
+                var current = arr.pop();
+                termsAndDefs.push(current.Term);
+                termsAndDefs.push(current.Definition);
+            }
+        }
+
+        return randomize(termsAndDefs);
+    }
+
+    function onClick(content, index) {
+        if (selectedCard.content == "") {
+            setSelectedCard({
+                content: content,
+                index: index
+            });
         } else {
-            console.log(content);
-            console.log(lastGuess.current);
-            if (matches(content, lastGuess.current)) {
-                alert("correct");
+            if (matches(content, selectedCard.content)) {
+                remove(index, selectedCard.index);
             } else {
-                alert("incorrect");
+
             }
 
-            lastGuess.current = "";
-            setSelectedCard(null);
+            setSelectedCard({ content: "", index: "" });
         }
     }
 
     function matches(guess1, guess2) {
         return ((termsToDefs.current.get(guess1) === guess2 && defsToTerms.current.get(guess2) === guess1) || 
                 (termsToDefs.current.get(guess2) === guess1 && defsToTerms.current.get(guess1) === guess2));
+    }
+
+    function remove(index1, index2) {
+        if (onDeck.length == 0) {
+            const remainder = remainingCards;
+            setOnDeck(generateRandomSixteen(remainder));
+            setRemainingCards(remainder);
+        }
+
+        if (onDeck.length > 0) {
+            const addition1 = onDeck[onDeck.length - 2];
+            const addition2 = onDeck[onDeck.length - 1];
+
+            setCurrentCards(prevCards => {
+                const newCards = [...prevCards];
+                newCards[index1] = addition1;
+                newCards[index2] = addition2;
+                return newCards;
+            });
+
+            setOnDeck(prevDeck => prevDeck.slice(0, prevDeck.length - 2));
+        } else {
+            currentCards[index1] = null;
+            currentCards[index2] = null;
+        }
     }
 
     return (
@@ -82,8 +124,8 @@ const MatchPage = () => {
                         {currentCards.map((content, index) => (
                             <MatchCard key={index} 
                             content={content} 
-                            isSelected={selectedCard === content}
-                            onClick={() => onClick(content)}/>
+                            isSelected={selectedCard.content === content}
+                            onClick={() => onClick(content, index)}/>
                         ))}
                     </div>
                 </div>
