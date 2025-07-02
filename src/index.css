@@ -798,6 +798,7 @@ input[type=submit]:hover {
 
 .matchPlaceHolder {
     min-height: 9rem;
+    border-radius: 1rem;
 }
 
 .selected {
