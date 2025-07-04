@@ -172,9 +172,9 @@ const MatchPage = () => {
                 <Title title={id} back="true" />
                 <div className="feedbackBox">
                     <h1 className="centerText pad1 white">Great job! You finished in {counter.toFixed(1)} seconds</h1>
-                    <form className="centerBtn grnBtn">
-                        <input type="button" value="Again!" onClick={reset}/>
-                    </form>
+                    <button className="centerBtn grnBtn" aria-label="restart" type="button" onClick={reset}>
+                        Again!
+                    </button>
                 </div>
             </>
         );
