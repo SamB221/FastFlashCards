@@ -67,12 +67,12 @@ const MasterPage = () => {
                     <p className="centerText">{"The exact answer was: " + set[currentIndex].Definition}</p>
                     <p className="centerText">{"You answered: " + showFeedback}</p>
                     <div className="dualButtons pad5">
-                        <form className="centerLeftButton redBtn">
-                            <input type="button" value="No, I was wrong..." onClick={nextFalse}/>
-                        </form>
-                        <form className="centerRightButton grnBtn">
-                            <input type="button" value="Great! Next card" onClick={nextTrue}/>
-                        </form>
+                        <button className="centerLeftButton redBtn" aria-label="Mark as wrong" type="button" onClick={nextFalse}>
+                            No, I was wrong...
+                        </button>
+                        <button className="centerRightButton grnBtn" aria-label="Continue" type="button" onClick={nextTrue}>
+                            Great! Next card
+                        </button>
                     </div>
                     <img id="mascot" src="../../../mascot.svg" />
                 </div>
