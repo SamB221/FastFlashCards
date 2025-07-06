@@ -26,7 +26,7 @@ const HomePage = () => {
 
     return (
         <>
-            <meta name="description" content="An efficient and easy to use flash card website, with dedicated learning and match modes."/> 
+            <meta name="description" content="An efficient and easy to use flash card website, with dedicated learning and match modes. Create a set manually or upload a CSV"/> 
             <Title title={"Your Sets"} />
             <HomeCards />
             <form className="lowerRight grnBtn" onClick={removeSet}>
