@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CardBuilder = ({ id, num, onChange, removeCard }) => {
+const CardBuilder = ({ id, num, cardData, onChange, removeCard }) => {
     const termId = `term${id}`;
     const defId = `def${id}`;
 
@@ -25,7 +25,8 @@ const CardBuilder = ({ id, num, onChange, removeCard }) => {
                             autoComplete="off"
                             id={termId} 
                             className="textInput2" 
-                            placeholder="Term..." 
+                            placeholder="Term..."
+                            value={cardData?.term || ""}
                             onChange={(e) => handleInputChange(e, 'term')}
                         />
                         <label htmlFor={termId}><h3>Enter a term</h3></label>
@@ -37,6 +38,7 @@ const CardBuilder = ({ id, num, onChange, removeCard }) => {
                             id={defId} 
                             className="textInput2" 
                             placeholder="Definition..." 
+                            value={cardData?.definition || ""}
                             onChange={(e) => handleInputChange(e, 'definition')}
                         />
                         <label htmlFor={defId}><h3>Enter a definition</h3></label>
