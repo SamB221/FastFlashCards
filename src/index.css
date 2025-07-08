@@ -176,7 +176,7 @@ p {
     position: fixed;
     bottom: 3rem;
     right: 3rem;
-    width: 9rem;
+    width: 10rem;
     height: 4rem;
     display: block !important;
 }
@@ -196,7 +196,7 @@ p {
     position: fixed;
     bottom: 3rem;
     left: 3rem;
-    width: 9rem;
+    width: 10rem;
     height: 4rem;
     display: block !important;
 }
