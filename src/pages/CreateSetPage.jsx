@@ -150,7 +150,7 @@ const CreateSetPage = () => {
                 </div>
             </div>
 
-            <Title title="Edit set" back="true" />
+            <Title title={id ? "Edit " + id : "Create Set"} back="true" />
 
             <div id="setBuildingBox">
                 <input 
@@ -159,8 +159,9 @@ const CreateSetPage = () => {
                     className="textInput2" 
                     id="setName" 
                     name="firstname" 
+                    defaultValue={id || ""}
                     placeholder="Set name..." />
-                <label htmlFor="setName"><p>Enter the set name</p></label>
+                <label htmlFor="setName"><p>{id ? "Edit set name" : "Enter the set name"}</p></label>
 
                 <div id="cardBuilders">
                     {cards.map((cardId, index) => (
@@ -183,7 +184,7 @@ const CreateSetPage = () => {
             </div>
 
             <form className="lowerRight grnBtn" onClick={handleSubmit}>
-                <input type="button" value="Done" />
+                <input type="button" value={id ? "Save Changes" : "Done"} />
             </form>
         </>
     );
