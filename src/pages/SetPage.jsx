@@ -10,11 +10,17 @@ const SetPage = () => {
         navigate("/upload");
     } 
 
+    function editSet(e) {
+        e.preventDefault();
+        navigate("edit");
+    };
+
     return (
         <>
             <Title title={id} back="true" />
             <SetCards setname={id} />
 
+            <button className="redBtn lowerLeft" onClick={editSet}>Edit</button>
             <div className="dropUp alwaysWhite">
                 <button className="dropBtn grnBtn alwaysWhite">Start</button>
                 <div className="dropupContent">

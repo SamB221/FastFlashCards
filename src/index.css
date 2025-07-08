@@ -191,6 +191,16 @@ p {
     display: block !important;
 }
 
+.lowerLeft {
+    font-size: 20px;
+    position: fixed;
+    bottom: 3rem;
+    left: 3rem;
+    width: 9rem;
+    height: 4rem;
+    display: block !important;
+}
+
 .middleBox {
     width: 30rem;
     height: 29rem;
