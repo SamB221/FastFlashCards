@@ -6,6 +6,7 @@ import CardBuilder from '../components/CardBuilder';
 const CreateSetPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const isEdit = Boolean(id);
     const [cards, setCards] = useState([0, 1, 2, 3]);
     const lastId = useRef(3); // last unique id used in cards, regardless of deletion
     const [cardData, setCardData] = useState({});
@@ -84,6 +85,10 @@ const CreateSetPage = () => {
             return;
         }
 
+        if (isEdit && id != setName) {
+            localStorage.removeItem(id);
+        }
+
         localStorage.setItem(setName, JSON.stringify({ set }));
         navigate("/");
     };
@@ -150,7 +155,7 @@ const CreateSetPage = () => {
                 </div>
             </div>
 
-            <Title title={id ? "Edit " + id : "Create Set"} back="true" />
+            <Title title={isEdit ? "Edit " + id : "Create Set"} back="true" />
 
             <div id="setBuildingBox">
                 <input 
@@ -161,7 +166,7 @@ const CreateSetPage = () => {
                     name="firstname" 
                     defaultValue={id || ""}
                     placeholder="Set name..." />
-                <label htmlFor="setName"><p>{id ? "Edit set name" : "Enter the set name"}</p></label>
+                <label htmlFor="setName"><p>{isEdit ? "Edit set name" : "Enter the set name"}</p></label>
 
                 <div id="cardBuilders">
                     {cards.map((cardId, index) => (
@@ -184,7 +189,7 @@ const CreateSetPage = () => {
             </div>
 
             <form className="lowerRight grnBtn" onClick={handleSubmit}>
-                <input type="button" value={id ? "Save Changes" : "Done"} />
+                <input type="button" value={isEdit ? "Save Changes" : "Done"} />
             </form>
         </>
     );
