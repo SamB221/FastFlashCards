@@ -41,26 +41,23 @@ const MatchPage = () => {
         if (!set) return;
 
         defineMaps();
-        const initialNum = (window.innerWidth <= 600)? 8 : 16; // beter way....
+        const initialNum = (window.innerWidth <= 600)? 8 : 16;
         var shuffled = randomize([...set]);
         var termsAndDefs = [];
         while (shuffled.length > 0) {
-            var currentEight = [];
+            var currentBatch = [];
             for (let i = 0; i < initialNum / 2 && shuffled.length > 0; i++) {
                 const current = shuffled.pop();
-                currentEight.push(current.Term)
-                currentEight.push(current.Definition);
+                currentBatch.push({ content: current.Term, isTerm: true });
+                currentBatch.push({ content: current.Definition, isTerm: false });
             }
 
-            currentEight = randomize(currentEight);
-            termsAndDefs.push(...currentEight);
+            currentBatch = randomize(currentBatch);
+            termsAndDefs.push(...currentBatch);
         }
 
-        const newCurrentCards = termsAndDefs.splice(0, initialNum);
-        const newRemainingCards = termsAndDefs;
-
-        setCurrentCards(newCurrentCards);
-        setRemainingCards(newRemainingCards);
+        setCurrentCards(termsAndDefs.splice(0, initialNum));
+        setRemainingCards(termsAndDefs);
     }, [set]);
 
     function defineMaps() {
@@ -176,12 +173,13 @@ const MatchPage = () => {
             <section className='py-4'>
                 <div className='container-xl lg:container m-auto'>
                     <div className='grid md:grid-cols-4'>
-                        {currentCards.map((content, index) => (
+                        {currentCards.map((card, index) => (
                             <MatchCard key={index}
                             id={index} 
-                            content={content} 
-                            isSelected={selectedCard.content === content}
-                            onClick={() => onClick(content, index)}/>
+                            content={card ? card.content : null}
+                            isTerm={card ? card.isTerm : null}
+                            isSelected={selectedCard.index === index}
+                            onClick={() => onClick(card?.content, index)}/>
                         ))}
                     </div>
                 </div>

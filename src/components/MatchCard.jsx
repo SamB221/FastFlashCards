@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MatchCard = ({ id, content, isSelected, onClick  }) => {
+const MatchCard = ({ id, content, isTerm, isSelected, onClick  }) => {
     if (!content) {
         return (
             <div className="matchPlaceHolder"></div>
@@ -8,7 +8,7 @@ const MatchCard = ({ id, content, isSelected, onClick  }) => {
     }
 
     return (
-        <div id={id} onClick={onClick} className={`matchCard ${isSelected ? 'selected' : ''}`}>
+        <div id={id} onClick={onClick} className={`matchCard ${isTerm ? 'font-bold' : ''} ${isSelected ? 'selected' : ''}`}>
             <h2 className='float-left noSelect'>
                 {content}
             </h2>
