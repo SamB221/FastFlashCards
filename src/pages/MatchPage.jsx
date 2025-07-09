@@ -13,9 +13,7 @@ const MatchPage = () => {
     });
 
     const [remainingCards, setRemainingCards] = useState([]);
-    const [onDeck, setOnDeck] = useState([]);
     const [currentCards, setCurrentCards] = useState([]);
-    const matches = useRef(0);
 
     const termsToDefs = useRef(new Map());
     const defsToTerms = useRef(new Map());
@@ -43,25 +41,27 @@ const MatchPage = () => {
         if (!set) return;
 
         defineMaps();
-        const shuffled = randomize([...set]);
+        const initialNum = (window.innerWidth <= 600)? 8 : 16; // beter way....
+        var shuffled = randomize([...set]);
+        var termsAndDefs = [];
+        while (shuffled.length > 0) {
+            var currentEight = [];
+            for (let i = 0; i < initialNum / 2 && shuffled.length > 0; i++) {
+                const current = shuffled.pop();
+                currentEight.push(current.Term)
+                currentEight.push(current.Definition);
+            }
 
-        let initialCards = (window.innerWidth <= 600)? 4 : 8;
-        const newCurrentCards = generateNextN(shuffled, initialCards);
-        const newOnDeck = generateNextN(shuffled, 4);
-        const newRemainingCards = shuffled;
+            currentEight = randomize(currentEight);
+            termsAndDefs.push(...currentEight);
+        }
+
+        const newCurrentCards = termsAndDefs.splice(0, initialNum);
+        const newRemainingCards = termsAndDefs;
 
         setCurrentCards(newCurrentCards);
-        setOnDeck(newOnDeck);
         setRemainingCards(newRemainingCards);
     }, [set]);
-
-    useEffect(() => {
-        if (onDeck.length === 0 && remainingCards.length > 0) {
-            const newDeck = generateNextN(remainingCards, 4);
-            setOnDeck(newDeck);
-            setRemainingCards(remainingCards.filter(card => !newDeck.includes(card)));
-        }
-    }, [onDeck, remainingCards]);
 
     function defineMaps() {
         for (let i = 0; i < set.length; i++) {
@@ -78,19 +78,6 @@ const MatchPage = () => {
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
         return shuffled;
-    }
-
-    function generateNextN(arr, n) {
-        const termsAndDefs = [];
-        for (let i = 0; i < n; i++) {
-            if (arr.length > 0) {
-                var current = arr.pop();
-                termsAndDefs.push(current.Term);
-                termsAndDefs.push(current.Definition);
-            }
-        }
-
-        return randomize(termsAndDefs);
     }
 
     function onClick(content, index) {
@@ -114,27 +101,22 @@ const MatchPage = () => {
     }
 
     function remove(index1, index2) {
-        if (onDeck.length > 0) {
-            const addition1 = onDeck[onDeck.length - 2];
-            const addition2 = onDeck[onDeck.length - 1];
+        const updatedCards = [...currentCards];
+        updatedCards[index1] = null;
+        updatedCards[index2] = null;
+        setCurrentCards(updatedCards);
 
-            setCurrentCards(prevCards => {
-                const newCards = [...prevCards];
-                newCards[index1] = addition1;
-                newCards[index2] = addition2;
-                return newCards;
-            });
+        const activeCards = updatedCards.filter(card => card !== null).length;
 
-            setOnDeck(prevDeck => prevDeck.slice(0, prevDeck.length - 2));
-        } else {
-            currentCards[index1] = null;
-            currentCards[index2] = null;
-        }
-
-        matches.current++;
-        if (matches.current === set.length) {
-            setFinishedScreen(true);
-            triggerConfetti();
+        if (activeCards === 0) {
+            const nextBatchSize = Math.min(currentCards.length, remainingCards.length);
+            if (nextBatchSize === 0) {
+                setFinishedScreen(true);
+                triggerConfetti();
+            } else {
+                setCurrentCards(remainingCards.slice(0, nextBatchSize));
+                setRemainingCards(prevDeck => prevDeck.slice(nextBatchSize));
+            }
         }
     }
 
