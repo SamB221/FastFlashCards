@@ -20,6 +20,7 @@ const MatchPage = () => {
 
     const [selectedCard, setSelectedCard] = useState({ content: "", index: "" });
     const [finishedScreen, setFinishedScreen] = useState(false);
+    const [progressBar, setProgressBar] = useState(0);
 
     const timerRef = useRef(null);
 
@@ -115,6 +116,8 @@ const MatchPage = () => {
                 setRemainingCards(prevDeck => prevDeck.slice(nextBatchSize));
             }
         }
+            
+        setProgressBar(1-(remainingCards.length+activeCards)/(set.length*2));
     }
 
     function flashRed(id) {
@@ -164,12 +167,16 @@ const MatchPage = () => {
         setFinishedScreen(false);
         const storedData = JSON.parse(localStorage.getItem(id));
         setOriginalSet(storedData.set);
+        setProgressBar(0);
     }
 
     return (
         <>
             <Title title={id} back="true" />
-            <div className="centerText"><p>{counter.toFixed(1)}</p></div>
+            <div className="centerText">
+                <p>{counter.toFixed(1)}</p>
+                <progress className="centerText progressBar" value={progressBar} />
+            </div>
             <section className='py-4'>
                 <div className='container-xl lg:container m-auto'>
                     <div className='grid md:grid-cols-4'>
