@@ -580,6 +580,9 @@ input[type=submit]:hover {
 
 .font-bold {
     font-weight: 700;
+    /*background-color: white !important;
+    border-color: var(--cardColor);
+    border-width: 5px;*/
 }
 
 #cardCount {
@@ -813,6 +816,31 @@ input[type=submit]:hover {
 
 .selected {
     background-color: gray;
+}
+
+.progressBar {
+    height: 10px;
+    border-radius: 100px;
+    width: 80%;
+    
+    /* Chrome and Safari */
+    &::-webkit-progress-bar {
+        background: var(--cardColorSecondary);
+        border-radius: 100px;
+    }
+
+    &::-webkit-progress-value {
+        background-color: var(--primary);
+        border-top-left-radius: 100px;
+        border-bottom-left-radius: 100px;
+    }
+
+    /* Firefox */
+    &::-moz-progress-bar {
+        background-color: var(--primary);
+        border-top-left-radius: 100px;
+        border-bottom-left-radius: 100px;
+    }
 }
 
 @media only screen and (max-width: 1000px) {
