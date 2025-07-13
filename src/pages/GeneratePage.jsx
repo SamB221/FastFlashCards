@@ -1,8 +1,11 @@
 import { React, useState } from 'react';
 import {Link} from 'react-router-dom';
+import Card from '../components/SetCard';
+import Title from '../components/Title';
 
 const GeneratePage = () => {
     const [status, setStatus] = useState("");
+    const [set, setSet] = useState([]);
 
     async function generate(prompt) {
         try {
@@ -27,30 +30,46 @@ const GeneratePage = () => {
     }
 
     async function handleTextForm(e) {
-        let prompt = document.forms['textForm']['prompt'].value;
+        const prompt = document.forms['textForm']['prompt'].value;
         e.preventDefault();
         setStatus("awaiting");
 
         const result = await generate(prompt);
-        console.log(result);
 
-        setStatus("completed");
+        setStatus("complete");
+        setSet(result);
     }
 
     if (status === "awaiting") {
         return (
-            <p>Awaiting answer...</p>
+            <>
+                <Title title="Generate" back="true" />
+                <p>Awaiting answer...</p>
+            </>
         );
     }
     
-    if (status === "completed") {
+    if (set.length > 0) {
         return (
-            <p>Done!</p>
+            <>
+                <Title title="Generate" back="true" />
+                <h1 className="centerText">How does this look?</h1>
+                <section className='py-4'>
+                    <div className='container-xl lg:container m-auto'>
+                        <div className='grid md:grid-cols-2'>
+                        {set.map((item, index) => (
+                            <Card key={index} term={item.Term} definition={item.Definition} mastery={item.Mastery} />
+                        ))}
+                        </div>
+                    </div>
+                </section>
+            </>
         );
     }
 
     return (
         <>
+            <Title title="Generate" back="true" />
             <form className="textForm" autoComplete="off" name="textForm" onSubmit={handleTextForm}>
                 <label htmlFor="prompt"><p>Describe the set you would like me to create</p></label>
                 <input type="text" className="textInput1" id="prompt" name="firstname" placeholder="Enter a prompt..."></input>
