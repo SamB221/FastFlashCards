@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import LandingPage from './pages/LandingPage';
 import UploadPage from './pages/UploadPage';
 import CreateSetPage from './pages/CreateSetPage';
+import GeneratePage from './pages/GeneratePage';
 import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SetPage from './pages/SetPage';
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
             <Route path='/landing' element={<LandingPage />} />
             <Route path='/upload' element={<UploadPage />} />
             <Route path='/create' element={<CreateSetPage />} />
+            <Route path='/generate' element={<GeneratePage />} />
             <Route path='/set/:id' element={<SetPage />} />
             <Route path='/set/:id/edit' element={<EditPage />} />
             <Route path='/set/:id/basic' element={<PlayPage />} />
