@@ -1,7 +1,15 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 
 const LandingPage = () => {
+    const navigate = useNavigate();
+
+    function editSet(e) {
+        e.preventDefault();
+        navigate("/generate");
+    };
+
     return (
         <>
             <h1 className="centerText">Welcome to Fast FlashCards!</h1>
@@ -16,6 +24,7 @@ const LandingPage = () => {
                     <img id="manualIcon" src="../../../manualIcon.svg" />
                 </NavLink>
             </div>
+            <button className="aiBtn centerBtn" onClick={editSet}>Generate with AI</button>
         </>
     );
 };
