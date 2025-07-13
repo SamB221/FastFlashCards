@@ -33,8 +33,8 @@ export async function handler(event, context) {
         const flashcards = lines.map(line => {
             const [term, ...rest] = line.split(",");
             return {
-                term: term.trim(),
-                definition: rest.join(",").trim()
+                Term: term.trim(),
+                Definition: rest.join(",").trim()
             };
         });
 
