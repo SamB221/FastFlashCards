@@ -21,7 +21,7 @@ const GeneratePage = () => {
             }
 
             const data = await res.json();
-
+            console.log(data.set);
             return data.set;
         } catch (err) {
             console.error("Fetch error", err);
@@ -40,6 +40,14 @@ const GeneratePage = () => {
         setSet(result);
     }
 
+    function goBack() {
+        setSet([]);
+    }
+
+    function approveSet() {
+
+    }
+
     if (status === "awaiting") {
         return (
             <>
@@ -56,13 +64,23 @@ const GeneratePage = () => {
                 <h1 className="centerText">How does this look?</h1>
                 <section className='py-4'>
                     <div className='container-xl lg:container m-auto'>
-                        <div className='grid md:grid-cols-2'>
+                        <div className='grid md:grid-cols-4'>
                         {set.map((item, index) => (
-                            <Card key={index} term={item.Term} definition={item.Definition} mastery={item.Mastery} />
+                            <div className="miniCard">
+                                <h2 id="term" className='floatLeft font-bold'>
+                                    {item.Term}
+                                </h2>
+                                <br />
+                                <p id="cardCount">
+                                    {item.Definition}
+                                </p>
+                            </div>
                         ))}
                         </div>
                     </div>
                 </section>
+                <button className="redBtn centerBtn" onClick={goBack}>No, go back</button>
+                <button className="grnBtn centerBtn" onClick={approveSet}>Done</button>
             </>
         );
     }
