@@ -1,11 +1,13 @@
 import { React, useState } from 'react';
-import {Link} from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Card from '../components/SetCard';
 import Title from '../components/Title';
 
 const GeneratePage = () => {
     const [status, setStatus] = useState("");
     const [set, setSet] = useState([]);
+
+    const navigate = useNavigate();
 
     async function generate(prompt) {
         try {
@@ -45,7 +47,8 @@ const GeneratePage = () => {
     }
 
     function approveSet() {
-
+        localStorage.setItem("test", JSON.stringify({set}));
+        navigate("/");
     }
 
     if (status === "awaiting") {
@@ -80,7 +83,7 @@ const GeneratePage = () => {
                     </div>
                 </section>
                 <button className="redBtn centerBtn" onClick={goBack}>No, go back</button>
-                <button className="grnBtn centerBtn" onClick={approveSet}>Done</button>
+                <button className="grnBtn centerBtn" onClick={approveSet}>Looks good</button>
             </>
         );
     }
@@ -92,6 +95,7 @@ const GeneratePage = () => {
                 <label htmlFor="prompt"><p>Describe the set you would like me to create</p></label>
                 <input type="text" className="textInput1" id="prompt" name="firstname" placeholder="Enter a prompt..."></input>
                 <input type="submit" value="Generate!"></input>
+                <img id="mascot" src="../../../mascot.svg" />
             </form>
         </>
     );
