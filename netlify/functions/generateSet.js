@@ -15,10 +15,11 @@ export async function handler(event, context) {
             };
         }
 
-        const prompt = `Generate flashcards based on the following prompt: "${userPrompt}". 
-            Each flashcard should be on its own line, formatted exactly as:
-            term, definition. 
-            Do not add any introduction, explanation, or extra text before or after the flashcards. Only output the flashcards.`;
+        const prompt = `Generate a flashcard set based on the following prompt: "${userPrompt}". 
+            Only output the flashcards in CSV format, with each flashcard on its own line formatted exactly as: 
+            Term, Definition. 
+            Do not include any greetings, introductory text, or extra explanations. 
+            Start directly with the flashcards, with no additional comments or conversation.`;
 
         const response = await openai.chat.completions.create({
             model: "gpt-4.1-nano",
@@ -37,7 +38,8 @@ export async function handler(event, context) {
             const [term, ...rest] = line.split(",");
             return {
                 Term: term.trim(),
-                Definition: rest.join(",").trim()
+                Definition: rest.join(",").trim(),
+                Mastery: 0
             };
         });
 
