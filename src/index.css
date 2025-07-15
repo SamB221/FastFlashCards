@@ -862,6 +862,62 @@ input[type=submit]:hover {
     }
 }
 
+.spinner-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.spinner-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 6px solid rgba(252, 77, 77, 0.2);
+    border-top: 6px solid #d31f1f;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.lightning-image {
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+    animation: pulseGlow 1s infinite ease-in-out;
+    filter: drop-shadow(0 0 4px #d31f1f);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 4px #d31f1f);
+    }
+    50% {
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 12px #e95757);
+    }
+}
+
 @media only screen and (max-width: 1000px) {
     .feedbackBox {
         position: static;
