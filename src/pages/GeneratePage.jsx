@@ -70,7 +70,7 @@ const GeneratePage = () => {
                     <div className='container-xl lg:container m-auto'>
                         <div className='grid md:grid-cols-4'>
                         {set.map((item, index) => (
-                            <div className="miniCard">
+                            <div className="miniCard purpleDrop animateCard" style={{ animationDelay: `${index * 0.04}s` }}>
                                 <h2 id="term" className='floatLeft font-bold'>
                                     {item.Term}
                                 </h2>
