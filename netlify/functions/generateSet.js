@@ -17,7 +17,11 @@ export async function handler(event, context) {
 
         const prompt = `Generate a flashcard set based on the following prompt: "${userPrompt}". 
             Only output the flashcards in CSV format, with each flashcard on its own line formatted exactly as: 
-            Term, Definition. 
+            Term,Definition. For example, a Spanish language vocab set of 3 terms should be formatted like:
+            Hola,Hello
+            Yo,I
+            Tú,You
+
             Do not include any greetings, introductory text, or extra explanations. 
             Start directly with the flashcards, with no additional comments or conversation.`;
 
