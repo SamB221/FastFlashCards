@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Card from '../components/SetCard';
 import Title from '../components/Title';
+import Spinner from '../components/BoltSpinner';
 
 const GeneratePage = () => {
     const [status, setStatus] = useState("");
@@ -55,7 +56,7 @@ const GeneratePage = () => {
         return (
             <>
                 <Title title="Generate" back="true" />
-                <p>Awaiting answer...</p>
+                <Spinner />
             </>
         );
     }
