@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
 import SetCards from '../components/SetCards';
+import Spinner from '../components/BoltSpinner';
 import confetti from 'canvas-confetti';
 import useFlashCardController from '../hooks/useFlashCardController';
 
@@ -27,7 +28,8 @@ const MasterPage = () => {
         testRadio,
         handleTextForm,
         showFeedback,
-        setShowFeedback
+        setShowFeedback,
+        wait
     } = useFlashCardController(id, numLevels);
     const [skipped, setSkipped] = useState(0);
 
@@ -145,6 +147,7 @@ const MasterPage = () => {
         return (
             <>
                 <Title title={id} back="true" />
+                {(wait)? <Spinner /> : <></>}
                 <div id="cardinfo">
                     <p className="centerText">{totalDone + 1 + " out of " + interval}</p>
                 </div>
