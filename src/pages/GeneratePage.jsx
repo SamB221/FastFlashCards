@@ -6,6 +6,7 @@ import Spinner from '../components/BoltSpinner';
 const GeneratePage = () => {
     const [status, setStatus] = useState("");
     const [set, setSet] = useState([]);
+    const [prevPrompt, setPrevPrompt] = useState("");
 
     const navigate = useNavigate();
 
@@ -40,10 +41,12 @@ const GeneratePage = () => {
 
         setStatus("complete");
         setSet(result);
+        setPrevPrompt(prompt);
     }
 
-    function goBack() {
-        setSet([]);
+    async function goBack() {
+        await setSet([]);
+        document.forms['textForm']['prompt'].value = prevPrompt;
     }
 
     function approveSet() {
