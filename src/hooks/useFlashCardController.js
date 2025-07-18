@@ -17,6 +17,7 @@ export function useFlashCardController(id, numLevels) {
     const [totalDone, setTotalDone] = useState(0);
     const skipped = useRef(0);
     const [showFeedback, setShowFeedback] = useState("");
+    const [wait, setWait] = useState(false);
     var wrong = false;
     const interval = Math.min(10, set.length);
 
@@ -156,15 +157,21 @@ export function useFlashCardController(id, numLevels) {
             document.getElementById('noShow').style.display = 'none';
             nextCard();
             wrong = false;
-        } else if (await checkWithAI(set[index].Term, guess)) {
-            document.getElementById('guess').classList.remove('invalid');
-            document.getElementById('noShow').style.display = 'none';
-            setShowFeedback(guess);
         } else {
-            wrong = true;
-            document.getElementById('guess').classList.add('invalid');
-            document.getElementById('noShow').style.display = 'block';
-        }
+            setWait(true);
+            if (await checkWithAI(set[index].Term, guess)) {
+                document.getElementById('guess').classList.remove('invalid');
+                document.getElementById('noShow').style.display = 'none';
+                setWait(false);
+                setShowFeedback(guess);
+            } else {
+                wrong = true;
+                document.getElementById('guess').classList.add('invalid');
+                document.getElementById('noShow').style.display = 'block';
+            }
+
+            setWait(false);
+        } 
     }
 
     async function checkWithAI(term, guess) {
@@ -224,7 +231,8 @@ export function useFlashCardController(id, numLevels) {
         testRadio,
         handleTextForm,
         showFeedback,
-        setShowFeedback
+        setShowFeedback,
+        wait
     };
 }
 
