@@ -739,6 +739,10 @@ input[type=submit]:hover {
     padding-bottom: 1rem;
 }
 
+.padBottom2 {
+    padding-bottom: 2rem;
+}
+
 .padBottom8 {
     padding-bottom: 8rem;
 }
