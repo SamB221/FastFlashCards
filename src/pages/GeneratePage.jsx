@@ -83,8 +83,10 @@ const GeneratePage = () => {
                         </div>
                     </div>
                 </section>
-                <button className="redBtn centerBtn" onClick={goBack}>No, go back</button>
-                <button className="grnBtn centerBtn" onClick={approveSet}>Looks good</button>
+                <div className="dualButtonsRow pad1">
+                    <button className="redBtn dualButtonRow" onClick={goBack}>No, go back</button>
+                    <button className="grnBtn dualButtonRow purple" onClick={approveSet}>Looks good</button>
+                </div>
             </>
         );
     }
@@ -95,7 +97,7 @@ const GeneratePage = () => {
             <form className="textForm" autoComplete="off" name="textForm" onSubmit={handleTextForm}>
                 <label htmlFor="prompt"><p>Describe the set you would like me to create</p></label>
                 <input type="text" className="textInput1" id="prompt" name="firstname" placeholder="Enter a prompt..."></input>
-                <input type="submit" value="Generate!"></input>
+                <input className="purple" type="submit" value="Generate!"></input>
                 <img id="mascot" src="../../../mascot.svg" />
             </form>
         </>

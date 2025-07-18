@@ -13,6 +13,9 @@
     --cardColor: rgb(243 244 246);
     --cardColorSecondary: rgb(220, 224, 232);
     --background: white;
+    --purplePrimary: rgb(153, 6, 198);
+    --purpleSecondary: rgb(137, 20, 133);
+    --purpleTernary: rgb(100, 19, 97);
 }
 
 /*@media (prefers-color-scheme: dark) {
@@ -165,7 +168,7 @@ p {
 }
 
 .aiBtn {
-    background-color: rgb(153, 6, 198);
+    background-color: var(--purplePrimary);
     border: none;
     color: white;
     padding: 1rem;
@@ -176,11 +179,11 @@ p {
 }
 
 .aiBtn:hover {
-    background-color: rgb(137, 20, 133)
+    background-color: var(--purpleSecondary);
 }
 
 .aiBtn:active {
-    background-color: rgb(100, 19, 97);
+    background-color: var(--purpleTernary);
 }
 
 .centerBtn {
@@ -713,6 +716,17 @@ input[type=submit]:hover {
     margin: auto;
 }
 
+.dualButtonsRow {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.dualButtonRow {
+    width: 15rem !important;
+}
+
 .pad1 {
     padding: 1rem;
 }
@@ -936,7 +950,19 @@ input[type=submit]:hover {
 }
 
 .purpleDrop {
-    filter: drop-shadow(3px 3px 2px #a71dd8);
+    filter: drop-shadow(3px 3px 2px var(--purplePrimary));
+}
+
+.purple {
+    background-color: var(--purplePrimary) !important;
+}
+
+.purple:hover {
+    background-color: var(--purpleSecondary) !important;
+}
+
+.purple:active {
+    background-color: var(--purpleTernary) !important;
 }
 
 @media only screen and (max-width: 1000px) {
