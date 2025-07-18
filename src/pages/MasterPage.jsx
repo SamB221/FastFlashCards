@@ -41,9 +41,9 @@ const MasterPage = () => {
                 <Title title={id} back="true" />
                 <h1 className="centerText continue"> Great job, you're all done!</h1>
                 <SetCards setname={id} />
-                <form className="lowerRightLarge grnBtn">
-                    <input id="reset" type="button" value="Click to restart" onClick={restart}/>
-                </form>
+                <button className="lowerRightLarge grnBtn" aria-label="Restart" type="button" onClick={restart}>
+                    Click to restart!
+                </button>
             </>
         );
     }
