@@ -1,6 +1,5 @@
 import { React, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import Card from '../components/SetCard';
 import Title from '../components/Title';
 import Spinner from '../components/BoltSpinner';
 
@@ -48,7 +47,12 @@ const GeneratePage = () => {
     }
 
     function approveSet() {
-        localStorage.setItem("test", JSON.stringify({set}));
+        setStatus("naming");
+    }
+
+    function nameSet() {
+        const name = document.forms['textForm']['prompt'].value;
+        localStorage.setItem(name, JSON.stringify({set}));
         navigate("/");
     }
 
@@ -60,12 +64,26 @@ const GeneratePage = () => {
             </>
         );
     }
+
+    if (status === "naming") {
+        return (
+        <>
+            <Title title="Generate" back="true" />
+            <form className="textForm" autoComplete="off" name="textForm" onSubmit={nameSet}>
+                <label htmlFor="prompt"><p>One more step! Let's give it a name</p></label>
+                <input type="text" className="textInput1" id="prompt" name="firstname" placeholder="Enter a name..."></input>
+                <input className="purple" type="submit" value="All done!"></input>
+            </form>
+        </>
+        );
+    }
     
     if (set.length > 0) {
         return (
             <>
                 <Title title="Generate" back="true" />
                 <h1 className="centerText">How does this look?</h1>
+                <p className="centerText">You can edit individual terms after saving </p>
                 <section className='py-4'>
                     <div className='container-xl lg:container m-auto'>
                         <div className='grid md:grid-cols-4'>
