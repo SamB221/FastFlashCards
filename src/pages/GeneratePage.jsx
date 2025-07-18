@@ -24,7 +24,6 @@ const GeneratePage = () => {
             }
 
             const data = await res.json();
-            console.log(data.set);
             return data.set;
         } catch (err) {
             console.error("Fetch error", err);
@@ -35,6 +34,7 @@ const GeneratePage = () => {
     async function handleTextForm(e) {
         const prompt = document.forms['textForm']['prompt'].value;
         e.preventDefault();
+        if (prompt === "") return;
         setStatus("awaiting");
 
         const result = await generate(prompt);
