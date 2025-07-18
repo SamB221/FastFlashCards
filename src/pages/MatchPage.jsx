@@ -152,7 +152,7 @@ const MatchPage = () => {
         return (
             <>
                 <Title title={id} back="true" />
-                <div className="feedbackBox">
+                <div className="feedbackBox padBottom2">
                     <h1 className="centerText pad1 white">Great job! You finished in {counter.toFixed(1)} seconds</h1>
                     <button className="centerBtn grnBtn" aria-label="restart" type="button" onClick={reset}>
                         Again!
