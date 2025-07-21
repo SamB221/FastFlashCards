@@ -8,7 +8,7 @@ const MatchCard = ({ id, content, isTerm, isSelected, onClick  }) => {
     }
 
     return (
-        <div id={id} onClick={onClick} className={`matchCard ${isTerm ? 'font-bold' : ''} ${isSelected ? 'selected' : ''}`}>
+        <div id={id} onClick={onClick} className={`matchCard ${isTerm ? 'mainColorBordered' : 'mainColor'} ${isSelected ? 'selected' : ''}`}>
             <h2 className='float-left noSelect'>
                 {content}
             </h2>

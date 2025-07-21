@@ -198,17 +198,8 @@ p {
     position: fixed;
     bottom: 3rem;
     right: 3rem;
-    width: 10rem;
-    height: 4rem;
-    display: block !important;
-}
-
-.lowerRightLarge {
-    font-size: 20px;
-    position: fixed;
-    bottom: 3rem;
-    right: 3rem;
-    width: 12rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
     height: 4rem;
     display: block !important;
 }
@@ -602,9 +593,16 @@ input[type=submit]:hover {
 
 .font-bold {
     font-weight: 700;
-    /*background-color: white !important;
+}
+
+.mainColor {
+    background-color: var(--cardColor);
+}
+
+.mainColorBordered {
+    background-color: var(--textSecondary);
     border-color: var(--cardColor);
-    border-width: 5px;*/
+    border-width: 5px;
 }
 
 #cardCount {
@@ -843,7 +841,6 @@ input[type=submit]:hover {
 }
 
 .matchCard {
-    background-color: var(--cardColor);
     border-radius: 1rem;
     color: var(--textPrimary);
     padding: 1.5rem;
