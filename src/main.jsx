@@ -7,8 +7,8 @@ import App from './App.jsx';
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <Auth0Provider
-            domain={process.env.AUTH0_DOMAIN}
-            clientId={process.env.AUTH0_CLIENT_ID}
+            domain='login.fastflashcards.com'
+            clientId='zyGAW2XtV76NoQOyNCoumiOSyj1WyHDZ'
             authorizationParams={{ redirect_uri: window.location.origin }}>
                 <App />
             </Auth0Provider>
