@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../public/bolt.svg';
+import '/bolt.svg?url';
 
 const BoltSpinner = () => {
     return (
