@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBMPddnAt0fnCm1NXaeutBUFwdE80aLJmo",
-    authDomain: "fastflashcardsdev.firebaseapp.com",
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
     projectId: "fastflashcardsdev",
     storageBucket: "fastflashcardsdev.firebasestorage.app",
-    messagingSenderId: "913164313802",
-    appId: "1:913164313802:web:379016d687202b80c38033"
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
