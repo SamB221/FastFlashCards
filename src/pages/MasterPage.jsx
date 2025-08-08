@@ -6,9 +6,12 @@ import SetCards from '../components/SetCards';
 import Spinner from '../components/BoltSpinner';
 import confetti from 'canvas-confetti';
 import useFlashCardController from '../hooks/useFlashCardController';
+import { useAuth0 } from "@auth0/auth0-react";
+import editSet from '../functions/editSet';
 
 // flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {
+    const { user } = useAuth0();
     const { id } = useParams();
     const numLevels = 5;
     const {
@@ -31,7 +34,6 @@ const MasterPage = () => {
         setShowFeedback,
         wait
     } = useFlashCardController(id, numLevels);
-    const [skipped, setSkipped] = useState(0);
 
     // Reset page
     if (allDone) {
@@ -84,7 +86,7 @@ const MasterPage = () => {
 
     if (totalDone == interval) {
         triggerConfetti();
-        localStorage.setItem(id, JSON.stringify({set}));
+        editSet.createSet(id, set, user);
         return (
             <div>
                 <Title title={id} back="true" />

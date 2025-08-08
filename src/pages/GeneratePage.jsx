@@ -2,8 +2,11 @@ import { React, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Title from '../components/Title';
 import Spinner from '../components/BoltSpinner';
+import { useAuth0 } from "@auth0/auth0-react";
+import editSet from '../functions/editSet';
 
 const GeneratePage = () => {
+    const { user } = useAuth0();
     const [status, setStatus] = useState("");
     const [set, setSet] = useState([]);
     const [prevPrompt, setPrevPrompt] = useState("");
@@ -53,9 +56,10 @@ const GeneratePage = () => {
         setStatus("naming");
     }
 
-    function nameSet() {
+    function nameSet(event) {
+        event.preventDefault();
         const name = document.forms['textForm']['prompt'].value;
-        localStorage.setItem(name, JSON.stringify({set}));
+        editSet.createSet(name, set, user);
         navigate("/");
     }
 

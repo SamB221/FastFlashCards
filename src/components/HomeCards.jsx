@@ -1,32 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from './HomeCard';
+import { useAuth0 } from "@auth0/auth0-react";
+import editSet from '../functions/editSet';
 
 const HomeCards = () => {
-    var set = new Array(Math.max(localStorage.length-1, 0));
-    for (var i = 0, len = localStorage.length; i < len; ++i) {
-        var key = localStorage.key(i);
-
-        try {
-            const value = localStorage.getItem(key);
-            const parsed = JSON.parse(value);
-            if (parsed && Array.isArray(parsed.set)) {
-                set.push({ name: key, length: parsed.set.length });
-            }
-        } catch (e) {
-            // Invalid JSON, ignore entry
-        }
-    }
+    const { user } = useAuth0();
+    const [sets, setSets] = useState([]);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            setSets(await editSet.getSets(user));
+        };
+        fetchData();
+    }, [user]);
 
     return (
         <section className='py-4'>
             <div className='container-xl lg:container m-auto'>
                 <div className='grid md:grid-cols-4'>
-                {set.map(({ name, length }) => (
+                {sets.map(({ name, length }) => (
                     <Card key={name} setname={name} totalcards={length} />
                 ))}
                 </div>
             </div>
         </section>
-  );
+    );
 };
 export default HomeCards;
