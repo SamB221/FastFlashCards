@@ -1,5 +1,5 @@
 import { collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
-import { db } from '../firebase.js';
+import { db } from '../database.js';
 
 const editSet = {
     async createSet(name, set, user) {
