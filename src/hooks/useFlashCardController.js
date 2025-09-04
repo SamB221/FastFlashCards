@@ -1,15 +1,31 @@
-import { useState, useEffect, useRef } from "react";
-import confetti from "canvas-confetti";
+import { useState, useEffect, useRef } from 'react';
+import confetti from 'canvas-confetti';
+import { useAuth0 } from "@auth0/auth0-react";
+import editSet from '../functions/editSet';
 
 export function useFlashCardController(id, numLevels) {
-    const [set, setSet] = useState(() => {
-        const storedData = JSON.parse(localStorage.getItem(id));
-        if (!storedData || !Array.isArray(storedData.set)) return [];
-        
-        const shuffled = [...storedData.set];
+    const { user } = useAuth0();
+    const [set, setSet] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+        if (!id) return; // guard against missing id
+
+        const storedData = await editSet.getSet(id, user);
+
+        // If your getSet returns { set: [...] } for firestore or array for localStorage,
+        // normalize to an array:
+        const dataArray = Array.isArray(storedData)
+            ? storedData
+            : storedData?.set ?? [];
+
+        const shuffled = [...dataArray];
         shuffle(shuffled);
-        return shuffled;
-    });
+        setSet(shuffled);
+        };
+
+        fetchData();
+    }, [user]);
 
     const [index, setIndex] = useState(0);
     const [flip, setFlip] = useState(false);
@@ -92,7 +108,7 @@ export function useFlashCardController(id, numLevels) {
     }
 
     function saveSetToStorage(newSet) {
-        localStorage.setItem(id, JSON.stringify({ set: newSet }));
+        editSet.createSet(id, set);
     }
 
     function restart() {

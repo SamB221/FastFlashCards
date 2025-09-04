@@ -7,8 +7,8 @@ import App from './App.jsx';
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <Auth0Provider
-            domain='login.fastflashcards.com'
-            clientId='zyGAW2XtV76NoQOyNCoumiOSyj1WyHDZ'
+            clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+            domain={import.meta.env.VITE_AUTH0_DOMAIN}
             authorizationParams={{ redirect_uri: window.location.origin }}>
                 <App />
             </Auth0Provider>
