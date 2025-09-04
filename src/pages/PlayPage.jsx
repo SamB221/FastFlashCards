@@ -4,16 +4,23 @@ import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
 import {FaRandom} from 'react-icons/fa';
 import confetti from 'canvas-confetti';
+import { useAuth0 } from '@auth0/auth0-react';
+import editSet from '../functions/editSet';
 
 const PlayPage = () => {
+    const { user } = useAuth0();
     const { id } = useParams();
     const [flip, setFlip] = useState(false);
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
-    const [set, setOriginalSet] = useState(() => {
-        const storedData = JSON.parse(localStorage.getItem(id));
-        return storedData ? storedData.set : null;
-    });
+    const [set, setOriginalSet] = useState([]);
+
+    useEffect(() => {
+        const fetchSet = async () => {
+            setOriginalSet(await editSet.getSet(id, user));
+        };
+        fetchSet();
+    }, [user]);
 
     function randomize(arr) {
         const shuffled = [...arr];
@@ -84,6 +91,12 @@ const PlayPage = () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [flip, index]);
+
+    if (set.length == 0) {
+        return (
+            <></>
+        );
+    }
 
     return (
         <>
