@@ -3,14 +3,21 @@ import { useParams } from 'react-router-dom';
 import Title from '../components/Title';
 import MatchCard from '../components/MatchCard';
 import confetti from 'canvas-confetti';
+import { useAuth0 } from "@auth0/auth0-react";
+import editSet from '../functions/editSet';
 
 const MatchPage = () => {
+    const { user } = useAuth0();
     const [counter, setCounter] = React.useState(0);
     const { id } = useParams();
-    const [set, setOriginalSet] = useState(() => {
-        const storedData = JSON.parse(localStorage.getItem(id));
-        return storedData ? storedData.set : null;
-    });
+    const [set, setOriginalSet] = useState([]);
+
+    useEffect(() => {
+        const fetchSet = async () => {
+            setOriginalSet(await editSet.getSet(id, user));
+        };
+        fetchSet();
+    }, [user]);
 
     const [remainingCards, setRemainingCards] = useState([]);
     const [currentCards, setCurrentCards] = useState([]);
