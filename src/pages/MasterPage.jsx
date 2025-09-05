@@ -37,7 +37,7 @@ const MasterPage = () => {
 
     // Reset page
     if (allDone) {
-        confetti();
+        if (set.length > 0) confetti();
         return (
             <>
                 <Title title={id} back="true" />
@@ -84,7 +84,7 @@ const MasterPage = () => {
         );
     }
 
-    if (totalDone == interval) {
+    if (set.length > 0 && totalDone == interval) {
         triggerConfetti();
         editSet.createSet(id, set, user);
         return (
