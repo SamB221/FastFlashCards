@@ -11,7 +11,6 @@ import LandingPage from './pages/LandingPage';
 import UploadPage from './pages/UploadPage';
 import CreateSetPage from './pages/CreateSetPage';
 import GeneratePage from './pages/GeneratePage';
-import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SetPage from './pages/SetPage';
 import EditPage from './pages/CreateSetPage';
@@ -32,7 +31,6 @@ const router = createBrowserRouter(
             <Route path='/set/:id/basic' element={<PlayPage />} />
             <Route path='/set/:id/master' element={<MasterPage />} />
             <Route path='/set/:id/match' element={<MatchPage />} />
-            <Route path='/settings' element={<SettingsPage />} />
             <Route path='*' element={<NotFoundPage />} />
         </Route>
     )
