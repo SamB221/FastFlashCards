@@ -35,9 +35,16 @@ const MasterPage = () => {
         wait
     } = useFlashCardController(id, numLevels);
 
-    // Reset page
+    // awaiting call to database
+    if (set.length == 0) {
+        return(
+            <></>
+        );
+    }
+
+    // reset page
     if (allDone) {
-        if (set.length > 0) confetti();
+        confetti();
         return (
             <>
                 <Title title={id} back="true" />
