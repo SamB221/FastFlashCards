@@ -2,24 +2,25 @@ import { collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
 import { db } from '../database.js';
 
 const editSet = {
-    async createSet(name, set, user) {
+    async createSet(setName, set, user) {
         if (!user) {
-            localStorage.setItem(name, JSON.stringify({ set }));
+            localStorage.setItem(setName, JSON.stringify({ set }));
         } else {
-            const setDocRef = doc(db, "users", user.sub, "sets", name);
+            const setDocRef = doc(db, "users", user.sub, "sets", setName);
             await setDoc(setDocRef, {
-                set: set,    
+                set: set,   
+                recordTime: 0,
             });
         }
     },
 
-    async getSet(name, user) {
+    async getSet(setName, user) {
         if (!user) {
-            const data = JSON.parse(localStorage.getItem(name));
+            const data = JSON.parse(localStorage.getItem(setName));
             if (!data || !Array.isArray(data.set)) return [];
             return data.set;
         } else {
-            const setRef = doc(db, "users", user.sub, "sets", name);
+            const setRef = doc(db, "users", user.sub, "sets", setName);
             const docSnap = await getDoc(setRef);
 
             if (!docSnap.exists()) {
@@ -62,6 +63,21 @@ const editSet = {
                 });
             });
             return sets;
+        }
+    },
+
+    async setRecord(setName, user, time) {
+        if (!user) {
+            const data = JSON.parse(localStorage.getItem(setName));
+            console.log(data);
+        } else {
+            const set = await this.getSet(setName, user);
+            
+            const setDocRef = doc(db, "users", user.sub, "sets", setName);
+            await setDoc(setDocRef, {
+                set: set,   
+                recordTime: time,
+            });
         }
     }
 };

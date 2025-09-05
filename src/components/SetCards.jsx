@@ -12,7 +12,6 @@ const SetCards = ({setname}) => {
             setSet(await editSet.getSet(setname, user));
         };
         fetchSet();
-        console.log(set);
     }, [user]);
 
     return (

@@ -9,12 +9,9 @@ export function useFlashCardController(id, numLevels) {
 
     useEffect(() => {
         const fetchData = async () => {
-        if (!id) return; // guard against missing id
+        if (!id) return;
 
         const storedData = await editSet.getSet(id, user);
-
-        // If your getSet returns { set: [...] } for firestore or array for localStorage,
-        // normalize to an array:
         const dataArray = Array.isArray(storedData)
             ? storedData
             : storedData?.set ?? [];
@@ -37,7 +34,7 @@ export function useFlashCardController(id, numLevels) {
     var wrong = false;
     const interval = Math.min(10, set.length);
 
-    if (set[index].Mastery >= numLevels) {
+    if (set.length > 0 && set[index].Mastery >= numLevels) {
         if (skipped.current < set.length) {
             skipped.current++;
             setIndex((index + 1) % set.length);

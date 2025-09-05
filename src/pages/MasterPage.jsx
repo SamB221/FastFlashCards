@@ -35,7 +35,14 @@ const MasterPage = () => {
         wait
     } = useFlashCardController(id, numLevels);
 
-    // Reset page
+    // awaiting call to database
+    if (set.length == 0) {
+        return(
+            <></>
+        );
+    }
+
+    // reset page
     if (allDone) {
         confetti();
         return (
@@ -84,7 +91,7 @@ const MasterPage = () => {
         );
     }
 
-    if (totalDone == interval) {
+    if (set.length > 0 && totalDone == interval) {
         triggerConfetti();
         editSet.createSet(id, set, user);
         return (
