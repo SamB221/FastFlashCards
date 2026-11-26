@@ -1092,3 +1092,87 @@ input[type=submit]:hover {
         font-size: 20px;
     }
 }
+
+/* Drag and drop file upload */
+
+.uploadDropBox {
+    box-sizing: border-box;
+    width: min(30rem, 92%);
+    height: auto;
+    min-height: 29rem;
+    padding: 2rem;
+    transition: background-color 0.2s ease,
+                border-color 0.2s ease;
+}
+
+.uploadDropBox #uploadtext {
+    padding-top: 0;
+}
+
+.fileDropArea {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    width: 100%;
+    min-height: 9rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
+
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 1rem;
+
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+
+    transition: background-color 0.2s ease,
+                border-color 0.2s ease;
+}
+
+.fileDropArea:hover,
+.uploadDropBox.dragging .fileDropArea {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+}
+
+.uploadDropBox.dragging {
+    background-color: var(--ternary);
+    border-color: var(--primary);
+}
+
+.uploadFileIcon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.fileDropArea small {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.uploadError {
+    margin-top: 0.75rem;
+    color: #ffd4d4;
+    font-size: 14px;
+}
+
+.uploadDropBox .uploadButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media only screen and (max-width: 600px) {
+    .uploadDropBox {
+        padding: 1.5rem;
+    }
+
+    .uploadDropBox h3 br {
+        display: none;
+    }
+}

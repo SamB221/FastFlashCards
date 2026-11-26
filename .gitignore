@@ -3,3 +3,8 @@ node_modules
 .env
 *.DS_store
 
+# Firebase
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*

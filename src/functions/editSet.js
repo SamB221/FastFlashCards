@@ -1,82 +1,178 @@
-import { collection, doc, setDoc, getDoc, getDocs } from "firebase/firestore";
+import {
+    collection,
+    doc,
+    setDoc,
+    getDoc,
+    getDocs,
+    updateDoc,
+    deleteDoc
+} from "firebase/firestore";
+
 import { db } from '../firebase.js';
 
 const editSet = {
+
     async createSet(setName, set, user) {
-        if (!user) {
-            localStorage.setItem(setName, JSON.stringify({ set }));
-        } else {
-            const setDocRef = doc(db, "users", user.uid, "sets", setName);
-            await setDoc(setDocRef, {
-                set: set,   
-                recordTime: 0,
-            });
+        const id = `set_${crypto.randomUUID()}`;
+
+        const data = {
+            name: setName.trim(),
+            set: set,
+            recordTime: 0
+        };
+
+        if (!data.name) {
+            throw new Error("Set name cannot be empty.");
         }
+
+        if (!user) {
+            localStorage.setItem(id, JSON.stringify(data));
+        } else {
+            const setRef = doc(db, "users", user.uid, "sets", id);
+            await setDoc(setRef, data);
+        }
+
+        return id;
     },
 
-    async getSet(setName, user) {
+    async getSetData(id, user) {
         if (!user) {
-            const data = JSON.parse(localStorage.getItem(setName));
-            if (!data || !Array.isArray(data.set)) return [];
-            return data.set;
+            const data = JSON.parse(localStorage.getItem(id));
+
+            if (!data || !Array.isArray(data.set)) {
+                return null;
+            }
+
+            return {
+                ...data,
+                id: id,
+                name: data.name ?? id
+            };
         } else {
-            const setRef = doc(db, "users", user.uid, "sets", setName);
+            const setRef = doc(db, "users", user.uid, "sets", id);
             const docSnap = await getDoc(setRef);
 
             if (!docSnap.exists()) {
-                return [];
+                return null;
             }
 
-            return docSnap.data().set;
+            const data = docSnap.data();
+
+            return {
+                ...data,
+                id: docSnap.id,
+                name: data.name ?? docSnap.id
+            };
         }
+    },
+
+    async getSet(id, user) {
+        const data = await this.getSetData(id, user);
+
+        return data?.set ?? [];
     },
 
     async getSets(user) {
+        const sets = [];
+
         if (!user) {
-            var sets = new Array(Math.max(localStorage.length-1, 0));
-            for (var i = 0, len = localStorage.length; i < len; ++i) {
-                var key = localStorage.key(i);
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
 
                 try {
-                    const value = localStorage.getItem(key);
-                    const parsed = JSON.parse(value);
+                    const parsed = JSON.parse(localStorage.getItem(key));
+
                     if (parsed && Array.isArray(parsed.set)) {
-                        sets.push({ name: key, length: parsed.set.length });
+                        sets.push({
+                            id: key,
+                            name: parsed.name ?? key,
+                            length: parsed.set.length
+                        });
                     }
-                } catch (e) {
-                    // Invalid JSON, ignore entry
+                } catch (error) {
+                    // Not a flashcard set, ignore it.
                 }
             }
-
-            return sets;
         } else {
-            const userDoc = doc(db, "users", user.uid);
-            const setsCol = collection(userDoc, "sets");
+            const setsCol = collection(
+                db, "users", user.uid, "sets"
+            );
 
             const querySnapshot = await getDocs(setsCol);
-            const sets = [];
+
             querySnapshot.forEach((docSnap) => {
                 const data = docSnap.data();
+
                 sets.push({
-                    name: docSnap.id,
-                    length: Array.isArray(data.set) ? data.set.length : 0
+                    id: docSnap.id,
+                    name: data.name ?? docSnap.id,
+                    length: Array.isArray(data.set)
+                        ? data.set.length
+                        : 0
                 });
             });
-            return sets;
+        }
+
+        return sets;
+    },
+
+    async updateSet(id, setName, set, user) {
+        const name = setName.trim();
+
+        if (!name) {
+            throw new Error("Set name cannot be empty.");
+        }
+
+        if (!user) {
+            const data = await this.getSetData(id, user);
+
+            if (!data) {
+                throw new Error("Set does not exist.");
+            }
+
+            const { id: storedId, ...existingData } = data;
+
+            localStorage.setItem(id, JSON.stringify({
+                ...existingData,
+                name: name,
+                set: set
+            }));
+        } else {
+            const setRef = doc(db, "users", user.uid, "sets", id);
+
+            await updateDoc(setRef, {
+                name: name,
+                set: set
+            });
         }
     },
 
-    async setRecord(setName, user, time) {
+    async deleteSet(id, user) {
         if (!user) {
-            const data = JSON.parse(localStorage.getItem(setName));
-            console.log(data);
+            localStorage.removeItem(id);
         } else {
-            const set = await this.getSet(setName, user);
-            
-            const setDocRef = doc(db, "users", user.uid, "sets", setName);
-            await setDoc(setDocRef, {
-                set: set,   
-                recordTime: time,
+            const setRef = doc(db, "users", user.uid, "sets", id);
+            await deleteDoc(setRef);
+        }
+    },
+
+    async setRecord(id, user, time) {
+        if (!user) {
+            const data = await this.getSetData(id, user);
+
+            if (!data) return;
+
+            const { id: storedId, ...existingData } = data;
+
+            localStorage.setItem(id, JSON.stringify({
+                ...existingData,
+                recordTime: time
+            }));
+        } else {
+            const setRef = doc(db, "users", user.uid, "sets", id);
+
+            await updateDoc(setRef, {
+                recordTime: time
             });
         }
     }

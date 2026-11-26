@@ -6,7 +6,7 @@ const BoltSpinner = () => {
         <div className="spinner-page">
             <div className="spinner-wrapper">
                 <div className="spinner-ring"></div>
-                <img src="/bolt.svg" alt="Loading..." className="lightning-image" />
+                <img src="/bolt.svg" className="lightning-image" />
             </div>
         </div>
     );

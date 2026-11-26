@@ -2,25 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
-import {FaRandom} from 'react-icons/fa';
+import { FaRandom } from 'react-icons/fa';
 import confetti from 'canvas-confetti';
 import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
 const PlayPage = () => {
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
     const { id } = useParams();
+    const [setName, setSetName] = useState("");
     const [flip, setFlip] = useState(false);
+    const [flipCount, setFlipCount] = useState(0);
     const [index, setIndex] = useState(0);
     const [totalDone, setTotalDone] = useState(0);
     const [set, setOriginalSet] = useState([]);
 
-    useEffect(() => {
-        const fetchSet = async () => {
-            setOriginalSet(await editSet.getSet(id, user));
-        };
-        fetchSet();
-    }, [user]);
+    const fetchSet = async () => {
+        const data = await editSet.getSetData(id, user);
+
+        if (data) {
+            setOriginalSet(data.set);
+            setSetName(data.name);
+        }
+    };
 
     function randomize(arr) {
         const shuffled = [...arr];
@@ -40,9 +44,19 @@ const PlayPage = () => {
     }
 
     function switchRight() {
-        if (index == set.length-1 && totalDone > set.length-2) triggerConfetti();
+        if (
+            index === set.length - 1 &&
+            totalDone >= set.length - 1 &&
+            flipCount >= Math.ceil(set.length / 2)
+        ) {
+            triggerConfetti();
+            setFlipCount(0);
+            setTotalDone(0);
+        } else {
+            setTotalDone(prev => prev + 1);
+        }
+
         setIndex((index + 1) % set.length);
-        setTotalDone(totalDone + 1);
     }
 
     function switchLeft() {
@@ -54,19 +68,40 @@ const PlayPage = () => {
 
     const triggerConfetti = () => {
         confetti({
-          particleCount: 100,
-          spread: 160,
-          origin: { x: 0.5, y: 0.5 },
-          zIndex: -1,
-          duration: 200,
-          disableForReducedMotion: true
+            particleCount: 100,
+            spread: 160,
+            origin: { x: 0.5, y: 0.5 },
+            zIndex: -1,
+            duration: 200,
+            disableForReducedMotion: true
         });
-      }
-    
+    }
+
+    useEffect(() => {
+        if (isLoading) return;
+
+        const fetchSet = async () => {
+            const data = await editSet.getSetData(id, user);
+
+            console.log("Loaded flashcard set:", data);
+
+            if (data) {
+                setOriginalSet(data.set);
+                setSetName(data.name);
+            }
+        };
+
+        fetchSet().catch(console.error);
+    }, [id, user, isLoading]);
+
     useEffect(() => {
         const handleKeyDown = (event) => {
             event.preventDefault();
-            if (event.key === " "|| event.key === "ArrowUp" || event.key === "ArrowDown") {
+            if (event.key === " " || event.key === "ArrowUp" || event.key === "ArrowDown") {
+                if (!flip) {
+                    setFlipCount(prev => prev + 1);
+                }
+
                 setFlip(!flip);
             } else if (event.key === "ArrowLeft") {
                 if (flip) {
@@ -90,7 +125,7 @@ const PlayPage = () => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [flip, index]);
+    }, [flip, index, set, totalDone, flipCount]);
 
     if (set.length == 0) {
         return (
@@ -100,7 +135,7 @@ const PlayPage = () => {
 
     return (
         <>
-            <Title title={id} back="true" />
+            <Title title={setName} back="true" />
             <div id="cardinfo">
                 <p id="cardnumber">{index + 1 + " out of " + set.length}</p>
                 <form className="grnBtn" onClick={shuffleHelper}>
@@ -108,7 +143,7 @@ const PlayPage = () => {
                     <FaRandom id="ricon" className="inline text-lg mr-1" />
                 </form>
             </div>
-            <FlashCard term={set[index].Term} definition={set[index].Definition} flip={flip}/>
+            <FlashCard term={set[index].Term} definition={set[index].Definition} flip={flip} />
         </>
     );
 };
