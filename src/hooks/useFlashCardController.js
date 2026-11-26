@@ -3,6 +3,11 @@ import confetti from 'canvas-confetti';
 import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
+const INITIAL_POOL_SIZE = 6;
+const MAX_POOL_SIZE = 10;
+const NEW_CARDS_PER_EXPANSION = 2;
+const EXPANSION_MASTERY = 3;
+
 export function useFlashCardController(id, numLevels) {
     const { user, isLoading } = useAuth();
 
@@ -32,6 +37,9 @@ export function useFlashCardController(id, numLevels) {
     const saveVersion = useRef(0);
 
     const interval = Math.min(10, set.length);
+
+    const activePool = useRef([]);
+    const expansionReached = useRef(new Set());
 
     const allDone =
         set.length > 0 &&
@@ -87,6 +95,8 @@ export function useFlashCardController(id, numLevels) {
 
                 shuffle(shuffled);
 
+                initializeLearningPool(shuffled);
+
                 setSet(shuffled);
                 setSetName(data.name);
 
@@ -118,13 +128,82 @@ export function useFlashCardController(id, numLevels) {
     }, [id, user, isLoading, numLevels]);
 
     // Find the next card that has not been mastered.
+    function fillLearningPool(cards, targetSize) {
+        const candidates = cards
+            .map((card, index) => index)
+            .filter(index =>
+                cards[index].Mastery < numLevels &&
+                !activePool.current.includes(index)
+            );
+
+        // Prioritize partially learned cards over unseen cards.
+        candidates.sort((a, b) =>
+            cards[b].Mastery - cards[a].Mastery
+        );
+
+        while (
+            activePool.current.length < targetSize &&
+            candidates.length > 0
+        ) {
+            activePool.current.push(candidates.shift());
+        }
+    }
+
+    function initializeLearningPool(cards) {
+        activePool.current = [];
+
+        expansionReached.current = new Set(
+            cards
+                .map((card, index) => index)
+                .filter(index =>
+                    cards[index].Mastery >= EXPANSION_MASTERY
+                )
+        );
+
+        fillLearningPool(cards, INITIAL_POOL_SIZE);
+    }
+
+    function updateLearningPool(cards, previousIndex, previousMastery) {
+        const currentMastery = cards[previousIndex].Mastery;
+
+        // Remove fully mastered cards.
+        activePool.current = activePool.current.filter(
+            index => cards[index].Mastery < numLevels
+        );
+
+        // Replace retired cards to maintain the minimum pool size.
+        fillLearningPool(cards, INITIAL_POOL_SIZE);
+
+        // Introduce additional concepts when a card reaches
+        // sufficient mastery for the first time.
+        if (
+            previousMastery < EXPANSION_MASTERY &&
+            currentMastery >= EXPANSION_MASTERY &&
+            !expansionReached.current.has(previousIndex)
+        ) {
+            expansionReached.current.add(previousIndex);
+
+            fillLearningPool(
+                cards,
+                Math.min(
+                    MAX_POOL_SIZE,
+                    activePool.current.length +
+                    NEW_CARDS_PER_EXPANSION
+                )
+            );
+        }
+    }
+
     function findNextIndex(cards, startIndex) {
         if (cards.length === 0) return 0;
 
         for (let i = 0; i < cards.length; i++) {
             const candidate = (startIndex + i) % cards.length;
 
-            if (cards[candidate].Mastery < numLevels) {
+            if (
+                activePool.current.includes(candidate) &&
+                cards[candidate].Mastery < numLevels
+            ) {
                 return candidate;
             }
         }
@@ -251,7 +330,8 @@ export function useFlashCardController(id, numLevels) {
     function nextCard() {
         if (!set[index] || allDone || roundComplete) return;
 
-        // Update the card without mutating existing React state.
+        const previousMastery = set[index].Mastery;
+
         const updatedSet = set.map((card, cardIndex) => {
             if (cardIndex !== index) return card;
 
@@ -262,6 +342,13 @@ export function useFlashCardController(id, numLevels) {
                     : Math.min(numLevels, card.Mastery + 1)
             };
         });
+
+        // Retire mastered cards and introduce new concepts.
+        updateLearningPool(
+            updatedSet,
+            index,
+            previousMastery
+        );
 
         const nextIndex = findNextIndex(
             updatedSet,
@@ -292,7 +379,7 @@ export function useFlashCardController(id, numLevels) {
         const snapshot = newSet.map(card => ({ ...card }));
 
         saveQueue.current = saveQueue.current
-            .catch(() => {})
+            .catch(() => { })
             .then(() => {
                 return editSet.updateSet(
                     id,
@@ -329,10 +416,12 @@ export function useFlashCardController(id, numLevels) {
 
         shuffle(resetSet);
 
+        initializeLearningPool(resetSet);
+
         wrong.current = false;
 
         setSet(resetSet);
-        setIndex(0);
+        setIndex(findNextIndex(resetSet, 0));
         setTotalDone(0);
         setFlip(false);
         setCompleted(false);
