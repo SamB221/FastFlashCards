@@ -1,1 +1,3 @@
-/*    /index.html   200
+/__/auth/* https://fastflashcardsprod.firebaseapp.com/__/auth/:splat 200
+/__/firebase/init.json https://fastflashcardsprod.firebaseapp.com/__/firebase/init.json 200
+/* /index.html 200
