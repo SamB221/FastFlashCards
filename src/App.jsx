@@ -17,6 +17,7 @@ import EditPage from './pages/CreateSetPage';
 import PlayPage from './pages/PlayPage';
 import MasterPage from './pages/MasterPage';
 import MatchPage from './pages/MatchPage';
+import Privacy from './pages/Privacy';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
             <Route path='/upload' element={<UploadPage />} />
             <Route path='/create' element={<CreateSetPage />} />
             <Route path='/generate' element={<GeneratePage />} />
+            <Route path='/privacy' element={<Privacy />} />
             <Route path='/set/:id' element={<SetPage />} />
             <Route path='/set/:id/edit' element={<EditPage />} />
             <Route path='/set/:id/basic' element={<PlayPage />} />
