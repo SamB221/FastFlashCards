@@ -3,7 +3,7 @@ import {
     useContext,
     useEffect,
     useState,
-    useRef
+    useCallback
 } from "react";
 
 import {
@@ -19,55 +19,72 @@ import ImportSetsModal from "./components/ImportSetsModal";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [localSets, setLocalSets] = useState([]);
+    const [authState, setAuthState] = useState({
+        user: null,
+        isLoading: true,
+        localSets: []
+    });
 
-    const offeredUserRef = useRef(null);
+    const { user, isLoading, localSets } = authState;
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+    // Handle both restored sessions and new sign-ins.
+    const handleAuthUser = useCallback((currentUser) => {
+        if (!currentUser) {
+            setAuthState({
+                user: null,
+                isLoading: false,
+                localSets: []
+            });
 
-            if (!currentUser) {
-                offeredUserRef.current = null;
-                setLocalSets([]);
-                setIsLoading(false);
-                return;
+            return;
+        }
+
+        const promptKey = `import-offered-${currentUser.uid}`;
+
+        let detectedSets = [];
+
+        if (!sessionStorage.getItem(promptKey)) {
+            detectedSets = editSet.getLocalSets();
+        }
+
+        setAuthState(previous => {
+            // Preserve an import modal that is already open.
+            if (
+                previous.user?.uid === currentUser.uid &&
+                previous.localSets.length > 0
+            ) {
+                return previous;
             }
 
-            // Only offer imports once per sign-in session.
-            if (offeredUserRef.current === currentUser.uid) {
-                return;
-            }
-
-            offeredUserRef.current = currentUser.uid;
-
-            const promptKey = `import-offered-${currentUser.uid}`;
-
-            if (sessionStorage.getItem(promptKey)) {
-                setIsLoading(false);
-                return;
-            }
-
-            const detectedSets = editSet.getLocalSets();
-
-            if (detectedSets.length > 0) {
-                sessionStorage.setItem(promptKey, "true");
-
-                setLocalSets(detectedSets);
-                setIsLoading(true);
-            } else {
-                setLocalSets([]);
-                setIsLoading(false);
-            }
+            return {
+                user: currentUser,
+                isLoading: detectedSets.length > 0,
+                localSets: detectedSets
+            };
         });
-
-        return unsubscribe;
     }, []);
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            handleAuthUser
+        );
+
+        return unsubscribe;
+    }, [handleAuthUser]);
+
     async function login() {
-        return signInWithPopup(auth, googleProvider);
+        const result = await signInWithPopup(
+            auth,
+            googleProvider
+        );
+
+        // Explicitly check for local sets after popup sign-in.
+        if (auth.currentUser?.uid === result.user.uid) {
+            handleAuthUser(result.user);
+        }
+
+        return result;
     }
 
     async function logout() {
@@ -83,8 +100,14 @@ export function AuthProvider({ children }) {
     function closeImportModal(uid) {
         if (auth.currentUser?.uid !== uid) return;
 
-        setLocalSets([]);
-        setIsLoading(false);
+        // Only mark the prompt as handled once it is closed.
+        sessionStorage.setItem(`import-offered-${uid}`, "true");
+
+        setAuthState(previous => ({
+            ...previous,
+            localSets: [],
+            isLoading: false
+        }));
     }
 
     return (
