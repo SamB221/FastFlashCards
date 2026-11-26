@@ -172,6 +172,37 @@ const CreateSetPage = () => {
         }
     };
 
+    const handleDelete = async () => {
+        if (!isEdit || isLoading || isSaving || !editLoaded) return;
+
+        const confirmed = window.confirm(
+            `Are you sure you want to delete "${setName}"? This cannot be undone.`
+        );
+
+        if (!confirmed) return;
+
+        setIsSaving(true);
+
+        try {
+            await editSet.deleteSet(id, user);
+            navigate("/");
+        } catch (error) {
+            console.error("Unable to delete set:", error);
+            showError("Unable to delete this set. Please try again.");
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleExport = async () => {
+        try {
+            await editSet.exportSet(id, user);
+        } catch (error) {
+            console.error("Unable to export set:", error);
+            showError("Unable to export this set.");
+        }
+    };
+
     const handleCardChange = (cardNumber, inputType, value) => {
         setCardData(prevData => ({
             ...prevData,
@@ -283,17 +314,40 @@ const CreateSetPage = () => {
                         </div>
                     </div>
 
-                    <button
-                        className="lowerRight grnBtn"
-                        onClick={handleSubmit}
-                        disabled={isSaving}
-                    >
-                        {isSaving
-                            ? "Saving..."
-                            : isEdit
-                                ? "Save Changes"
-                                : "Done"}
-                    </button>
+                    <div className="setActionBar">
+                        <div className="setActionsLeft">
+                            {isEdit && (
+                                <>
+                                    <button
+                                        className="redBtn"
+                                        type="button"
+                                        onClick={handleDelete}
+                                        disabled={isSaving}
+                                    >
+                                        Delete Set
+                                    </button>
+
+                                    <button
+                                        className="grnBtn"
+                                        type="button"
+                                        onClick={handleExport}
+                                        disabled={isSaving}
+                                    >
+                                        Export CSV
+                                    </button>
+                                </>
+                            )}
+                        </div>
+
+                        <button
+                            className="grnBtn"
+                            type="button"
+                            onClick={handleSubmit}
+                            disabled={isSaving}
+                        >
+                            {isSaving ? "Saving..." : isEdit ? "Save Changes" : "Done"}
+                        </button>
+                    </div>
                 </>
             ) : (
                 <p className="centerText">Loading...</p>
