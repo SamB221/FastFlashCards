@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
 import SetCards from '../components/SetCards';
@@ -14,6 +14,7 @@ import useFlashCardController from '../hooks/useFlashCardController';
 
 const MasterPage = () => {
     const { id } = useParams();
+    const location = useLocation();
     const numLevels = 5;
 
     const {
@@ -42,6 +43,9 @@ const MasterPage = () => {
 
     const currentCard = set[currentIndex];
 
+    const displayName =
+        setName || location.state?.setName || "";
+
     // Celebrate completed rounds.
     useEffect(() => {
         if (isLoading || showFeedback.length > 0) return;
@@ -55,12 +59,14 @@ const MasterPage = () => {
         }
     }, [allDone, roundComplete, isLoading, showFeedback]);
 
-    // Generate multiple-choice answers and preserve their order
-    // between renders.
+    // Generate stable multiple-choice answers.
     const choices = useMemo(() => {
         if (!currentCard) return [];
 
-        if (currentCard.Mastery < 2 || currentCard.Mastery > 3) {
+        if (
+            currentCard.Mastery < 2 ||
+            currentCard.Mastery > 3
+        ) {
             return [];
         }
 
@@ -93,48 +99,66 @@ const MasterPage = () => {
             return shuffled;
         }
 
-        const distractors = shuffleArray(incorrectAnswers)
-            .slice(0, 3);
-
         return shuffleArray([
             correctAnswer,
-            ...distractors
+            ...shuffleArray(incorrectAnswers).slice(0, 3)
         ]);
     }, [set, currentIndex, currentCard]);
 
-    // Error screen.
-    if (error) {
-        return (
-            <>
-                <Title title={setName || "Master"} back="true" />
-                <p className="centerText">{error}</p>
-            </>
-        );
+    function nextTrue() {
+        setShowFeedback("");
+        nextCard();
     }
 
-    // Await authentication and database calls.
-    if (isLoading) return null;
+    function nextFalse() {
+        setShowFeedback("");
+        setWrong();
+        nextCard();
+    }
 
-    // Empty set.
-    if (set.length === 0) {
+    // Consistent progress indicator across mastery stages.
+    function renderProgress() {
         return (
-            <>
-                <Title title={setName || "Master"} back="true" />
-                <p className="centerText">
-                    This set has no flashcards.
+            <div id="cardinfo">
+                <p id="cardnumber" className="centerText">
+                    {totalDone + 1} out of {interval}
                 </p>
-            </>
+            </div>
         );
     }
 
-    // Entire set has been mastered.
-    if (allDone) {
+    // Render a multiple-choice button.
+    function renderChoice(choice, index, correctAnswer) {
+        return (
+            <button
+                key={index}
+                id={`option${index}`}
+                className="smallCard"
+                type="button"
+                onClick={event => {
+                    testRadio(
+                        event,
+                        choice,
+                        index,
+                        correctAnswer
+                    );
+
+                    event.currentTarget.blur();
+                }}
+            >
+                <h1 id="cardtext">{choice}</h1>
+            </button>
+        );
+    }
+
+    // Render completion and round summary screens.
+    function renderSummary(finished) {
         return (
             <>
-                <Title title={setName} back="true" />
-
                 <h1 className="centerText continue">
-                    Great job, you're all done!
+                    {finished
+                        ? "Great job, you're all done!"
+                        : "Great job, press any button to continue"}
                 </h1>
 
                 {saveError && (
@@ -143,50 +167,59 @@ const MasterPage = () => {
                     </p>
                 )}
 
-                {isSaving ? (
-                    <p className="centerText">
-                        Saving progress...
-                    </p>
-                ) : (
-                    <SetCards setname={id} />
+                {!isSaving && (
+                    <div className="masterSummaryCards">
+                        <SetCards setname={id} cards={set} animate={true} />
+                    </div>
                 )}
 
-                <button
-                    className="lowerRight grnBtn"
-                    aria-label="Restart"
-                    type="button"
-                    onClick={restart}
-                >
-                    Click to restart!
-                </button>
+                {finished && (
+                    <button
+                        className="lowerRight grnBtn"
+                        aria-label="Restart"
+                        type="button"
+                        onClick={restart}
+                    >
+                        Click to restart!
+                    </button>
+                )}
             </>
         );
     }
 
-    // Show feedback when an answer was accepted by AI.
-    if (showFeedback.length > 0 && currentCard) {
-        function nextTrue() {
-            setShowFeedback("");
-            nextCard();
+    // Render the appropriate mastery stage.
+    function renderContent() {
+        if (error) {
+            return (
+                <p className="centerText" role="alert">
+                    {error}
+                </p>
+            );
         }
 
-        function nextFalse() {
-            setShowFeedback("");
-            setWrong();
-            nextCard();
+        if (set.length === 0) {
+            return (
+                <p className="centerText">
+                    This set has no flashcards.
+                </p>
+            );
         }
 
-        return (
-            <>
-                <Title title={setName} back="true" />
+        if (allDone) {
+            return renderSummary(true);
+        }
 
+        // AI answer feedback.
+        if (showFeedback.length > 0 && currentCard) {
+            return (
                 <div className="feedbackBox">
                     <h1 className="centerText pad1">
                         Your answer was marked as correct by AI
                     </h1>
 
                     <p className="centerText">
-                        {"The exact answer was: " + currentCard.Definition}
+                        {"The exact answer was: " +
+                            currentCard.Definition}
                     </p>
 
                     <p className="centerText">
@@ -219,198 +252,163 @@ const MasterPage = () => {
                         alt=""
                     />
                 </div>
-            </>
-        );
-    }
-
-    // Round completion screen.
-    if (roundComplete) {
-        return (
-            <>
-                <Title title={setName} back="true" />
-
-                <h1 className="centerText continue">
-                    Great job, press any button to continue
-                </h1>
-
-                {saveError && (
-                    <p className="centerText" role="alert">
-                        {saveError}
-                    </p>
-                )}
-
-                {isSaving ? (
-                    <p className="centerText">
-                        Saving progress...
-                    </p>
-                ) : (
-                    <SetCards setname={id} />
-                )}
-            </>
-        );
-    }
-
-    // Protect against an invalid current card.
-    if (!currentCard) {
-        return (
-            <>
-                <Title title={setName} back="true" />
-
-                <p className="centerText">
-                    Unable to retrieve the current card.
-                </p>
-            </>
-        );
-    }
-
-    // Mastery levels 0 and 1: flipping cards.
-    if (currentCard.Mastery < 2) {
-        return (
-            <>
-                <Title title={setName} back="true" />
-
-                <div id="cardinfo">
-                    <p id="cardnumber">
-                        {totalDone + 1} out of {interval}
-                    </p>
-                </div>
-
-                {currentCard.Mastery === 0 ? (
-                    <FlashCard
-                        term={currentCard.Term}
-                        definition={currentCard.Definition}
-                        flip={isFlipped}
-                    />
-                ) : (
-                    <FlashCard
-                        term={currentCard.Definition}
-                        definition={currentCard.Term}
-                        flip={isFlipped}
-                    />
-                )}
-            </>
-        );
-    }
-
-    // Mastery levels 2 and 3: multiple choice.
-    if (currentCard.Mastery <= 3) {
-        const termIsAnswer = currentCard.Mastery % 2 === 0;
-
-        const correctAnswer = termIsAnswer
-            ? currentCard.Term
-            : currentCard.Definition;
-
-        function renderChoice(choice, index) {
-            return (
-                <button
-                    key={index}
-                    id={`option${index}`}
-                    className="smallCard"
-                    type="button"
-                    onClick={event => {
-                        testRadio(
-                            event,
-                            choice,
-                            index,
-                            correctAnswer
-                        );
-
-                        event.currentTarget.blur();
-                    }}
-                >
-                    <h1 id="cardtext">{choice}</h1>
-                </button>
             );
         }
 
+        if (roundComplete) {
+            return renderSummary(false);
+        }
+
+        if (!currentCard) {
+            return (
+                <p className="centerText">
+                    Unable to retrieve the current card.
+                </p>
+            );
+        }
+
+        // Levels 0 and 1: flipping flashcards.
+        if (currentCard.Mastery < 2) {
+            const reversed = currentCard.Mastery === 1;
+
+            return (
+                <>
+                    {renderProgress()}
+
+                    <FlashCard
+                        term={
+                            reversed
+                                ? currentCard.Definition
+                                : currentCard.Term
+                        }
+                        definition={
+                            reversed
+                                ? currentCard.Term
+                                : currentCard.Definition
+                        }
+                        flip={isFlipped}
+                    />
+                </>
+            );
+        }
+
+        // Levels 2 and 3: multiple choice.
+        if (currentCard.Mastery <= 3) {
+            const termIsAnswer =
+                currentCard.Mastery % 2 === 0;
+
+            const correctAnswer = termIsAnswer
+                ? currentCard.Term
+                : currentCard.Definition;
+
+            return (
+                <>
+                    {renderProgress()}
+
+                    <h1 className="centerText">
+                        {termIsAnswer
+                            ? currentCard.Definition
+                            : currentCard.Term}
+                    </h1>
+
+                    <form
+                        onSubmit={event =>
+                            event.preventDefault()
+                        }
+                    >
+                        <div className="cardContainer">
+                            {choices.slice(0, 2).map(
+                                (choice, index) =>
+                                    renderChoice(
+                                        choice,
+                                        index,
+                                        correctAnswer
+                                    )
+                            )}
+                        </div>
+
+                        <div className="cardContainer">
+                            {choices.slice(2, 4).map(
+                                (choice, index) =>
+                                    renderChoice(
+                                        choice,
+                                        index + 2,
+                                        correctAnswer
+                                    )
+                            )}
+                        </div>
+                    </form>
+                </>
+            );
+        }
+
+        // Level 4: typed answers with AI validation.
         return (
             <>
-                <Title title={setName} back="true" />
+                {wait && <Spinner />}
 
-                <div id="cardinfo">
-                    <p className="centerText">
-                        {totalDone + 1} out of {interval}
-                    </p>
-                </div>
+                {renderProgress()}
 
                 <h1 className="centerText">
-                    {termIsAnswer
-                        ? currentCard.Definition
-                        : currentCard.Term}
+                    {currentCard.Term}
                 </h1>
 
-                <form onSubmit={event => event.preventDefault()}>
-                    <div className="cardContainer">
-                        {choices.slice(0, 2).map(
-                            (choice, index) =>
-                                renderChoice(choice, index)
-                        )}
-                    </div>
+                <form
+                    className="textForm"
+                    autoComplete="off"
+                    name="textForm"
+                    onSubmit={event => {
+                        event.preventDefault();
 
-                    <div className="cardContainer">
-                        {choices.slice(2, 4).map(
-                            (choice, index) =>
-                                renderChoice(choice, index + 2)
-                        )}
-                    </div>
+                        if (!wait) {
+                            handleTextForm(event);
+                        }
+                    }}
+                >
+                    <label htmlFor="guess">
+                        <p>Enter the definition</p>
+                    </label>
+
+                    <input
+                        type="text"
+                        className="textInput1"
+                        id="guess"
+                        name="firstname"
+                        placeholder="Definition..."
+                    />
+
+                    <input
+                        type="submit"
+                        value="Submit"
+                        disabled={wait}
+                    />
+
+                    <p id="noShow">
+                        {"The correct answer is: " +
+                            currentCard.Definition}
+                        <br />
+                        Enter the correct answer to continue
+                    </p>
                 </form>
             </>
         );
     }
 
-    // Mastery level 4: typed answers with AI validation.
     return (
         <>
-            <Title title={setName} back="true" />
+            {/* Keep the title mounted across all mastery stages. */}
+            <Title title={displayName} back="true" />
 
-            {wait && <Spinner />}
-
-            <div id="cardinfo">
-                <p className="centerText">
-                    {totalDone + 1} out of {interval}
-                </p>
-            </div>
-
-            <h1 className="centerText">
-                {currentCard.Term}
-            </h1>
-
-            <form
-                className="textForm"
-                autoComplete="off"
-                name="textForm"
-                onSubmit={event => {
-                    event.preventDefault();
-
-                    if (!wait) {
-                        handleTextForm(event);
-                    }
-                }}
+            <div
+                className="masterPageContent"
+                aria-busy={isLoading}
             >
-                <label htmlFor="guess">
-                    <p>Enter the definition</p>
-                </label>
-
-                <input
-                    type="text"
-                    className="textInput1"
-                    id="guess"
-                    name="firstname"
-                    placeholder="Definition..."
-                />
-
-                <input
-                    type="submit"
-                    value="Submit"
-                    disabled={wait}
-                />
-
-                <p id="noShow">
-                    {"The correct answer is: " + currentCard.Definition}
-                    <br />
-                    Enter the correct answer to continue
-                </p>
-            </form>
+                {!isLoading && (
+                    <div className="masterPageEnter" key={id}>
+                        {renderContent()}
+                    </div>
+                )}
+            </div>
         </>
     );
 };

@@ -63,7 +63,7 @@ const SetPage = () => {
         <>
             <Title title={setName} back="true" />
 
-            <SetCards setname={id} />
+            <SetCards setname={id} animate={true}/>
 
             <button
                 className="redBtn lowerLeft"

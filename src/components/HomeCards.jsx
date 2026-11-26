@@ -42,12 +42,20 @@ const HomeCards = () => {
             <div className='container-xl lg:container m-auto'>
                 <div className='grid md:grid-cols-4'>
                     {sets.map(({ id, name, length }) => (
-                        <Card
+                        <div
                             key={id}
-                            setid={id}
-                            setname={name}
-                            totalcards={length}
-                        />
+                            className="homeCardEnter"
+                            style={{
+                                animationDelay: `${Math.min(id, 10) * 70}ms`
+                            }}
+                        >
+                            <Card
+                                key={id}
+                                setid={id}
+                                setname={name}
+                                totalcards={length}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>
