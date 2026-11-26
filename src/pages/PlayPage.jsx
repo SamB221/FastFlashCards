@@ -4,11 +4,11 @@ import FlashCard from '../components/FlashCard';
 import Title from '../components/Title';
 import {FaRandom} from 'react-icons/fa';
 import confetti from 'canvas-confetti';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
 const PlayPage = () => {
-    const { user } = useAuth0();
+    const { user } = useAuth();
     const { id } = useParams();
     const [flip, setFlip] = useState(false);
     const [index, setIndex] = useState(0);

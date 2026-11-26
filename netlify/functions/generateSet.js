@@ -26,9 +26,10 @@ export async function handler(event, context) {
             Start directly with the flashcards, with no additional comments or conversation.`;
 
         const response = await openai.chat.completions.create({
-            model: "gpt-4.1-nano",
+            model: "gpt-6-luna",
+            reasoning_effort: "none",
             messages: [{ role: "user", content: prompt }],
-            max_tokens: 2000,
+            max_completion_tokens: 2000,
             temperature: 0,
         });
 

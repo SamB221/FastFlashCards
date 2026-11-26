@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Card from './HomeCard';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
 const HomeCards = () => {
-    const { user } = useAuth0();
+    const { user } = useAuth();
     const [sets, setSets] = useState([]);
     
     useEffect(() => {

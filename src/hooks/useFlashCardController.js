@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
 export function useFlashCardController(id, numLevels) {
-    const { user } = useAuth0();
+    const { user } = useAuth();
     const [set, setSet] = useState([]);
 
     useEffect(() => {

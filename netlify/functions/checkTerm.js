@@ -19,9 +19,10 @@ export async function handler(event, context) {
     'Say "No" only if clearly wrong. Term: "${term}" Definition: "${definition}"`;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4.1-nano",
+      model: "gpt-6-luna",
+      reasoning_effort: "none",
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 5,
+      max_completion_tokens: 5,
       temperature: 0,
     });
 

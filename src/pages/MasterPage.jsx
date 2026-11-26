@@ -6,12 +6,12 @@ import SetCards from '../components/SetCards';
 import Spinner from '../components/BoltSpinner';
 import confetti from 'canvas-confetti';
 import useFlashCardController from '../hooks/useFlashCardController';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
 // flip, 0, flip, 1, mult, 2, mult, 3, type, 4, type, 5
 const MasterPage = () => {
-    const { user } = useAuth0();
+    const { user } = useAuth();
     const { id } = useParams();
     const numLevels = 5;
     const {

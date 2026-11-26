@@ -2,11 +2,11 @@ import { React, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Title from '../components/Title';
 import Spinner from '../components/BoltSpinner';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
 const GeneratePage = () => {
-    const { user } = useAuth0();
+    const { user } = useAuth();
     const [status, setStatus] = useState("");
     const [set, setSet] = useState([]);
     const [prevPrompt, setPrevPrompt] = useState("");
@@ -22,7 +22,11 @@ const GeneratePage = () => {
             });
 
             if (!res.ok) {
-                console.error("API error", res.status);
+                const errorBody = await res.text();
+
+                console.error("API status:", res.status);
+                console.error("API response:", errorBody);
+
                 return false;
             }
 
@@ -56,11 +60,19 @@ const GeneratePage = () => {
         setStatus("naming");
     }
 
-    function nameSet(event) {
+    async function nameSet(event) {
         event.preventDefault();
-        const name = document.forms['textForm']['prompt'].value;
-        editSet.createSet(name, set, user);
-        navigate("/");
+
+        const name = document.forms['textForm']['prompt'].value.trim();
+
+        if (!name || !user) return;
+
+        try {
+            await editSet.createSet(name, set, user);
+            navigate("/");
+        } catch (error) {
+            console.error("Failed to save set:", error);
+        }
     }
 
     if (status === "awaiting") {

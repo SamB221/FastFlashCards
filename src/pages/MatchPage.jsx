@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import Title from '../components/Title';
 import MatchCard from '../components/MatchCard';
 import confetti from 'canvas-confetti';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../AuthContext";
 import editSet from '../functions/editSet';
 
 const MatchPage = () => {
-    const { user } = useAuth0();
+    const { user } = useAuth();
     const [counter, setCounter] = React.useState(0);
     const { id } = useParams();
     const [set, setOriginalSet] = useState([]);
