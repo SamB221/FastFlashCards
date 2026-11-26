@@ -275,16 +275,7 @@ export function useFlashCardController(id, numLevels) {
 
                     if (!completed) return;
 
-                    if (flip && totalDone !== interval - 1) {
-                        setFlip(false);
-
-                        transitionRef.current = setTimeout(() => {
-                            transitionRef.current = null;
-                            nextCard();
-                        }, 50);
-                    } else {
-                        nextCard();
-                    }
+                    nextCard();
 
                     break;
 
@@ -328,7 +319,14 @@ export function useFlashCardController(id, numLevels) {
     }
 
     function nextCard() {
-        if (!set[index] || allDone || roundComplete) return;
+        if (
+            !set[index] ||
+            allDone ||
+            roundComplete ||
+            transitionRef.current !== null
+        ) {
+            return;
+        }
 
         const previousMastery = set[index].Mastery;
 
@@ -355,15 +353,48 @@ export function useFlashCardController(id, numLevels) {
             (index + 1) % updatedSet.length
         );
 
-        wrong.current = false;
+        // Determine which screen comes next.
+        const finishingRound = totalDone + 1 >= interval;
 
-        setSet(updatedSet);
-        setIndex(nextIndex);
-        setTotalDone(prev => prev + 1);
-        setCompleted(false);
-        setFlip(false);
+        const finishingSet = updatedSet.every(
+            card => card.Mastery >= numLevels
+        );
 
-        saveSetToStorage(updatedSet);
+        const currentIsFlashcard = previousMastery < 2;
+
+        const nextIsFlashcard =
+            updatedSet[nextIndex].Mastery < 2;
+
+        // Only flip back when transitioning between flashcards.
+        const shouldFlipBack =
+            flip &&
+            currentIsFlashcard &&
+            nextIsFlashcard &&
+            !finishingRound &&
+            !finishingSet;
+
+        function advance() {
+            wrong.current = false;
+
+            setSet(updatedSet);
+            setIndex(nextIndex);
+            setTotalDone(prev => prev + 1);
+            setCompleted(false);
+            setFlip(false);
+
+            saveSetToStorage(updatedSet);
+        }
+
+        if (shouldFlipBack) {
+            setFlip(false);
+
+            transitionRef.current = setTimeout(() => {
+                transitionRef.current = null;
+                advance();
+            }, 50);
+        } else {
+            advance();
+        }
     }
 
     function saveSetToStorage(newSet) {

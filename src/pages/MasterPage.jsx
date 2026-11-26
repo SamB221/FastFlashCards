@@ -405,7 +405,19 @@ const MasterPage = () => {
             >
                 {!isLoading && (
                     <div className="masterPageEnter" key={id}>
-                        {renderContent()}
+                        <div
+                            key={
+                                allDone ? "finished" :
+                                roundComplete ? "summary" :
+                                showFeedback.length > 0 ? "feedback" :
+                                currentCard?.Mastery < 2 ? "flashcard" :
+                                currentCard?.Mastery < 4 ? "multiple-choice" :
+                                    "typing"
+                            }
+                            className="masterStage"
+                        >
+                            {renderContent()}
+                        </div>
                     </div>
                 )}
             </div>

@@ -1499,3 +1499,23 @@ input[type=submit]:hover {
         animation: none;
     }
 }
+
+.masterStage {
+    animation: masterStageEnter 220ms ease-out;
+}
+
+@keyframes masterStageEnter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .masterStage {
+        animation: none;
+    }
+}
