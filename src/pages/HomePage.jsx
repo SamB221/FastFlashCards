@@ -2,6 +2,7 @@ import React from 'react';
 import HomeCards from '../components/HomeCards';
 import { useNavigate } from "react-router-dom";
 import Title from '../components/Title';
+import GuestNotice from "../components/GuestNotice";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ const HomePage = () => {
             >
                 Add a set
             </button>
+            <GuestNotice />
         </>
     );
 };
