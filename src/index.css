@@ -74,16 +74,16 @@ p {
     grid-template-columns: 1fr auto 1fr;
 }
 
-.navbar > *:last-child {
+.navbar>*:last-child {
     white-space: nowrap;
     text-align: right;
-  }
+}
 
 .navbar #link {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1rem; 
+    padding: 0.5rem 1rem;
     font-size: 20px;
     border-radius: 1rem;
     transition: background-color 0.3s ease;
@@ -263,7 +263,7 @@ p {
 .dropBtn {
     width: 100%;
 }
-  
+
 .dropUp {
     color: white;
     position: fixed;
@@ -273,7 +273,7 @@ p {
     height: 4rem;
     display: inline-block;
 }
-  
+
 .dropupContent {
     display: none;
     position: absolute;
@@ -282,21 +282,21 @@ p {
     z-index: 1;
     width: 100%;
 }
-  
+
 .dropupContent a {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
-  
+
 .dropupContent a:hover {
     background-color: var(--primary);
 }
-  
+
 .dropUp:hover .dropupContent {
     display: block;
 }
-  
+
 .dropUp:hover .dropBtn {
     background-color: var(--secondary);
     border-top-right-radius: 0;
@@ -365,7 +365,7 @@ p {
     height: 50px;
     width: 50px;
     padding: 0;
-    border-radius:50%;
+    border-radius: 50%;
     background-color: var(--primary);
     display: flex;
     justify-content: center;
@@ -403,7 +403,7 @@ p {
     border-radius: 1rem;
     box-sizing: border-box;
 }
-  
+
 .textInput2 {
     padding: 6px 10px;
     margin: 8px 0;
@@ -423,11 +423,11 @@ input[type=submit] {
     border-radius: 1rem;
     cursor: pointer;
 }
-  
+
 input[type=submit]:hover {
     background-color: var(--secondary);
 }
-  
+
 .textForm {
     width: 75%;
     margin: auto;
@@ -445,16 +445,19 @@ input[type=submit]:hover {
 
 @keyframes shake {
     0% {
-      margin-left: 0rem;
+        margin-left: 0rem;
     }
+
     25% {
-      margin-left: 0.5rem;
+        margin-left: 0.5rem;
     }
+
     75% {
-      margin-left: -0.5rem;
+        margin-left: -0.5rem;
     }
+
     100% {
-      margin-left: 0rem;
+        margin-left: 0rem;
     }
 }
 
@@ -478,7 +481,7 @@ input[type=submit]:hover {
     height: 100%;
     position: absolute;
     transform-style: preserve-3d;
-    transition: transform 0.2s; 
+    transition: transform 0.2s;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -491,7 +494,7 @@ input[type=submit]:hover {
 }
 
 #cardfront {
-    backface-visibility: hidden; 
+    backface-visibility: hidden;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -511,7 +514,7 @@ input[type=submit]:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: rotateX(180deg); 
+    transform: rotateX(180deg);
     border-radius: 2rem;
 }
 
@@ -541,7 +544,7 @@ input[type=submit]:hover {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 1rem;
-    padding: 1rem; 
+    padding: 1rem;
     border-radius: 1rem;
 }
 
@@ -560,11 +563,8 @@ input[type=submit]:hover {
     border-radius: 1rem;
     color: var(--textPrimary);
     padding: 1.5rem;
-    filter: 
-        drop-shadow(1px 1px rgb(207, 211, 218)) 
-        drop-shadow(2px 2px rgb(196, 202, 211)) 
-        drop-shadow(3px 3px rgb(172, 176, 186))
-        drop-shadow(4px 4px rgb(135, 141, 157));
+    filter:
+        drop-shadow(1px 1px rgb(207, 211, 218)) drop-shadow(2px 2px rgb(196, 202, 211)) drop-shadow(3px 3px rgb(172, 176, 186)) drop-shadow(4px 4px rgb(135, 141, 157));
 }
 
 .md\:grid-cols-4 {
@@ -746,23 +746,35 @@ input[type=submit]:hover {
 }
 
 .noSelect {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 }
 
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 20%; /* Location of the box */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 20%;
+    /* Location of the box */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -772,7 +784,7 @@ input[type=submit]:hover {
     margin: auto;
     padding: 0;
     width: 80%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -784,13 +796,27 @@ input[type=submit]:hover {
 
 /* Add Animation */
 @-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0} 
-    to {top:0; opacity:1}
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
 }
 
 @keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
 }
 
 /* The Close Button */
@@ -840,16 +866,105 @@ input[type=submit]:hover {
     display: none;
 }
 
-.matchCard {
-    border-radius: 1rem;
-    color: var(--textPrimary);
-    padding: 1.5rem;
-    min-height: 9rem;
+/* Match Page */
+
+.matchPage {
+    width: min(90%, 1500px);
+    margin: 0 auto;
+    padding: 0.25rem 0 1rem;
 }
 
+.matchStats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--textPrimary);
+}
+
+.matchTimer {
+    font-size: 22px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.matchStats .progressBar {
+    width: 100%;
+    height: 6px;
+}
+
+.matchGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: clamp(75px, calc((100dvh - 285px) / 4), 132px);
+    gap: 0.65rem;
+}
+
+.matchCard,
 .matchPlaceHolder {
-    min-height: 9rem;
-    border-radius: 1rem;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    border-radius: 0.75rem;
+}
+
+.matchCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: safe center;
+
+    color: var(--textPrimary);
+    padding: 0.75rem;
+    font-size: 16px;
+    line-height: 1.3;
+    text-align: center;
+
+    overflow: auto;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    user-select: none;
+
+    transition: background-color 0.15s ease;
+}
+
+.matchCard>* {
+    text-align: center;
+    max-width: 100%;
+    flex-shrink: 0;
+}
+
+.matchCard p,
+.matchCard h1,
+.matchCard h2,
+.matchCard h3 {
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+/* Mobile */
+
+@media (max-width: 650px) {
+    .matchPage {
+        width: 94%;
+    }
+
+    .matchGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: clamp(70px,
+                calc((100dvh - 250px) / 4),
+                110px);
+        gap: 0.5rem;
+    }
+
+    .matchCard {
+        font-size: 14px;
+        padding: 0.5rem;
+    }
 }
 
 .selected {
@@ -860,7 +975,7 @@ input[type=submit]:hover {
     height: 10px;
     border-radius: 100px;
     width: 80%;
-    
+
     /* Chrome and Safari */
     &::-webkit-progress-bar {
         background: var(--cardColorSecondary);
@@ -922,15 +1037,23 @@ input[type=submit]:hover {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes pulseGlow {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
         filter: drop-shadow(0 0 4px #d31f1f);
     }
+
     50% {
         transform: scale(1.2);
         filter: drop-shadow(0 0 12px #e95757);
@@ -943,6 +1066,7 @@ input[type=submit]:hover {
         transform: scale(1.05);
         background-color: #866086;
     }
+
     100% {
         opacity: 1;
         transform: scale(1);
@@ -1102,7 +1226,7 @@ input[type=submit]:hover {
     min-height: 29rem;
     padding: 2rem;
     transition: background-color 0.2s ease,
-                border-color 0.2s ease;
+        border-color 0.2s ease;
 }
 
 .uploadDropBox #uploadtext {
@@ -1132,7 +1256,7 @@ input[type=submit]:hover {
     overflow-wrap: anywhere;
 
     transition: background-color 0.2s ease,
-                border-color 0.2s ease;
+        border-color 0.2s ease;
 }
 
 .fileDropArea:hover,
@@ -1429,6 +1553,7 @@ input[type=submit]:hover {
         padding: 10px;
     }
 }
+
 /* Master page entrance */
 .masterPageEnter {
     animation: masterPageEnter 280ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -1471,6 +1596,7 @@ input[type=submit]:hover {
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
+
     .masterPageEnter,
     .masterSummaryCards {
         animation: none;

@@ -133,7 +133,7 @@ const MatchPage = () => {
     }, [finishedScreen, id, user, counter, isLoading, isFetching]);
 
     function initializeGame(cards) {
-        const initialNum = window.innerWidth <= 600 ? 8 : 16;
+        const initialNum = window.innerWidth <= 650 ? 8 : 16;
 
         // Each term and definition shares a unique pair ID.
         const shuffled = randomize(
@@ -357,30 +357,30 @@ const MatchPage = () => {
         <>
             <Title title={setName} back="true" />
 
-            <div className="centerText">
-                <p>{counter.toFixed(1)}</p>
+            <section className="matchPage">
+                <div className="matchStats">
+                    <p className="matchTimer">
+                        {counter.toFixed(1)}s
+                    </p>
 
-                <progress
-                    className="centerText progressBar"
-                    value={progressBar}
-                    max={1}
-                />
-            </div>
+                    <progress
+                        className="progressBar"
+                        value={progressBar}
+                        max={1}
+                    />
+                </div>
 
-            <section className="py-4">
-                <div className="container-xl lg:container m-auto">
-                    <div className="grid md:grid-cols-4">
-                        {currentCards.map((card, index) => (
-                            <MatchCard
-                                key={index}
-                                id={index}
-                                content={card ? card.content : null}
-                                isTerm={card ? card.isTerm : null}
-                                isSelected={selectedCard === index}
-                                onClick={() => onClick(index)}
-                            />
-                        ))}
-                    </div>
+                <div className="matchGrid">
+                    {currentCards.map((card, index) => (
+                        <MatchCard
+                            key={index}
+                            id={index}
+                            content={card ? card.content : null}
+                            isTerm={card ? card.isTerm : null}
+                            isSelected={selectedCard === index}
+                            onClick={() => onClick(index)}
+                        />
+                    ))}
                 </div>
             </section>
         </>
