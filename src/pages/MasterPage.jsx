@@ -146,7 +146,7 @@ const MasterPage = () => {
                     event.currentTarget.blur();
                 }}
             >
-                <h1 id="cardtext">{choice}</h1>
+                <h1 id="smallcardtext">{choice}</h1>
             </button>
         );
     }

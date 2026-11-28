@@ -522,9 +522,16 @@ input[type=submit]:hover {
     transform: rotateX(180deg);
 }
 
+#smallcardtext {
+    text-align: center;
+    flex: 0 0 35rem;
+    font-size: 1.5rem;
+}
+
 #cardtext {
     text-align: center;
     flex: 0 0 35rem;
+    font-size: 1.5rem;
 }
 
 .miniCard {
